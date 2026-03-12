@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>플랫폼 매뉴얼 — AX BIZ Group CEO Platform</title>
+<link rel="stylesheet" href="_axbiz-shared.css">
+<style>
+.manual-hero{
+  background:linear-gradient(135deg,#0f1e4a 0%,#1a2d6b 60%,#1e3a8a 100%);
+  padding:40px 36px 36px;
+  border-radius:16px;
+  margin-bottom:28px;
+  position:relative;overflow:hidden;
+}
+.manual-hero::after{
+  content:'';pointer-events:none;
+  position:absolute;right:-60px;top:-60px;
+  width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(99,102,241,.15) 0%,transparent 70%);
+}
+.manual-hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  color:rgba(255,255,255,.7);background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.18);
+  padding:4px 14px;border-radius:20px;margin-bottom:18px;
+}
+.manual-hero h1{font-size:28px;font-weight:800;color:#fff;letter-spacing:-.8px;margin-bottom:10px}
+.manual-hero p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.75;max-width:580px}
+
+.m-toc{
+  background:#f8fafc;border:1.5px solid #e2e8f0;
+  border-radius:14px;padding:22px 24px;margin-bottom:32px;
+}
+.m-toc-title{font-size:12px;font-weight:700;color:#364059;letter-spacing:.5px;margin-bottom:14px;text-transform:uppercase}
+.m-toc-list{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 16px;list-style:none}
+.m-toc-list li a{
+  font-size:12px;color:#1d4ed8;text-decoration:none;
+  display:flex;align-items:center;gap:6px;padding:3px 0;
+  transition:color .12s;
+}
+.m-toc-list li a:hover{color:#1e40af}
+
+.m-section{margin-bottom:40px}
+.m-section-anchor{display:block;position:relative;top:-72px;visibility:hidden}
+.m-section-head{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 20px;border-radius:12px;margin-bottom:16px;
+}
+.m-section-head.s-blue  {background:linear-gradient(135deg,#eff4ff,#dbeafe);border:1.5px solid #c7d7fd}
+.m-section-head.s-teal  {background:linear-gradient(135deg,#ecfeff,#cffafe);border:1.5px solid #a5f3fc}
+.m-section-head.s-orange{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1.5px solid #fed7aa}
+.m-section-head.s-violet{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1.5px solid #ddd6fe}
+.m-section-head.s-green {background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #bbf7d0}
+.m-section-head.s-rose  {background:linear-gradient(135deg,#fff1f2,#ffe4e6);border:1.5px solid #fecdd3}
+.m-section-head.s-sky   {background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:1.5px solid #bae6fd}
+.m-section-icon{font-size:24px}
+.m-section-info{}
+.m-section-title{font-size:16px;font-weight:800;color:#08111f;letter-spacing:-.3px}
+.m-section-sub{font-size:12px;color:#6e83a0;margin-top:2px}
+
+.m-page-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
+.m-page{
+  background:#fff;border-radius:12px;padding:18px 18px 16px;
+  border:1.5px solid #e2e8f0;
+  box-shadow:0 1px 4px rgba(8,17,31,.06);
+}
+.m-page-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.m-page-icon{font-size:18px;width:36px;height:36px;border-radius:9px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.m-page-name{font-size:13px;font-weight:700;color:#08111f}
+.m-page-file{font-size:10px;color:#94a3b8;font-family:monospace}
+.m-page-desc{font-size:12px;color:#364059;line-height:1.7;margin-bottom:12px}
+.m-page-features{list-style:none;display:flex;flex-direction:column;gap:4px}
+.m-page-features li{font-size:11px;color:#6e83a0;padding-left:14px;position:relative;line-height:1.5}
+.m-page-features li::before{content:'·';position:absolute;left:4px;color:#94a3b8}
+.m-page-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:700;color:#1d4ed8;
+  background:#eff4ff;border:1.5px solid #c7d7fd;
+  padding:5px 12px;border-radius:7px;text-decoration:none;margin-top:12px;
+  transition:background .12s,border-color .12s;
+}
+.m-page-btn:hover{background:#dbeafe;border-color:#93b4fb}
+
+.m-info-box{
+  border-radius:12px;padding:18px 20px;margin-bottom:16px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.m-info-box.ib-blue{background:#eff4ff;border:1.5px solid #c7d7fd}
+.m-info-box.ib-green{background:#f0fdf4;border:1.5px solid #bbf7d0}
+.m-info-box.ib-orange{background:#fff7ed;border:1.5px solid #fed7aa}
+.m-info-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.m-info-body{}
+.m-info-title{font-size:13px;font-weight:700;color:#08111f;margin-bottom:5px}
+.m-info-text{font-size:12px;color:#364059;line-height:1.7}
+
+.m-divider{height:1px;background:linear-gradient(90deg,#e2e8f0 0%,transparent 100%);margin:36px 0}
+
+.m-step-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.m-step{display:flex;gap:14px;align-items:flex-start}
+.m-step-num{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#1d4ed8,#4338ca);
+  color:#fff;font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(29,78,216,.3);
+}
+.m-step-body{}
+.m-step-title{font-size:13px;font-weight:700;color:#08111f;margin-bottom:3px}
+.m-step-text{font-size:12px;color:#6e83a0;line-height:1.65}
+
+@media(max-width:800px){
+  .m-page-grid{grid-template-columns:1fr}
+  .m-toc-list{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .m-toc-list{grid-template-columns:1fr}
+  .manual-hero h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>플랫폼 매뉴얼</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <!-- Hero -->
+    <div class="manual-hero">
+      <div class="manual-hero-eyebrow">📖 Platform Manual v2.0</div>
+      <h1>AX BIZ GROUP CEO 마스터 플랫폼<br>사용 매뉴얼</h1>
+      <p>이 플랫폼은 AX BIZ GROUP의 전략·운영·재무·팀·AI 플랫폼 전반을 하나의 대시보드에서 관리하는<br>CEO 전용 통합 경영 시스템입니다. 각 페이지의 기능과 사용법을 안내합니다.</p>
+    </div>
+
+    <!-- 목차 -->
+    <div class="m-toc">
+      <div class="m-toc-title">목차 (Table of Contents)</div>
+      <ul class="m-toc-list">
+        <li><a href="#sec-overview">① 플랫폼 개요</a></li>
+        <li><a href="#sec-start">② 시작하기</a></li>
+        <li><a href="#sec-dashboard">③ 대시보드</a></li>
+        <li><a href="#sec-ops">④ 운영 관리</a></li>
+        <li><a href="#sec-platform">⑤ AI 플랫폼</a></li>
+        <li><a href="#sec-mgmt">⑥ 경영 관리</a></li>
+        <li><a href="#sec-insight">⑦ 인사이트 · 뉴스</a></li>
+        <li><a href="#sec-nav">⑧ 내비게이션 사용법</a></li>
+        <li><a href="#sec-tips">⑨ 활용 팁</a></li>
+      </ul>
+    </div>
+
+    <!-- 1. 플랫폼 개요 -->
+    <div class="m-section">
+      <span class="m-section-anchor" id="sec-overview"></span>
+      <div class="m-section-head s-blue">
+        <span class="m-section-icon">🏢</span>
+        <div class="m-section-info">
+          <div class="m-section-title">① 플랫폼 개요</div>
+          <div class="m-section-sub">AX BIZ GROUP CEO 마스터 플랫폼이란?</div>
+        </div>
+      </div>
+      <div class="m-info-box ib-blue">
+        <span class="m-info-icon">💡</span>
+        <div class="m-info-body">
+          <div class="m-info-title">AX BIZ GROUP CEO 마스터 플랫폼이란?</div>
+          <div class="m-info-text">
+            AX BIZ GROUP은 AI 전환(AX, AI Transformation)을 전문으로 하는 한국형 AI 비즈니스 그룹입니다.<br>
+            이 플랫폼은 CEO 심재우 대표가 그룹 전체의 전략·운영·재무·팀·고객·AI 플랫폼을 <strong>단일 인터페이스</strong>에서 실시간으로 파악하고 의사결정을 내릴 수 있도록 설계되었습니다.<br><br>
+            <strong>핵심 목표:</strong> 한국형 Palantir — AI 기반 데이터 통합 경영 플랫폼 구축
+          </div>
+        </div>
+      </div>
+      <div class="m-info-box ib-green">
+        <span class="m-info-icon">🎯</span>
+        <div class="m-info-body">
+          <div class="m-info-title">3대 전략 축</div>
+          <div class="m-info-text">
+            <strong>① AI Business Platform</strong> — AX-OS · Builder · Data · Automation · Decision 5대 모듈 SaaS<br>
+            <strong>② AI Builder Ecosystem</strong> — AI 창업가 연합 · Vibe Coding Lab · 멘토링 · 투자 연계<br>
+            <strong>③ AI Data Intelligence</strong> — 산업별 데이터 수집·분석·예측 인텔리전스 플랫폼
+          </div>
+        </div>
+      </div>
+      <div class="m-info-box ib-orange">
+        <span class="m-info-icon">📅</span>
+        <div class="m-info-body">
+          <div class="m-info-title">5년 목표 로드맵 요약</div>
+          <div class="m-info-text">
+            <strong>Phase 1 (2025 Q4~2026 Q2)</strong> — MVP 구축 · 초기 고객 확보 · 창업가 연합 300명 · 월매출 5억<br>
+            <strong>Phase 2 (2026 Q3~2027 Q2)</strong> — 엔터프라이즈 5건 · 연합 500명 · 연매출 28억 · Series A<br>
+            <strong>Phase 3 (2027~2028)</strong> — 전국 버티컬 확장 · 연합 1,000명 · 연매출 80억 · 동남아 진출<br>
+            <strong>Phase 4 (2029~2030)</strong> — 기업가치 1조 · 글로벌 AI 플랫폼 · IPO 준비
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-divider"></div>
+
+    <!-- 2. 시작하기 -->
+    <div class="m-section">
+      <span class="m-section-anchor" id="sec-start"></span>
+      <div class="m-section-head s-teal">
+        <span class="m-section-icon">🚀</span>
+        <div class="m-section-info">
+          <div class="m-section-title">② 시작하기</div>
+          <div class="m-section-sub">플랫폼 접속 및 기본 사용법</div>
+        </div>
+      </div>
+      <div class="m-step-list">
+        <div class="m-step">
+          <div class="m-step-num">1</div>
+          <div class="m-step-body">
+            <div class="m-step-title">랜딩 페이지 접속 (index.html)</div>
+            <div class="m-step-text">플랫폼의 첫 화면입니다. 상단 KPI 6개와 전체 메뉴 카드가 한눈에 표시됩니다. 원하는 섹션 카드를 클릭해 해당 페이지로 이동합니다.</div>
+          </div>
+        </div>
+        <div class="m-step">
+          <div class="m-step-num">2</div>
+          <div class="m-step-body">
+            <div class="m-step-title">사이드바 내비게이션 활용</div>
+            <div class="m-step-text">각 내부 페이지 좌측에는 고정 사이드바가 있습니다. 그룹별로 정리된 메뉴를 클릭해 빠르게 이동하세요. 프로젝트 메뉴는 ▶ 클릭 시 하위 메뉴가 펼쳐집니다.</div>
+          </div>
+        </div>
+        <div class="m-step">
+          <div class="m-step-num">3</div>
+          <div class="m-step-body">
+            <div class="m-step-title">실시간 동기화 확인</div>
+            <div class="m-step-text">사이드바 하단과 푸터의 초록 점(●)이 깜빡이면 실시간 동기화 중입니다. 시간은 8초마다 자동 갱신됩니다.</div>
+          </div>
+        </div>
+        <div class="m-step">
+          <div class="m-step-num">4</div>
+          <div class="m-step-body">
+            <div class="m-step-title">상단 홈(🏠) 버튼</div>
+            <div class="m-step-text">모든 내부 페이지 상단 좌측의 🏠 홈 버튼을 클릭하면 랜딩 페이지(index.html)로 즉시 이동합니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-divider"></div>
+
+    <!-- 3. 대시보드 -->
+    <div class="m-section">
+      <span class="m-section-anchor" id="sec-dashboard"></span>
+      <div class="m-section-head s-blue">
+        <span class="m-section-icon">🏠</span>
+        <div class="m-section-info">
+          <div class="m-section-title">③ 대시보드</div>
+          <div class="m-section-sub">그룹 현황 · 전략 맵</div>
+        </div>
+      </div>
+      <div class="m-page-grid">
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">🏠</div>
+            <div>
+              <div class="m-page-name">그룹 현황 대시보드</div>
+              <div class="m-page-file">AXBIZ_CEO_Platform.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">AX BIZ GROUP 전체를 한눈에 파악하는 메인 대시보드입니다. 핵심 KPI·긴급 알림·3대 축 진행률이 실시간으로 표시됩니다.</div>
+          <ul class="m-page-features">
+            <li>전체 KPI 요약 (프로젝트·매출·멤버·플랫폼·파이프라인·액션)</li>
+            <li>긴급 알림 및 이번 주 액션 아이템</li>
+            <li>3대 전략 축 진행률 차트</li>
+            <li>월별 매출 트렌드 그래프</li>
+          </ul>
+          <a class="m-page-btn" href="AXBIZ_CEO_Platform.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">🗺️</div>
+            <div>
+              <div class="m-page-name">전략 맵</div>
+              <div class="m-page-file">axbiz-strategy.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">5년 로드맵의 현재 위치와 3대 전략 축(AI 플랫폼·창업가 생태계·데이터 인텔리전스)의 진행률을 확인합니다.</div>
+          <ul class="m-page-features">
+            <li>Phase 1~4 로드맵 진행률 프로그레스 바</li>
+            <li>3대 축 개별 진행률 및 세부 체크리스트</li>
+            <li>5년 타임라인 (완료·진행·예정 상태 표시)</li>
+            <li>분기별 CEO 리뷰 시 마일스톤 업데이트</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-strategy.html" target="_blank">페이지 열기 →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-divider"></div>
+
+    <!-- 4. 운영 -->
+    <div class="m-section">
+      <span class="m-section-anchor" id="sec-ops"></span>
+      <div class="m-section-head s-orange">
+        <span class="m-section-icon">📋</span>
+        <div class="m-section-info">
+          <div class="m-section-title">④ 운영 관리</div>
+          <div class="m-section-sub">프로젝트 · 비즈니스 파이프라인</div>
+        </div>
+      </div>
+      <div class="m-page-grid">
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">🏗️</div>
+            <div>
+              <div class="m-page-name">내부 추진 프로젝트</div>
+              <div class="m-page-file">axbiz-proj-internal.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">AX BIZ GROUP이 자체적으로 개발·연구하는 내부 프로젝트 현황을 관리합니다.</div>
+          <ul class="m-page-features">
+            <li>프로젝트별 진행률 및 마일스톤</li>
+            <li>담당자 · 우선순위 · 예산 현황</li>
+            <li>리스크 및 이슈 트래킹</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-proj-internal.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">🤝</div>
+            <div>
+              <div class="m-page-name">고객 프로젝트 CRM</div>
+              <div class="m-page-file">axbiz-proj-client.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">고객사 프로젝트의 계약·납기·담당자·진행 상태를 통합 관리하는 CRM 대시보드입니다.</div>
+          <ul class="m-page-features">
+            <li>고객사별 프로젝트 현황 카드</li>
+            <li>계약 상태 (제안·협상·계약·진행·완료)</li>
+            <li>납기 일정 및 담당자 정보</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-proj-client.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">📊</div>
+            <div>
+              <div class="m-page-name">프로젝트 종합 현황</div>
+              <div class="m-page-file">axbiz-projects.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">내부+고객 전체 프로젝트를 통합해 한눈에 보는 종합 대시보드입니다.</div>
+          <ul class="m-page-features">
+            <li>전체 프로젝트 상태 요약</li>
+            <li>우선순위별 정렬 및 필터링</li>
+            <li>마감 임박 프로젝트 알림</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-projects.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">💼</div>
+            <div>
+              <div class="m-page-name">비즈니스 파이프라인</div>
+              <div class="m-page-file">axbiz-pipeline.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">영업 퍼널과 잠재 고객 현황, 예상 계약액을 단계별로 추적합니다.</div>
+          <ul class="m-page-features">
+            <li>파이프라인 스테이지별 현황 (발굴→제안→협상→계약)</li>
+            <li>예상 계약액 및 확률 가중치</li>
+            <li>이번 달 클로징 예정 건</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-pipeline.html" target="_blank">페이지 열기 →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-divider"></div>
+
+    <!-- 5. AI 플랫폼 -->
+    <div class="m-section">
+      <span class="m-section-anchor" id="sec-platform"></span>
+      <div class="m-section-head s-teal">
+        <span class="m-section-icon">🤖</span>
+        <div class="m-section-info">
+          <div class="m-section-title">⑤ AI 플랫폼</div>
+          <div class="m-section-sub">AI 플랫폼 · AI 창업가 연합</div>
+        </div>
+      </div>
+      <div class="m-page-grid">
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">🤖</div>
+            <div>
+              <div class="m-page-name">AI 플랫폼</div>
+              <div class="m-page-file">axbiz-aiplatform.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">AX BIZ의 핵심 SaaS AI 플랫폼 5대 모듈의 개발 현황과 로드맵을 관리합니다.</div>
+          <ul class="m-page-features">
+            <li>AX-OS: 기반 운영 시스템 (설계 완료)</li>
+            <li>AX-Builder: 노코드 AI 빌더 (프로토타입)</li>
+            <li>AX-Data: AI 데이터 파이프라인 (구축 중)</li>
+            <li>AX-Automation: 업무 자동화 (개발 예정)</li>
+            <li>AX-Decision: AI 의사결정 지원 (설계 단계)</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-aiplatform.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">👥</div>
+            <div>
+              <div class="m-page-name">AI 창업가 연합</div>
+              <div class="m-page-file">axbiz-community.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">AI 창업가 양성·지원 생태계의 멤버 현황과 기수별 활동을 추적합니다.</div>
+          <ul class="m-page-features">
+            <li>기수별 멤버 현황 (1기·2기 완료, 3기 진행 중)</li>
+            <li>목표 1,000명 달성률 트래킹</li>
+            <li>Vibe Coding Lab 운영 현황</li>
+            <li>멘토링 · 투자 연계 프로그램</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-community.html" target="_blank">페이지 열기 →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-divider"></div>
+
+    <!-- 6. 경영 관리 -->
+    <div class="m-section">
+      <span class="m-section-anchor" id="sec-mgmt"></span>
+      <div class="m-section-head s-violet">
+        <span class="m-section-icon">💰</span>
+        <div class="m-section-info">
+          <div class="m-section-title">⑥ 경영 관리</div>
+          <div class="m-section-sub">재무 · 실행 우선순위 · 팀 · 포트폴리오 · 전략 문서 · 고객사</div>
+        </div>
+      </div>
+      <div class="m-page-grid">
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">💰</div>
+            <div>
+              <div class="m-page-name">재무 / 성과</div>
+              <div class="m-page-file">axbiz-finance.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">월별 매출·비용·이익 현황 및 목표 대비 달성률을 재무 차트로 분석합니다.</div>
+          <ul class="m-page-features">
+            <li>월별 매출·비용·이익 바 차트</li>
+            <li>목표 달성률 게이지</li>
+            <li>분기별 누적 실적 비교</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-finance.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">⚡</div>
+            <div>
+              <div class="m-page-name">실행 우선순위</div>
+              <div class="m-page-file">axbiz-actions.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">이번 주 Top 액션 체크리스트와 CEO 의사결정 항목을 관리합니다.</div>
+          <ul class="m-page-features">
+            <li>주간 Top 7 액션 아이템</li>
+            <li>의사결정 카드 (진행/보류/연기 선택)</li>
+            <li>완료·진행·지연 상태 트래킹</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-actions.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">🧑‍💼</div>
+            <div>
+              <div class="m-page-name">팀 / 파운더</div>
+              <div class="m-page-file">axbiz-team.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">파운더 3인 및 팀원 현황, 역할, 채용 진행 상태를 관리합니다.</div>
+          <ul class="m-page-features">
+            <li>파운더 프로필 (심재우 대표 외)</li>
+            <li>팀원별 역할 및 담당 영역</li>
+            <li>채용 포지션 및 진행 상태</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-team.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">🌐</div>
+            <div>
+              <div class="m-page-name">플랫폼 포트폴리오</div>
+              <div class="m-page-file">axbiz-portfolio.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">AX BIZ GROUP이 운영하는 전체 플랫폼과 서비스 포트폴리오 현황을 확인합니다.</div>
+          <ul class="m-page-features">
+            <li>버티컬별 플랫폼 현황 (치과·법률·부동산 등)</li>
+            <li>각 플랫폼 개발 단계 및 상태</li>
+            <li>예상 매출 기여도</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-portfolio.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">🏢</div>
+            <div>
+              <div class="m-page-name">고객사 대시보드</div>
+              <div class="m-page-file">axbiz-clients.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">주요 고객사 현황·계약 상태·만족도·재계약 예정 정보를 한눈에 관리합니다.</div>
+          <ul class="m-page-features">
+            <li>고객사 카드 (계약 규모·만족도·담당자)</li>
+            <li>재계약 예정 일정 알림</li>
+            <li>고객사별 프로젝트 연결</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-clients.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">📚</div>
+            <div>
+              <div class="m-page-name">전략 문서</div>
+              <div class="m-page-file">axbiz-docs.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">핵심 전략 문서·의사결정 기록·레퍼런스 아카이브를 보관하고 열람합니다.</div>
+          <ul class="m-page-features">
+            <li>전략 문서 카테고리별 분류</li>
+            <li>의사결정 로그 타임라인</li>
+            <li>외부 레퍼런스 링크 모음</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-docs.html" target="_blank">페이지 열기 →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-divider"></div>
+
+    <!-- 7. 인사이트·뉴스 -->
+    <div class="m-section">
+      <span class="m-section-anchor" id="sec-insight"></span>
+      <div class="m-section-head s-green">
+        <span class="m-section-icon">💡</span>
+        <div class="m-section-info">
+          <div class="m-section-title">⑦ 인사이트 · 뉴스</div>
+          <div class="m-section-sub">인사이트 제안 · 뉴스 & 인사이트</div>
+        </div>
+      </div>
+      <div class="m-page-grid">
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">💡</div>
+            <div>
+              <div class="m-page-name">인사이트 제안</div>
+              <div class="m-page-file">axbiz-insights.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">AI 기반 전략 인사이트와 개선 제안, 기회 발굴 리포트를 제공합니다.</div>
+          <ul class="m-page-features">
+            <li>주간 AI 인사이트 카드</li>
+            <li>전략 개선 제안 및 우선순위</li>
+            <li>시장 기회 발굴 리포트</li>
+          </ul>
+          <a class="m-page-btn" href="axbiz-insights.html" target="_blank">페이지 열기 →</a>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">📰</div>
+            <div>
+              <div class="m-page-name">뉴스 & 인사이트</div>
+              <div class="m-page-file">news.html</div>
+            </div>
+          </div>
+          <div class="m-page-desc">AI 비즈니스 최신 뉴스와 전략 인사이트, 시장 동향을 아카이빙하고 열람합니다.</div>
+          <ul class="m-page-features">
+            <li>게시판형 / 썸네일형 뷰 전환</li>
+            <li>카테고리 필터 (AI전략·도입사례·시장분석·정책)</li>
+            <li>Supabase 연동 실시간 기사 관리</li>
+            <li>관리자 패널 (기사 등록·수정·삭제)</li>
+          </ul>
+          <a class="m-page-btn" href="news.html" target="_blank">페이지 열기 →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-divider"></div>
+
+    <!-- 8. 내비게이션 -->
+    <div class="m-section">
+      <span class="m-section-anchor" id="sec-nav"></span>
+      <div class="m-section-head s-sky">
+        <span class="m-section-icon">🧭</span>
+        <div class="m-section-info">
+          <div class="m-section-title">⑧ 내비게이션 사용법</div>
+          <div class="m-section-sub">사이드바 · 상단 바 · 푸터 활용법</div>
+        </div>
+      </div>
+      <div class="m-page-grid">
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">◀</div>
+            <div>
+              <div class="m-page-name">사이드바 내비게이션</div>
+              <div class="m-page-file">_axbiz-nav.js 자동 생성</div>
+            </div>
+          </div>
+          <div class="m-page-desc">모든 내부 페이지 좌측에 자동으로 생성되는 고정 사이드바입니다.</div>
+          <ul class="m-page-features">
+            <li>상단: AX비즈그룹 로고 + CEO 마스터 플랫폼 v2.0</li>
+            <li>AX비즈그룹 버튼 → 그룹 현황 대시보드 이동</li>
+            <li>그룹별 메뉴: 대시보드·운영·플랫폼·경영·인사이트·고객사</li>
+            <li>현재 페이지 메뉴는 파란 배경으로 활성화 표시</li>
+            <li>프로젝트 메뉴 ▶ 클릭 시 하위 메뉴 토글</li>
+            <li>하단: 실시간 동기화 시간 표시</li>
+          </ul>
+        </div>
+        <div class="m-page">
+          <div class="m-page-top">
+            <div class="m-page-icon">▲</div>
+            <div>
+              <div class="m-page-name">상단 내비게이션 바 (랜딩)</div>
+              <div class="m-page-file">index.html 전용</div>
+            </div>
+          </div>
+          <div class="m-page-desc">랜딩 페이지 상단에 고정된 내비게이션 바입니다.</div>
+          <ul class="m-page-features">
+            <li>좌측: AX BIZ GROUP 로고</li>
+            <li>중앙: 섹션 앵커 링크 (대시보드·운영·플랫폼·경영·인사이트·뉴스)</li>
+            <li>우측: 🏢 AX비즈그룹 CTA 버튼 → 메인 대시보드 이동</li>
+            <li>스크롤 시 상단 고정 (sticky)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-divider"></div>
+
+    <!-- 9. 활용 팁 -->
+    <div class="m-section">
+      <span class="m-section-anchor" id="sec-tips"></span>
+      <div class="m-section-head s-rose">
+        <span class="m-section-icon">✨</span>
+        <div class="m-section-info">
+          <div class="m-section-title">⑨ CEO 활용 팁</div>
+          <div class="m-section-sub">플랫폼을 최대한 활용하는 방법</div>
+        </div>
+      </div>
+      <div class="m-info-box ib-blue">
+        <span class="m-info-icon">🌅</span>
+        <div class="m-info-body">
+          <div class="m-info-title">아침 루틴 (5분 데일리 체크)</div>
+          <div class="m-info-text">
+            1. <strong>그룹 현황 대시보드</strong> → 긴급 알림 및 KPI 확인<br>
+            2. <strong>실행 우선순위</strong> → 오늘의 Top 액션 확인 및 의사결정<br>
+            3. <strong>비즈니스 파이프라인</strong> → 오늘 연락할 잠재 고객 확인
+          </div>
+        </div>
+      </div>
+      <div class="m-info-box ib-green">
+        <span class="m-info-icon">📅</span>
+        <div class="m-info-body">
+          <div class="m-info-title">주간 리뷰 루틴 (30분)</div>
+          <div class="m-info-text">
+            1. <strong>프로젝트 종합 현황</strong> → 이번 주 완료/지연 프로젝트 점검<br>
+            2. <strong>재무/성과</strong> → 이번 주 매출 실적 vs 목표 확인<br>
+            3. <strong>AI 창업가 연합</strong> → 멤버 증감 및 커뮤니티 활동 확인<br>
+            4. <strong>인사이트 제안</strong> → AI 제안 사항 중 실행 가능한 항목 픽
+          </div>
+        </div>
+      </div>
+      <div class="m-info-box ib-orange">
+        <span class="m-info-icon">📊</span>
+        <div class="m-info-body">
+          <div class="m-info-title">월간/분기 리뷰 시</div>
+          <div class="m-info-text">
+            1. <strong>전략 맵</strong> → Phase 진행률 업데이트 (CEO 직접 수정)<br>
+            2. <strong>재무/성과</strong> → 분기 실적 vs 목표 정산<br>
+            3. <strong>전략 문서</strong> → 의사결정 로그 기록<br>
+            4. <strong>팀/파운더</strong> → 팀 현황 및 채용 계획 업데이트
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /shell -->
+<script src="_axbiz-nav.js"></script>
+<script>initNav('manual');</script>
+</body>
+</html>

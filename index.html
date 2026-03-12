@@ -403,25 +403,41 @@ body{background:var(--bg);color:var(--text1);font-family:var(--font);font-size:1
 .footer{
   background:linear-gradient(135deg,#0f1e4a 0%,#1a2d6b 50%,#0f1e4a 100%);
   border-top:1px solid rgba(255,255,255,.08);
-  padding:0 40px;
+  padding:48px 40px 32px;
 }
 .footer-inner{
   max-width:1200px;margin:0 auto;
-  display:flex;align-items:center;justify-content:space-between;
-  height:52px;gap:16px;
+  display:grid;grid-template-columns:220px 1fr auto;
+  align-items:start;gap:48px;
 }
-.footer-brand{display:flex;align-items:center;gap:10px}
-.footer-logo-img{height:28px;width:auto;display:block}
-.footer-divider{width:1px;height:14px;background:rgba(255,255,255,.2)}
-.footer-ver{font-size:11px;color:rgba(255,255,255,.9)}
-.footer-nav{display:flex;align-items:center;gap:2px}
+.footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.footer-logo-img{height:36px;width:auto;display:block}
+.footer-ver{font-size:11px;color:rgba(255,255,255,.7);line-height:1.7}
+.footer-manual-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:12px;font-weight:700;
+  color:#0f1e4a;
+  background:linear-gradient(135deg,#e8f0fe,#c7d7fd);
+  border:none;cursor:pointer;
+  padding:8px 18px;border-radius:8px;
+  box-shadow:0 2px 8px rgba(8,17,60,.25);
+  text-decoration:none;
+  transition:opacity .15s,transform .15s,box-shadow .15s;
+  margin-top:4px;
+}
+.footer-manual-btn:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 4px 14px rgba(8,17,60,.35)}
+.footer-nav-section{}
+.footer-nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:14px}
+.footer-nav{display:flex;flex-wrap:wrap;gap:4px}
 .footer-nav a{
-  font-size:11px;color:rgba(255,255,255,.92);text-decoration:none;
-  padding:4px 9px;border-radius:6px;
-  transition:background .12s,color .12s;
+  font-size:12px;color:rgba(255,255,255,.85);text-decoration:none;
+  padding:5px 12px;border-radius:7px;border:1px solid rgba(255,255,255,.1);
+  transition:background .12s,color .12s,border-color .12s;
 }
-.footer-nav a:hover{background:rgba(255,255,255,.12);color:#fff}
-.footer-right{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.9)}
+.footer-nav a:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.25)}
+.footer-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.footer-copy{font-size:11px;color:rgba(255,255,255,.45);text-align:right;line-height:1.7}
+.footer-sync{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.7)}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:1000px){
@@ -439,8 +455,11 @@ body{background:var(--bg);color:var(--text1);font-family:var(--font);font-size:1
   .kpi-row{grid-template-columns:repeat(2,1fr)}
   .g4,.g3,.g2{grid-template-columns:1fr}
   .hero-right{display:none}
-  .footer-inner{flex-direction:column;height:auto;padding:16px 0;gap:10px;text-align:center}
-  .footer-nav{flex-wrap:wrap;justify-content:center}
+  .footer-inner{grid-template-columns:1fr;gap:28px}
+  .footer-brand{align-items:center;text-align:center}
+  .footer-nav-section{text-align:center}
+  .footer-nav{justify-content:center}
+  .footer-right{align-items:center}
 }
 </style>
 </head>
@@ -784,23 +803,40 @@ body{background:var(--bg);color:var(--text1);font-family:var(--font);font-size:1
 <!-- ══ FOOTER ══ -->
 <div class="footer">
   <div class="footer-inner">
+    <!-- 브랜드 + 매뉴얼 버튼 -->
     <div class="footer-brand">
       <img src="로고-AX비즈그룹.jpg" alt="AX BIZ GROUP" class="footer-logo-img">
-      <span class="footer-divider"></span>
-      <span class="footer-ver">CEO 마스터 플랫폼 v2.0 &nbsp;·&nbsp; 심재우 대표</span>
+      <div class="footer-ver">CEO 마스터 플랫폼 v2.0<br>심재우 대표</div>
+      <a class="footer-manual-btn" href="manual.html" target="_blank">📖 플랫폼 매뉴얼</a>
     </div>
-    <nav class="footer-nav">
-      <a href="AXBIZ_CEO_Platform.html" target="_blank">그룹 현황</a>
-      <a href="axbiz-strategy.html" target="_blank">전략 맵</a>
-      <a href="axbiz-pipeline.html" target="_blank">파이프라인</a>
-      <a href="axbiz-finance.html" target="_blank">재무</a>
-      <a href="axbiz-actions.html" target="_blank">실행 우선순위</a>
-      <a href="axbiz-insights.html" target="_blank">인사이트</a>
-      <a href="news.html" target="_blank">뉴스</a>
-    </nav>
+    <!-- 메뉴 링크 -->
+    <div class="footer-nav-section">
+      <div class="footer-nav-label">빠른 메뉴</div>
+      <nav class="footer-nav">
+        <a href="AXBIZ_CEO_Platform.html" target="_blank">🏠 그룹 현황</a>
+        <a href="axbiz-strategy.html" target="_blank">🗺️ 전략 맵</a>
+        <a href="axbiz-pipeline.html" target="_blank">💼 파이프라인</a>
+        <a href="axbiz-finance.html" target="_blank">💰 재무</a>
+        <a href="axbiz-actions.html" target="_blank">⚡ 실행 우선순위</a>
+        <a href="axbiz-aiplatform.html" target="_blank">🤖 AI 플랫폼</a>
+        <a href="axbiz-community.html" target="_blank">👥 창업가 연합</a>
+        <a href="axbiz-insights.html" target="_blank">💡 인사이트</a>
+        <a href="axbiz-clients.html" target="_blank">🏢 고객사</a>
+        <a href="axbiz-docs.html" target="_blank">📚 전략 문서</a>
+        <a href="news.html" target="_blank">📰 뉴스</a>
+      </nav>
+    </div>
+    <!-- 우측 정보 -->
     <div class="footer-right">
-      <span class="live-dot"></span>
-      실시간 동기화 &nbsp;·&nbsp; <span id="footDate">-</span>
+      <div class="footer-sync">
+        <span class="live-dot"></span>
+        실시간 동기화 중
+      </div>
+      <div class="footer-copy">
+        갱신: <span id="footDate">-</span><br>
+        © 2025–2026 AX BIZ GROUP<br>
+        All rights reserved.
+      </div>
     </div>
   </div>
 </div>

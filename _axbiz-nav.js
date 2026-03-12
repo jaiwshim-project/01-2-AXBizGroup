@@ -29,6 +29,7 @@ const AX_NAV = [
   {group:'인사이트', items:[
     {key:'insights',     icon:'💡',  label:'인사이트 제안',        href:'axbiz-insights.html'},
     {key:'news',         icon:'📰',  label:'뉴스 & 인사이트',      href:'news.html'},
+    {key:'manual',       icon:'📖',  label:'플랫폼 매뉴얼',        href:'manual.html'},
   ]},
   {group:'고객사', items:[
     {key:'clients',      icon:'🏢',  label:'고객사 대시보드',      href:'axbiz-clients.html'},
