@@ -6,113 +6,266 @@
 <title>플랫폼 매뉴얼 — AX BIZ Group CEO Platform</title>
 <link rel="stylesheet" href="_axbiz-shared.css">
 <style>
+/* ═══ HERO ═══ */
 .manual-hero{
   background:linear-gradient(135deg,#0f1e4a 0%,#1a2d6b 60%,#1e3a8a 100%);
-  padding:40px 36px 36px;
-  border-radius:16px;
-  margin-bottom:28px;
+  padding:40px 36px 36px;border-radius:16px;margin-bottom:28px;
   position:relative;overflow:hidden;
+  box-shadow:0 8px 32px rgba(15,30,74,.25);
+}
+.manual-hero::before{
+  content:'';pointer-events:none;position:absolute;left:-80px;bottom:-80px;
+  width:360px;height:360px;border-radius:50%;
+  background:radial-gradient(circle,rgba(29,78,216,.18) 0%,transparent 70%);
 }
 .manual-hero::after{
-  content:'';pointer-events:none;
-  position:absolute;right:-60px;top:-60px;
-  width:320px;height:320px;border-radius:50%;
+  content:'';pointer-events:none;position:absolute;right:-60px;top:-60px;
+  width:300px;height:300px;border-radius:50%;
   background:radial-gradient(circle,rgba(99,102,241,.15) 0%,transparent 70%);
 }
 .manual-hero-eyebrow{
   display:inline-flex;align-items:center;gap:7px;
   font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
-  color:rgba(255,255,255,.7);background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.18);
-  padding:4px 14px;border-radius:20px;margin-bottom:18px;
+  color:rgba(255,255,255,.85);background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);
+  padding:5px 16px;border-radius:20px;margin-bottom:18px;position:relative;z-index:1;
 }
-.manual-hero h1{font-size:28px;font-weight:800;color:#fff;letter-spacing:-.8px;margin-bottom:10px}
-.manual-hero p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.75;max-width:580px}
+.manual-hero h1{font-size:28px;font-weight:800;color:#fff;letter-spacing:-.8px;margin-bottom:12px;position:relative;z-index:1}
+.manual-hero p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.8;max-width:580px;position:relative;z-index:1}
 
+/* ═══ TOC ═══ */
 .m-toc{
-  background:#f8fafc;border:1.5px solid #e2e8f0;
-  border-radius:14px;padding:22px 24px;margin-bottom:32px;
+  background:linear-gradient(135deg,#eff4ff 0%,#f5f3ff 100%);
+  border:1.5px solid #c7d7fd;border-radius:14px;padding:22px 24px;margin-bottom:32px;
+  box-shadow:0 2px 10px rgba(29,78,216,.07);
 }
-.m-toc-title{font-size:12px;font-weight:700;color:#364059;letter-spacing:.5px;margin-bottom:14px;text-transform:uppercase}
-.m-toc-list{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 16px;list-style:none}
+.m-toc-title{
+  font-size:11px;font-weight:700;color:#1d4ed8;letter-spacing:1.2px;
+  text-transform:uppercase;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.m-toc-title::before{content:'';display:block;width:16px;height:3px;border-radius:2px;background:linear-gradient(90deg,#1d4ed8,#6d28d9)}
+.m-toc-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;list-style:none}
 .m-toc-list li a{
-  font-size:12px;color:#1d4ed8;text-decoration:none;
-  display:flex;align-items:center;gap:6px;padding:3px 0;
-  transition:color .12s;
+  font-size:12px;font-weight:600;color:#1d4ed8;text-decoration:none;
+  display:flex;align-items:center;gap:7px;
+  padding:6px 10px;border-radius:8px;border:1px solid transparent;
+  transition:background .12s,border-color .12s,color .12s;
 }
-.m-toc-list li a:hover{color:#1e40af}
+.m-toc-list li a:hover{background:rgba(29,78,216,.08);border-color:#c7d7fd;color:#1e40af}
 
+/* ═══ SECTION ═══ */
 .m-section{margin-bottom:40px}
 .m-section-anchor{display:block;position:relative;top:-72px;visibility:hidden}
 .m-section-head{
-  display:flex;align-items:center;gap:12px;
-  padding:14px 20px;border-radius:12px;margin-bottom:16px;
+  display:flex;align-items:center;gap:14px;
+  padding:16px 22px;border-radius:14px;margin-bottom:18px;
+  position:relative;overflow:hidden;
 }
+.m-section-head::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .m-section-head.s-blue  {background:linear-gradient(135deg,#eff4ff,#dbeafe);border:1.5px solid #c7d7fd}
+.m-section-head.s-blue::before  {background:linear-gradient(90deg,#1d4ed8,#4338ca)}
 .m-section-head.s-teal  {background:linear-gradient(135deg,#ecfeff,#cffafe);border:1.5px solid #a5f3fc}
+.m-section-head.s-teal::before  {background:linear-gradient(90deg,#0e7490,#06b6d4)}
 .m-section-head.s-orange{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1.5px solid #fed7aa}
+.m-section-head.s-orange::before{background:linear-gradient(90deg,#c2410c,#f97316)}
 .m-section-head.s-violet{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1.5px solid #ddd6fe}
+.m-section-head.s-violet::before{background:linear-gradient(90deg,#6d28d9,#8b5cf6)}
 .m-section-head.s-green {background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #bbf7d0}
+.m-section-head.s-green::before {background:linear-gradient(90deg,#15803d,#22c55e)}
 .m-section-head.s-rose  {background:linear-gradient(135deg,#fff1f2,#ffe4e6);border:1.5px solid #fecdd3}
+.m-section-head.s-rose::before  {background:linear-gradient(90deg,#be123c,#f43f5e)}
 .m-section-head.s-sky   {background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:1.5px solid #bae6fd}
-.m-section-icon{font-size:24px}
-.m-section-info{}
+.m-section-head.s-sky::before   {background:linear-gradient(90deg,#0369a1,#0ea5e9)}
+.m-section-icon{font-size:26px;line-height:1}
 .m-section-title{font-size:16px;font-weight:800;color:#08111f;letter-spacing:-.3px}
-.m-section-sub{font-size:12px;color:#6e83a0;margin-top:2px}
+.m-section-sub{font-size:12px;color:#6e83a0;margin-top:3px}
 
+/* ═══ PAGE CARDS ═══ */
 .m-page-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
 .m-page{
-  background:#fff;border-radius:12px;padding:18px 18px 16px;
-  border:1.5px solid #e2e8f0;
-  box-shadow:0 1px 4px rgba(8,17,31,.06);
+  border-radius:14px;padding:20px 20px 18px;
+  box-shadow:0 2px 8px rgba(8,17,31,.07);
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
 }
-.m-page-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.m-page-icon{font-size:18px;width:36px;height:36px;border-radius:9px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.m-page-name{font-size:13px;font-weight:700;color:#08111f}
-.m-page-file{font-size:10px;color:#94a3b8;font-family:monospace}
-.m-page-desc{font-size:12px;color:#364059;line-height:1.7;margin-bottom:12px}
-.m-page-features{list-style:none;display:flex;flex-direction:column;gap:4px}
-.m-page-features li{font-size:11px;color:#6e83a0;padding-left:14px;position:relative;line-height:1.5}
-.m-page-features li::before{content:'·';position:absolute;left:4px;color:#94a3b8}
+.m-page::before{content:'';position:absolute;top:0;left:0;right:0;height:3.5px;}
+/* blue */
+.m-page.mp-blue{background:linear-gradient(160deg,#eff4ff 0%,#fff 55%);border:1.5px solid #c7d7fd}
+.m-page.mp-blue::before{background:linear-gradient(90deg,#1d4ed8,#4338ca)}
+.m-page.mp-blue .m-page-icon{background:#dbeafe}
+.m-page.mp-blue .m-page-btn{color:#1d4ed8;background:#eff4ff;border-color:#c7d7fd}
+.m-page.mp-blue .m-page-btn:hover{background:#dbeafe;border-color:#93b4fb}
+.m-page.mp-blue:hover{border-color:#93b4fb;box-shadow:0 12px 36px rgba(29,78,216,.14)}
+/* teal */
+.m-page.mp-teal{background:linear-gradient(160deg,#ecfeff 0%,#fff 55%);border:1.5px solid #a5f3fc}
+.m-page.mp-teal::before{background:linear-gradient(90deg,#0e7490,#06b6d4)}
+.m-page.mp-teal .m-page-icon{background:#cffafe}
+.m-page.mp-teal .m-page-btn{color:#0e7490;background:#ecfeff;border-color:#a5f3fc}
+.m-page.mp-teal .m-page-btn:hover{background:#cffafe;border-color:#67e8f9}
+.m-page.mp-teal:hover{border-color:#67e8f9;box-shadow:0 12px 36px rgba(14,116,144,.14)}
+/* violet */
+.m-page.mp-violet{background:linear-gradient(160deg,#f5f3ff 0%,#fff 55%);border:1.5px solid #ddd6fe}
+.m-page.mp-violet::before{background:linear-gradient(90deg,#6d28d9,#8b5cf6)}
+.m-page.mp-violet .m-page-icon{background:#ede9fe}
+.m-page.mp-violet .m-page-btn{color:#5b21b6;background:#f5f3ff;border-color:#ddd6fe}
+.m-page.mp-violet .m-page-btn:hover{background:#ede9fe;border-color:#c4b5fd}
+.m-page.mp-violet:hover{border-color:#c4b5fd;box-shadow:0 12px 36px rgba(109,40,217,.14)}
+/* green */
+.m-page.mp-green{background:linear-gradient(160deg,#f0fdf4 0%,#fff 55%);border:1.5px solid #bbf7d0}
+.m-page.mp-green::before{background:linear-gradient(90deg,#15803d,#22c55e)}
+.m-page.mp-green .m-page-icon{background:#dcfce7}
+.m-page.mp-green .m-page-btn{color:#15803d;background:#f0fdf4;border-color:#bbf7d0}
+.m-page.mp-green .m-page-btn:hover{background:#dcfce7;border-color:#86efac}
+.m-page.mp-green:hover{border-color:#86efac;box-shadow:0 12px 36px rgba(21,128,61,.14)}
+/* slate */
+.m-page.mp-slate{background:linear-gradient(160deg,#f8fafc 0%,#fff 55%);border:1.5px solid #cbd5e1}
+.m-page.mp-slate::before{background:linear-gradient(90deg,#475569,#94a3b8)}
+.m-page.mp-slate .m-page-icon{background:#f1f5f9}
+.m-page.mp-slate .m-page-btn{color:#475569;background:#f8fafc;border-color:#cbd5e1}
+.m-page.mp-slate .m-page-btn:hover{background:#f1f5f9;border-color:#94a3b8}
+.m-page.mp-slate:hover{border-color:#94a3b8;box-shadow:0 12px 36px rgba(71,85,105,.12)}
+/* yellow */
+.m-page.mp-yellow{background:linear-gradient(160deg,#fffbeb 0%,#fff 55%);border:1.5px solid #fde68a}
+.m-page.mp-yellow::before{background:linear-gradient(90deg,#92400e,#d97706)}
+.m-page.mp-yellow .m-page-icon{background:#fef3c7}
+.m-page.mp-yellow .m-page-btn{color:#92400e;background:#fffbeb;border-color:#fde68a}
+.m-page.mp-yellow .m-page-btn:hover{background:#fef3c7;border-color:#fcd34d}
+.m-page.mp-yellow:hover{border-color:#fcd34d;box-shadow:0 12px 36px rgba(146,64,14,.14)}
+/* cyan */
+.m-page.mp-cyan{background:linear-gradient(160deg,#ecfeff 0%,#fff 55%);border:1.5px solid #a5f3fc}
+.m-page.mp-cyan::before{background:linear-gradient(90deg,#0891b2,#22d3ee)}
+.m-page.mp-cyan .m-page-icon{background:#cffafe}
+.m-page.mp-cyan .m-page-btn{color:#0891b2;background:#ecfeff;border-color:#a5f3fc}
+.m-page.mp-cyan .m-page-btn:hover{background:#cffafe;border-color:#67e8f9}
+.m-page.mp-cyan:hover{border-color:#67e8f9;box-shadow:0 12px 36px rgba(8,145,178,.14)}
+/* rose */
+.m-page.mp-rose{background:linear-gradient(160deg,#fff1f2 0%,#fff 55%);border:1.5px solid #fecdd3}
+.m-page.mp-rose::before{background:linear-gradient(90deg,#be123c,#f43f5e)}
+.m-page.mp-rose .m-page-icon{background:#ffe4e6}
+.m-page.mp-rose .m-page-btn{color:#be123c;background:#fff1f2;border-color:#fecdd3}
+.m-page.mp-rose .m-page-btn:hover{background:#ffe4e6;border-color:#fda4af}
+.m-page.mp-rose:hover{border-color:#fda4af;box-shadow:0 12px 36px rgba(190,18,60,.14)}
+/* orange */
+.m-page.mp-orange{background:linear-gradient(160deg,#fff7ed 0%,#fff 55%);border:1.5px solid #fed7aa}
+.m-page.mp-orange::before{background:linear-gradient(90deg,#c2410c,#f97316)}
+.m-page.mp-orange .m-page-icon{background:#ffedd5}
+.m-page.mp-orange .m-page-btn{color:#c2410c;background:#fff7ed;border-color:#fed7aa}
+.m-page.mp-orange .m-page-btn:hover{background:#ffedd5;border-color:#fdba74}
+.m-page.mp-orange:hover{border-color:#fdba74;box-shadow:0 12px 36px rgba(194,65,12,.14)}
+/* purple */
+.m-page.mp-purple{background:linear-gradient(160deg,#faf5ff 0%,#fff 55%);border:1.5px solid #e9d5ff}
+.m-page.mp-purple::before{background:linear-gradient(90deg,#6d28d9,#a855f7)}
+.m-page.mp-purple .m-page-icon{background:#f3e8ff}
+.m-page.mp-purple .m-page-btn{color:#6d28d9;background:#faf5ff;border-color:#e9d5ff}
+.m-page.mp-purple .m-page-btn:hover{background:#f3e8ff;border-color:#d8b4fe}
+.m-page.mp-purple:hover{border-color:#d8b4fe;box-shadow:0 12px 36px rgba(109,40,217,.14)}
+/* sky */
+.m-page.mp-sky{background:linear-gradient(160deg,#f0f9ff 0%,#fff 55%);border:1.5px solid #bae6fd}
+.m-page.mp-sky::before{background:linear-gradient(90deg,#0369a1,#0ea5e9)}
+.m-page.mp-sky .m-page-icon{background:#e0f2fe}
+.m-page.mp-sky .m-page-btn{color:#0369a1;background:#f0f9ff;border-color:#bae6fd}
+.m-page.mp-sky .m-page-btn:hover{background:#e0f2fe;border-color:#7dd3fc}
+.m-page.mp-sky:hover{border-color:#7dd3fc;box-shadow:0 12px 36px rgba(3,105,161,.14)}
+/* amber */
+.m-page.mp-amber{background:linear-gradient(160deg,#fffbeb 0%,#fff 55%);border:1.5px solid #fde68a}
+.m-page.mp-amber::before{background:linear-gradient(90deg,#78350f,#f59e0b)}
+.m-page.mp-amber .m-page-icon{background:#fef3c7}
+.m-page.mp-amber .m-page-btn{color:#78350f;background:#fffbeb;border-color:#fde68a}
+.m-page.mp-amber .m-page-btn:hover{background:#fef3c7;border-color:#fcd34d}
+.m-page.mp-amber:hover{border-color:#fcd34d;box-shadow:0 12px 36px rgba(120,53,15,.14)}
+/* lime */
+.m-page.mp-lime{background:linear-gradient(160deg,#f7fee7 0%,#fff 55%);border:1.5px solid #d9f99d}
+.m-page.mp-lime::before{background:linear-gradient(90deg,#3f6212,#84cc16)}
+.m-page.mp-lime .m-page-icon{background:#ecfccb}
+.m-page.mp-lime .m-page-btn{color:#3f6212;background:#f7fee7;border-color:#d9f99d}
+.m-page.mp-lime .m-page-btn:hover{background:#ecfccb;border-color:#bef264}
+.m-page.mp-lime:hover{border-color:#bef264;box-shadow:0 12px 36px rgba(63,98,18,.14)}
+
+.m-page:hover{transform:translateY(-3px)}
+.m-page-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.m-page-icon{
+  font-size:18px;width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+.m-page-name{font-size:13px;font-weight:700;color:#08111f;letter-spacing:-.1px}
+.m-page-file{font-size:10px;color:#94a3b8;font-family:monospace;margin-top:2px}
+.m-page-desc{font-size:12px;color:#364059;line-height:1.75;margin-bottom:10px;flex:1}
+.m-page-features{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:4px}
+.m-page-features li{
+  font-size:11px;color:#6e83a0;padding:3px 8px 3px 20px;
+  position:relative;line-height:1.5;
+  background:rgba(0,0,0,.025);border-radius:5px;
+}
+.m-page-features li::before{content:'›';position:absolute;left:8px;color:#94a3b8;font-weight:700}
 .m-page-btn{
   display:inline-flex;align-items:center;gap:5px;
-  font-size:11px;font-weight:700;color:#1d4ed8;
-  background:#eff4ff;border:1.5px solid #c7d7fd;
-  padding:5px 12px;border-radius:7px;text-decoration:none;margin-top:12px;
-  transition:background .12s,border-color .12s;
+  font-size:11px;font-weight:700;
+  padding:6px 14px;border-radius:8px;text-decoration:none;margin-top:10px;
+  border:1.5px solid;transition:background .12s,border-color .12s;
+  align-self:flex-start;
 }
-.m-page-btn:hover{background:#dbeafe;border-color:#93b4fb}
 
+/* ═══ INFO BOXES ═══ */
 .m-info-box{
-  border-radius:12px;padding:18px 20px;margin-bottom:16px;
+  border-radius:14px;padding:20px 22px 20px 26px;margin-bottom:16px;
+  display:flex;gap:16px;align-items:flex-start;
+  position:relative;overflow:hidden;
+}
+.m-info-box::before{
+  content:'';position:absolute;top:0;left:0;bottom:0;width:4px;border-radius:4px 0 0 4px;
+}
+.m-info-box.ib-blue{background:linear-gradient(135deg,#eff4ff,#f8faff);border:1.5px solid #c7d7fd}
+.m-info-box.ib-blue::before{background:linear-gradient(180deg,#1d4ed8,#4338ca)}
+.m-info-box.ib-green{background:linear-gradient(135deg,#f0fdf4,#f8fff9);border:1.5px solid #bbf7d0}
+.m-info-box.ib-green::before{background:linear-gradient(180deg,#15803d,#22c55e)}
+.m-info-box.ib-orange{background:linear-gradient(135deg,#fff7ed,#fffaf5);border:1.5px solid #fed7aa}
+.m-info-box.ib-orange::before{background:linear-gradient(180deg,#c2410c,#f97316)}
+.m-info-icon{font-size:22px;flex-shrink:0;margin-top:1px}
+.m-info-title{font-size:13px;font-weight:800;color:#08111f;margin-bottom:7px;letter-spacing:-.1px}
+.m-info-text{font-size:12px;color:#364059;line-height:1.8}
+.m-info-text strong{color:#08111f;font-weight:700}
+
+/* ═══ DIVIDER ═══ */
+.m-divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent 0%,#c7d7fd 30%,#c7d7fd 70%,transparent 100%);
+  margin:36px 0;
+}
+
+/* ═══ STEPS ═══ */
+.m-step-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+.m-step{
   display:flex;gap:14px;align-items:flex-start;
+  background:#fff;border-radius:12px;padding:16px 16px 14px;
+  border:1.5px solid #e2e8f0;
+  box-shadow:0 2px 6px rgba(8,17,31,.05);
+  transition:transform .18s,box-shadow .18s,border-color .18s;
 }
-.m-info-box.ib-blue{background:#eff4ff;border:1.5px solid #c7d7fd}
-.m-info-box.ib-green{background:#f0fdf4;border:1.5px solid #bbf7d0}
-.m-info-box.ib-orange{background:#fff7ed;border:1.5px solid #fed7aa}
-.m-info-icon{font-size:20px;flex-shrink:0;margin-top:1px}
-.m-info-body{}
-.m-info-title{font-size:13px;font-weight:700;color:#08111f;margin-bottom:5px}
-.m-info-text{font-size:12px;color:#364059;line-height:1.7}
-
-.m-divider{height:1px;background:linear-gradient(90deg,#e2e8f0 0%,transparent 100%);margin:36px 0}
-
-.m-step-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
-.m-step{display:flex;gap:14px;align-items:flex-start}
+.m-step:nth-child(1){border-color:#c7d7fd;background:linear-gradient(135deg,#eff4ff,#fff)}
+.m-step:nth-child(2){border-color:#a5f3fc;background:linear-gradient(135deg,#ecfeff,#fff)}
+.m-step:nth-child(3){border-color:#bbf7d0;background:linear-gradient(135deg,#f0fdf4,#fff)}
+.m-step:nth-child(4){border-color:#e9d5ff;background:linear-gradient(135deg,#faf5ff,#fff)}
+.m-step:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(29,78,216,.1)}
 .m-step-num{
-  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  width:32px;height:32px;border-radius:10px;flex-shrink:0;
   background:linear-gradient(135deg,#1d4ed8,#4338ca);
-  color:#fff;font-size:12px;font-weight:800;
+  color:#fff;font-size:13px;font-weight:800;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 8px rgba(29,78,216,.3);
+  box-shadow:0 3px 10px rgba(29,78,216,.35);
 }
-.m-step-body{}
-.m-step-title{font-size:13px;font-weight:700;color:#08111f;margin-bottom:3px}
-.m-step-text{font-size:12px;color:#6e83a0;line-height:1.65}
+.m-step:nth-child(2) .m-step-num{background:linear-gradient(135deg,#0e7490,#06b6d4);box-shadow:0 3px 10px rgba(14,116,144,.35)}
+.m-step:nth-child(3) .m-step-num{background:linear-gradient(135deg,#15803d,#22c55e);box-shadow:0 3px 10px rgba(21,128,61,.35)}
+.m-step:nth-child(4) .m-step-num{background:linear-gradient(135deg,#6d28d9,#8b5cf6);box-shadow:0 3px 10px rgba(109,40,217,.35)}
+.m-step-title{font-size:12px;font-weight:700;color:#08111f;margin-bottom:4px}
+.m-step-text{font-size:11px;color:#6e83a0;line-height:1.65}
 
-@media(max-width:800px){
+@media(max-width:900px){
   .m-page-grid{grid-template-columns:1fr}
   .m-toc-list{grid-template-columns:repeat(2,1fr)}
+  .m-step-list{grid-template-columns:1fr}
 }
 @media(max-width:480px){
   .m-toc-list{grid-template-columns:1fr}
@@ -151,11 +304,11 @@
         <li><a href="#sec-mgmt">⑥ 경영 관리</a></li>
         <li><a href="#sec-insight">⑦ 인사이트 · 뉴스</a></li>
         <li><a href="#sec-nav">⑧ 내비게이션 사용법</a></li>
-        <li><a href="#sec-tips">⑨ 활용 팁</a></li>
+        <li><a href="#sec-tips">⑨ CEO 활용 팁</a></li>
       </ul>
     </div>
 
-    <!-- 1. 플랫폼 개요 -->
+    <!-- ① 플랫폼 개요 -->
     <div class="m-section">
       <span class="m-section-anchor" id="sec-overview"></span>
       <div class="m-section-head s-blue">
@@ -203,7 +356,7 @@
 
     <div class="m-divider"></div>
 
-    <!-- 2. 시작하기 -->
+    <!-- ② 시작하기 -->
     <div class="m-section">
       <span class="m-section-anchor" id="sec-start"></span>
       <div class="m-section-head s-teal">
@@ -218,21 +371,21 @@
           <div class="m-step-num">1</div>
           <div class="m-step-body">
             <div class="m-step-title">랜딩 페이지 접속 (index.html)</div>
-            <div class="m-step-text">플랫폼의 첫 화면입니다. 상단 KPI 6개와 전체 메뉴 카드가 한눈에 표시됩니다. 원하는 섹션 카드를 클릭해 해당 페이지로 이동합니다.</div>
+            <div class="m-step-text">플랫폼의 첫 화면입니다. 상단 KPI 6개와 전체 메뉴 카드가 한눈에 표시됩니다. 원하는 섹션 카드를 클릭해 이동합니다.</div>
           </div>
         </div>
         <div class="m-step">
           <div class="m-step-num">2</div>
           <div class="m-step-body">
             <div class="m-step-title">사이드바 내비게이션 활용</div>
-            <div class="m-step-text">각 내부 페이지 좌측에는 고정 사이드바가 있습니다. 그룹별로 정리된 메뉴를 클릭해 빠르게 이동하세요. 프로젝트 메뉴는 ▶ 클릭 시 하위 메뉴가 펼쳐집니다.</div>
+            <div class="m-step-text">각 내부 페이지 좌측에 고정 사이드바가 있습니다. 그룹별 메뉴를 클릭해 빠르게 이동하세요. 프로젝트 메뉴는 ▶ 클릭 시 하위 메뉴가 펼쳐집니다.</div>
           </div>
         </div>
         <div class="m-step">
           <div class="m-step-num">3</div>
           <div class="m-step-body">
             <div class="m-step-title">실시간 동기화 확인</div>
-            <div class="m-step-text">사이드바 하단과 푸터의 초록 점(●)이 깜빡이면 실시간 동기화 중입니다. 시간은 8초마다 자동 갱신됩니다.</div>
+            <div class="m-step-text">사이드바 하단의 초록 점(●)이 깜빡이면 실시간 동기화 중입니다. 시간은 8초마다 자동 갱신됩니다.</div>
           </div>
         </div>
         <div class="m-step">
@@ -247,7 +400,7 @@
 
     <div class="m-divider"></div>
 
-    <!-- 3. 대시보드 -->
+    <!-- ③ 대시보드 -->
     <div class="m-section">
       <span class="m-section-anchor" id="sec-dashboard"></span>
       <div class="m-section-head s-blue">
@@ -258,7 +411,7 @@
         </div>
       </div>
       <div class="m-page-grid">
-        <div class="m-page">
+        <div class="m-page mp-blue">
           <div class="m-page-top">
             <div class="m-page-icon">🏠</div>
             <div>
@@ -275,7 +428,7 @@
           </ul>
           <a class="m-page-btn" href="AXBIZ_CEO_Platform.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-teal">
           <div class="m-page-top">
             <div class="m-page-icon">🗺️</div>
             <div>
@@ -283,7 +436,7 @@
               <div class="m-page-file">axbiz-strategy.html</div>
             </div>
           </div>
-          <div class="m-page-desc">5년 로드맵의 현재 위치와 3대 전략 축(AI 플랫폼·창업가 생태계·데이터 인텔리전스)의 진행률을 확인합니다.</div>
+          <div class="m-page-desc">5년 로드맵의 현재 위치와 3대 전략 축의 진행률을 확인합니다.</div>
           <ul class="m-page-features">
             <li>Phase 1~4 로드맵 진행률 프로그레스 바</li>
             <li>3대 축 개별 진행률 및 세부 체크리스트</li>
@@ -297,7 +450,7 @@
 
     <div class="m-divider"></div>
 
-    <!-- 4. 운영 -->
+    <!-- ④ 운영 -->
     <div class="m-section">
       <span class="m-section-anchor" id="sec-ops"></span>
       <div class="m-section-head s-orange">
@@ -308,7 +461,7 @@
         </div>
       </div>
       <div class="m-page-grid">
-        <div class="m-page">
+        <div class="m-page mp-violet">
           <div class="m-page-top">
             <div class="m-page-icon">🏗️</div>
             <div>
@@ -324,7 +477,7 @@
           </ul>
           <a class="m-page-btn" href="axbiz-proj-internal.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-green">
           <div class="m-page-top">
             <div class="m-page-icon">🤝</div>
             <div>
@@ -340,7 +493,7 @@
           </ul>
           <a class="m-page-btn" href="axbiz-proj-client.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-slate">
           <div class="m-page-top">
             <div class="m-page-icon">📊</div>
             <div>
@@ -356,7 +509,7 @@
           </ul>
           <a class="m-page-btn" href="axbiz-projects.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-yellow">
           <div class="m-page-top">
             <div class="m-page-icon">💼</div>
             <div>
@@ -377,7 +530,7 @@
 
     <div class="m-divider"></div>
 
-    <!-- 5. AI 플랫폼 -->
+    <!-- ⑤ AI 플랫폼 -->
     <div class="m-section">
       <span class="m-section-anchor" id="sec-platform"></span>
       <div class="m-section-head s-teal">
@@ -388,7 +541,7 @@
         </div>
       </div>
       <div class="m-page-grid">
-        <div class="m-page">
+        <div class="m-page mp-cyan">
           <div class="m-page-top">
             <div class="m-page-icon">🤖</div>
             <div>
@@ -406,7 +559,7 @@
           </ul>
           <a class="m-page-btn" href="axbiz-aiplatform.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-rose">
           <div class="m-page-top">
             <div class="m-page-icon">👥</div>
             <div>
@@ -428,7 +581,7 @@
 
     <div class="m-divider"></div>
 
-    <!-- 6. 경영 관리 -->
+    <!-- ⑥ 경영 관리 -->
     <div class="m-section">
       <span class="m-section-anchor" id="sec-mgmt"></span>
       <div class="m-section-head s-violet">
@@ -439,7 +592,7 @@
         </div>
       </div>
       <div class="m-page-grid">
-        <div class="m-page">
+        <div class="m-page mp-green">
           <div class="m-page-top">
             <div class="m-page-icon">💰</div>
             <div>
@@ -455,7 +608,7 @@
           </ul>
           <a class="m-page-btn" href="axbiz-finance.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-orange">
           <div class="m-page-top">
             <div class="m-page-icon">⚡</div>
             <div>
@@ -471,7 +624,7 @@
           </ul>
           <a class="m-page-btn" href="axbiz-actions.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-purple">
           <div class="m-page-top">
             <div class="m-page-icon">🧑‍💼</div>
             <div>
@@ -487,7 +640,7 @@
           </ul>
           <a class="m-page-btn" href="axbiz-team.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-sky">
           <div class="m-page-top">
             <div class="m-page-icon">🌐</div>
             <div>
@@ -503,7 +656,7 @@
           </ul>
           <a class="m-page-btn" href="axbiz-portfolio.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-teal">
           <div class="m-page-top">
             <div class="m-page-icon">🏢</div>
             <div>
@@ -519,7 +672,7 @@
           </ul>
           <a class="m-page-btn" href="axbiz-clients.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-amber">
           <div class="m-page-top">
             <div class="m-page-icon">📚</div>
             <div>
@@ -540,7 +693,7 @@
 
     <div class="m-divider"></div>
 
-    <!-- 7. 인사이트·뉴스 -->
+    <!-- ⑦ 인사이트·뉴스 -->
     <div class="m-section">
       <span class="m-section-anchor" id="sec-insight"></span>
       <div class="m-section-head s-green">
@@ -551,7 +704,7 @@
         </div>
       </div>
       <div class="m-page-grid">
-        <div class="m-page">
+        <div class="m-page mp-lime">
           <div class="m-page-top">
             <div class="m-page-icon">💡</div>
             <div>
@@ -567,7 +720,7 @@
           </ul>
           <a class="m-page-btn" href="axbiz-insights.html" target="_blank">페이지 열기 →</a>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-sky">
           <div class="m-page-top">
             <div class="m-page-icon">📰</div>
             <div>
@@ -589,7 +742,7 @@
 
     <div class="m-divider"></div>
 
-    <!-- 8. 내비게이션 -->
+    <!-- ⑧ 내비게이션 -->
     <div class="m-section">
       <span class="m-section-anchor" id="sec-nav"></span>
       <div class="m-section-head s-sky">
@@ -600,7 +753,7 @@
         </div>
       </div>
       <div class="m-page-grid">
-        <div class="m-page">
+        <div class="m-page mp-blue">
           <div class="m-page-top">
             <div class="m-page-icon">◀</div>
             <div>
@@ -608,17 +761,17 @@
               <div class="m-page-file">_axbiz-nav.js 자동 생성</div>
             </div>
           </div>
-          <div class="m-page-desc">모든 내부 페이지 좌측에 자동으로 생성되는 고정 사이드바입니다.</div>
+          <div class="m-page-desc">모든 내부 페이지 좌측에 자동 생성되는 고정 사이드바입니다.</div>
           <ul class="m-page-features">
             <li>상단: AX비즈그룹 로고 + CEO 마스터 플랫폼 v2.0</li>
             <li>AX비즈그룹 버튼 → 그룹 현황 대시보드 이동</li>
-            <li>그룹별 메뉴: 대시보드·운영·플랫폼·경영·인사이트·고객사</li>
+            <li>그룹별 메뉴: 대시보드·운영·플랫폼·경영·인사이트</li>
             <li>현재 페이지 메뉴는 파란 배경으로 활성화 표시</li>
             <li>프로젝트 메뉴 ▶ 클릭 시 하위 메뉴 토글</li>
             <li>하단: 실시간 동기화 시간 표시</li>
           </ul>
         </div>
-        <div class="m-page">
+        <div class="m-page mp-violet">
           <div class="m-page-top">
             <div class="m-page-icon">▲</div>
             <div>
@@ -630,7 +783,7 @@
           <ul class="m-page-features">
             <li>좌측: AX BIZ GROUP 로고</li>
             <li>중앙: 섹션 앵커 링크 (대시보드·운영·플랫폼·경영·인사이트·뉴스)</li>
-            <li>우측: 🏢 AX비즈그룹 CTA 버튼 → 메인 대시보드 이동</li>
+            <li>우측: 🏢 AX비즈그룹 CTA 버튼 → 메인 대시보드</li>
             <li>스크롤 시 상단 고정 (sticky)</li>
           </ul>
         </div>
@@ -639,7 +792,7 @@
 
     <div class="m-divider"></div>
 
-    <!-- 9. 활용 팁 -->
+    <!-- ⑨ CEO 활용 팁 -->
     <div class="m-section">
       <span class="m-section-anchor" id="sec-tips"></span>
       <div class="m-section-head s-rose">
