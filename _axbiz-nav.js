@@ -3,11 +3,11 @@
 // ═══════════════════════════════════════
 
 const AX_NAV = [
-  {group:'대시보드', items:[
+  {group:'대시보드', color:'blue', dot:'#1d4ed8', items:[
     {key:'home',         icon:'🏠',  label:'그룹 현황',          href:'AXBIZ_CEO_Platform.html'},
     {key:'strategy',     icon:'🗺️', label:'전략 맵',             href:'axbiz-strategy.html'},
   ]},
-  {group:'운영', items:[
+  {group:'운영', color:'orange', dot:'#c2410c', items:[
     {key:'projects-group',icon:'📋', label:'프로젝트',            href:null, submenu:[
       {key:'proj-internal',icon:'🏗️', label:'내부 추진 프로젝트', href:'axbiz-proj-internal.html'},
       {key:'proj-client',  icon:'🤝', label:'고객 프로젝트 CRM',  href:'axbiz-proj-client.html'},
@@ -15,23 +15,23 @@ const AX_NAV = [
     ]},
     {key:'pipeline',     icon:'💼',  label:'비즈니스 파이프라인', href:'axbiz-pipeline.html'},
   ]},
-  {group:'플랫폼', items:[
+  {group:'플랫폼', color:'teal', dot:'#0891b2', items:[
     {key:'aiplatform',   icon:'🤖',  label:'AI 플랫폼',           href:'axbiz-aiplatform.html'},
     {key:'community',    icon:'👥',  label:'AI 창업가 연합',       href:'axbiz-community.html'},
   ]},
-  {group:'경영', items:[
+  {group:'경영', color:'violet', dot:'#6d28d9', items:[
     {key:'finance',      icon:'💰',  label:'재무/성과',            href:'axbiz-finance.html'},
     {key:'actions',      icon:'⚡',  label:'실행 우선순위',        href:'axbiz-actions.html'},
     {key:'team',         icon:'🧑‍💼', label:'팀/파운더',           href:'axbiz-team.html'},
     {key:'portfolio',    icon:'🌐',  label:'플랫폼 포트폴리오',    href:'axbiz-portfolio.html'},
     {key:'docs',         icon:'📚',  label:'전략 문서',            href:'axbiz-docs.html'},
   ]},
-  {group:'인사이트', items:[
+  {group:'인사이트', color:'green', dot:'#15803d', items:[
     {key:'insights',     icon:'💡',  label:'인사이트 제안',        href:'axbiz-insights.html'},
     {key:'news',         icon:'📰',  label:'뉴스 & 인사이트',      href:'news.html'},
     {key:'manual',       icon:'📖',  label:'플랫폼 매뉴얼',        href:'manual.html'},
   ]},
-  {group:'고객사', items:[
+  {group:'고객사', color:'rose', dot:'#be123c', items:[
     {key:'clients',      icon:'🏢',  label:'고객사 대시보드',      href:'axbiz-clients.html'},
   ]},
 ];
@@ -66,23 +66,24 @@ function initNav(activeKey) {
     <nav class="nav">`;
 
   AX_NAV.forEach(group => {
-    html += `<div class="nav-group-label">${group.group}</div>`;
+    const gc = group.color || 'blue';
+    html += `<div class="nav-group-label gc-${gc}">${group.group}</div>`;
     group.items.forEach(item => {
       if (item.submenu) {
         const open = isSubProject || isProjectParent;
-        html += `<div class="nav-item${open ? ' active' : ''}" id="navProjParent" onclick="toggleProjMenu()">
+        html += `<div class="nav-item gc-${gc}${open ? ' active' : ''}" id="navProjParent" onclick="toggleProjMenu()">
           <span class="icon">${item.icon}</span> ${item.label}
           <span id="projArrow" style="margin-left:auto;font-size:9px;color:var(--text-3)">${open ? '▼' : '▶'}</span>
         </div>
         <div id="projSubMenu" style="display:${open ? 'block' : 'none'};background:rgba(0,0,0,.25);border-left:2px solid rgba(46,164,255,.2);margin:0 8px 4px;border-radius:0 0 6px 6px">`;
         item.submenu.forEach(sub => {
-          html += `<a class="nav-item nav-sub${activeKey === sub.key ? ' active' : ''}" href="${sub.href}" target="_blank">
+          html += `<a class="nav-item nav-sub gc-${gc}${activeKey === sub.key ? ' active' : ''}" href="${sub.href}" target="_blank">
             <span class="icon">${sub.icon}</span> ${sub.label}
           </a>`;
         });
         html += `</div>`;
       } else {
-        html += `<a class="nav-item${activeKey === item.key ? ' active' : ''}" href="${item.href}" target="_blank">
+        html += `<a class="nav-item gc-${gc}${activeKey === item.key ? ' active' : ''}" href="${item.href}" target="_blank">
           <span class="icon">${item.icon}</span> ${item.label}
         </a>`;
       }
