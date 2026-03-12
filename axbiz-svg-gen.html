@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SVG 구조도 생성기 — AX BIZ CEO Platform</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --white:#ffffff;
+  --bg:#e8eef8;
+  --bg2:#dce4f2;
+  --border:#b0c0dc;
+  --border2:#8aaace;
+  --text1:#030c1a;
+  --text2:#162236;
+  --text3:#344f6e;
+  --blue:#1a45c8;
+  --blue2:#4338ca;
+  --blue-light:#dce8ff;
+  --blue-border:#7fa0f0;
+  --teal:#0771a0;
+  --teal-light:#b0eaf8;
+  --teal-border:#30a8cc;
+  --green:#126e36;
+  --green-light:#a8f0c8;
+  --green-border:#38a868;
+  --violet:#6d28d9;
+  --violet-light:#d8c0ff;
+  --violet-border:#9060d8;
+  --orange:#c2410c;
+  --orange-light:#fdd0a0;
+  --orange-border:#d86030;
+  --shadow-sm:0 1px 5px rgba(3,12,26,.1),0 1px 3px rgba(3,12,26,.07);
+  --shadow:0 4px 22px rgba(3,12,26,.12),0 2px 8px rgba(3,12,26,.07);
+  --shadow-lg:0 16px 52px rgba(3,12,26,.16),0 6px 18px rgba(3,12,26,.09);
+  --radius:16px;
+  --font:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+}
+
+body{background:var(--bg);color:var(--text1);font-family:var(--font);font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+
+/* ══ TOPBAR ══ */
+.topbar{
+  background:linear-gradient(135deg,#0f1e4a 0%,#1a2d6b 50%,#0f1e4a 100%);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  box-shadow:0 2px 16px rgba(8,17,60,.3);
+  position:sticky;top:0;z-index:100;
+}
+.topbar-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:58px;
+}
+.tb-left{display:flex;align-items:center;gap:14px}
+.tb-back{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.7);
+  text-decoration:none;padding:6px 12px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.15);
+  transition:.15s;
+}
+.tb-back:hover{color:#fff;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3)}
+.tb-divider{width:1px;height:20px;background:rgba(255,255,255,.15)}
+.tb-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:15px;font-weight:700;color:#fff;
+}
+.tb-badge{
+  font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);
+  border:1px solid rgba(255,255,255,.2);padding:2px 9px;border-radius:8px;
+}
+.tb-date{font-size:12px;color:rgba(255,255,255,.55)}
+
+/* ══ HERO ══ */
+.hero{
+  background:linear-gradient(160deg,#ffffff 0%,#f0f4ff 55%,#e8f0fe 100%);
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.hero::after{
+  content:'';pointer-events:none;
+  position:absolute;right:-60px;top:-60px;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(99,102,241,.06) 0%,transparent 70%);
+}
+.hero-inner{
+  max-width:1200px;margin:0 auto;
+  padding:40px 40px 36px;
+  display:grid;grid-template-columns:1fr auto;align-items:center;gap:32px;
+  position:relative;z-index:1;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--blue);background:var(--blue-light);
+  border:1px solid var(--blue-border);
+  padding:4px 14px;border-radius:20px;margin-bottom:14px;
+}
+.hero-eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0}
+.hero-h1{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1.15;color:var(--text1);margin-bottom:10px}
+.hero-h1 em{font-style:normal;background:linear-gradient(135deg,var(--blue) 0%,var(--blue2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:13px;color:var(--text2);line-height:1.75;max-width:460px}
+.hero-stats{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.h-stat{
+  background:var(--white);border-radius:12px;padding:12px 18px;text-align:right;min-width:148px;
+  box-shadow:var(--shadow-sm);
+}
+.h-stat.hs-blue {border:1.5px solid var(--blue-border);background:linear-gradient(135deg,#fff 55%,var(--blue-light) 100%)}
+.h-stat.hs-teal {border:1.5px solid var(--teal-border);background:linear-gradient(135deg,#fff 55%,var(--teal-light) 100%)}
+.hs-val{font-size:22px;font-weight:800;letter-spacing:-.4px;line-height:1}
+.hs-val.c-blue{color:var(--blue)}
+.hs-val.c-teal{color:var(--teal)}
+.hs-lbl{font-size:10px;color:var(--text3);margin-top:3px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+
+/* ══ CONTENT ══ */
+.content{max-width:1200px;margin:0 auto;padding:36px 40px 64px}
+
+/* ══ SECTION HEADER ══ */
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.sec-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;
+  white-space:nowrap;padding:4px 13px 4px 9px;border-radius:20px;
+}
+.sec-pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.8;flex-shrink:0}
+.sp-blue  {color:var(--blue);background:var(--blue-light);border:1.5px solid var(--blue-border)}
+.sp-teal  {color:var(--teal);background:var(--teal-light);border:1.5px solid var(--teal-border)}
+.sp-green {color:var(--green);background:var(--green-light);border:1.5px solid var(--green-border)}
+.sp-violet{color:var(--violet);background:var(--violet-light);border:1.5px solid var(--violet-border)}
+.sec-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border) 0%,transparent 100%)}
+
+/* ══ CARD ══ */
+.card{
+  background:linear-gradient(160deg,var(--blue-light) 0%,#eef4ff 45%,var(--white) 80%);
+  border:2px solid var(--blue-border);
+  border-radius:var(--radius);padding:28px;
+  box-shadow:var(--shadow);margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3.5px;
+  background:linear-gradient(90deg,var(--blue),var(--blue2));
+}
+.card.c-teal::before{background:linear-gradient(90deg,var(--teal),#06b6d4)}
+.card.c-green::before{background:linear-gradient(90deg,var(--green),#22c55e)}
+
+/* ══ DROP ZONE ══ */
+.drop-zone{
+  border:2px dashed var(--border2);border-radius:12px;
+  padding:36px 24px;text-align:center;cursor:pointer;
+  transition:.2s;background:linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.drop-zone:hover,.drop-zone.drag-over{
+  border-color:var(--blue);border-style:solid;
+  background:linear-gradient(135deg,var(--blue-light),#eef4ff);
+  box-shadow:0 0 0 4px rgba(26,69,200,.08);
+}
+.drop-zone.selected{
+  border-color:var(--green);border-style:solid;
+  background:linear-gradient(135deg,var(--green-light),#d0f8e4);
+  box-shadow:0 0 0 4px rgba(18,110,54,.08);
+}
+.drop-icon{font-size:40px;line-height:1}
+.drop-text{font-size:14px;font-weight:600;color:var(--text2)}
+.drop-sub{font-size:12px;color:var(--text3)}
+
+.selected-name{
+  display:none;margin-top:12px;
+  background:var(--green-light);border:1.5px solid var(--green-border);
+  border-radius:8px;padding:8px 14px;
+  font-size:12px;font-weight:600;color:var(--green);
+  display:flex;align-items:center;gap:7px;
+}
+.selected-name.show{display:flex}
+
+/* ══ OPTIONS GRID ══ */
+.options-grid{
+  display:grid;grid-template-columns:repeat(3,1fr) auto auto;
+  gap:12px;align-items:end;
+  margin-top:18px;padding-top:18px;
+  border-top:1px solid var(--border);
+}
+.opt-group{display:flex;flex-direction:column;gap:5px}
+.opt-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.4px;text-transform:uppercase}
+.opt-select{
+  background:var(--white);border:1.5px solid var(--border2);
+  color:var(--text1);border-radius:8px;padding:8px 12px;
+  font-size:12px;font-weight:500;outline:none;
+  transition:.15s;cursor:pointer;font-family:var(--font);
+}
+.opt-select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,78,216,.1)}
+.opt-check-wrap{display:flex;flex-direction:column;gap:8px;justify-content:flex-end}
+.opt-check{display:flex;align-items:center;gap:7px;cursor:pointer}
+.opt-check input{accent-color:var(--blue);width:14px;height:14px;cursor:pointer}
+.opt-check span{font-size:12px;color:var(--text2);font-weight:500}
+
+/* ══ STATUS BAR ══ */
+.status-bar{
+  background:linear-gradient(135deg,var(--blue-light),#eef4ff);
+  border:2px solid var(--blue-border);
+  border-radius:10px;padding:12px 18px;margin-bottom:20px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--shadow-sm);
+}
+.stat-chips{display:flex;align-items:center;gap:12px}
+.stat-chip{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:700;color:var(--text2);
+  background:var(--white);border:1.5px solid var(--border2);
+  padding:4px 12px;border-radius:8px;
+  box-shadow:0 1px 3px rgba(3,12,26,.07);
+}
+.stat-chip strong{color:var(--text1);font-weight:800}
+.status-actions{display:flex;gap:8px}
+
+/* ══ BUTTONS ══ */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:600;padding:9px 18px;border-radius:9px;
+  border:none;cursor:pointer;transition:.15s;white-space:nowrap;
+  font-family:var(--font);
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  color:#fff;box-shadow:0 2px 8px rgba(29,78,216,.3);
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(29,78,216,.4)}
+.btn-secondary{
+  background:var(--white);color:var(--text2);
+  border:1.5px solid var(--border2);
+  box-shadow:var(--shadow-sm);
+}
+.btn-secondary:hover{background:var(--bg);color:var(--text1);border-color:var(--blue);transform:translateY(-1px)}
+.btn-success{
+  background:linear-gradient(135deg,var(--green),#22c55e);
+  color:#fff;box-shadow:0 2px 8px rgba(21,128,61,.3);
+}
+.btn-success:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(21,128,61,.4)}
+.btn-teal{
+  background:linear-gradient(135deg,var(--teal),#06b6d4);
+  color:#fff;box-shadow:0 2px 8px rgba(14,116,144,.3);
+}
+.btn-teal:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(14,116,144,.4)}
+.btn-disabled{opacity:.4;cursor:not-allowed;pointer-events:none;transform:none!important;box-shadow:none!important}
+.btn-sm{padding:7px 14px;font-size:12px}
+.btn-lg{padding:12px 24px;font-size:14px}
+
+/* ══ PREVIEW ══ */
+.preview-card{
+  background:var(--white);border:2px solid var(--teal-border);
+  border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.preview-card::before{
+  content:'';display:block;height:3.5px;
+  background:linear-gradient(90deg,var(--teal),#06b6d4);
+}
+.preview-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;border-bottom:1.5px solid var(--teal-border);
+  background:linear-gradient(135deg,var(--teal-light),#d0f4fc);
+}
+.preview-title{
+  font-size:13px;font-weight:800;color:var(--text1);
+  display:flex;align-items:center;gap:8px;
+}
+.preview-title-label{
+  font-size:11px;font-weight:600;color:var(--text3);
+}
+.preview-actions{display:flex;gap:8px;align-items:center}
+.preview-body{
+  overflow:auto;min-height:420px;
+  background:var(--bg);
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:28px;
+}
+.preview-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:360px;width:100%;gap:14px;
+}
+.preview-empty-icon{font-size:56px;opacity:.3}
+.preview-empty-title{font-size:15px;font-weight:800;color:var(--text2)}
+.preview-empty-sub{font-size:12px;color:var(--text3);font-weight:500}
+
+/* ══ ACTION STEPS ══ */
+.steps-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.step-card{
+  border-radius:12px;padding:18px 16px;
+  display:flex;align-items:flex-start;gap:12px;
+  box-shadow:var(--shadow);
+  position:relative;overflow:hidden;
+}
+.step-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.step-card.s1{background:linear-gradient(160deg,var(--blue-light),#eef4ff);border:2px solid var(--blue-border)}
+.step-card.s1::before{background:linear-gradient(90deg,var(--blue),var(--blue2))}
+.step-card.s2{background:linear-gradient(160deg,var(--teal-light),#d0f0fc);border:2px solid var(--teal-border)}
+.step-card.s2::before{background:linear-gradient(90deg,var(--teal),#06b6d4)}
+.step-card.s3{background:linear-gradient(160deg,var(--green-light),#c8f8dc);border:2px solid var(--green-border)}
+.step-card.s3::before{background:linear-gradient(90deg,var(--green),#22c55e)}
+.step-num{
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;flex-shrink:0;
+}
+.s1 .step-num{background:linear-gradient(135deg,#bdd0ff,#d4e4ff);color:#142898;border:1.5px solid var(--blue-border)}
+.s2 .step-num{background:linear-gradient(135deg,#88d8f0,#a8e8f8);color:#054e72;border:1.5px solid var(--teal-border)}
+.s3 .step-num{background:linear-gradient(135deg,#88e0b0,#a8f0c8);color:#0b5028;border:1.5px solid var(--green-border)}
+.step-text{font-size:12px;font-weight:700;color:var(--text1);line-height:1.5}
+.step-text span{display:block;font-size:11px;font-weight:500;color:var(--text3);margin-top:3px}
+
+/* ══ LOG ══ */
+.log-wrap{
+  background:var(--white);border:2px solid var(--border2);
+  border-radius:10px;margin-top:16px;overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  display:none;
+}
+.log-wrap.show{display:block}
+.log-header{
+  padding:9px 14px;
+  background:linear-gradient(135deg,var(--bg),var(--bg2));
+  border-bottom:1.5px solid var(--border);
+  font-size:11px;font-weight:800;color:var(--text2);letter-spacing:.4px;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.log-body{
+  padding:12px 14px;font-family:monospace;font-size:11px;
+  max-height:130px;overflow-y:auto;color:var(--text3);
+  background:var(--bg);
+}
+.log-line{padding:1px 0;line-height:1.6;font-weight:500}
+.log-line.ok {color:#0b5028;font-weight:700}
+.log-line.err{color:#9e0f32;font-weight:700}
+.log-line.info{color:#142898;font-weight:700}
+
+/* ══ SVG CONTAINER ══ */
+.svg-container{max-width:100%;overflow:auto}
+
+/* ══ LIVE DOT ══ */
+.live-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;flex-shrink:0;display:inline-block}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ══ FOOTER ══ */
+.page-footer{
+  background:linear-gradient(135deg,#0f1e4a 0%,#1a2d6b 50%,#0f1e4a 100%);
+  margin-top:48px;padding:28px 40px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.pf-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pf-brand{font-size:12px;color:rgba(255,255,255,.55)}
+.pf-brand strong{color:rgba(255,255,255,.85);font-weight:700}
+.pf-right{font-size:11px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:6px}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-stats{flex-direction:row;align-items:stretch}
+  .options-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .steps-row{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .topbar-inner,.hero-inner,.content,.page-footer{padding-left:20px;padding-right:20px}
+  .hero-h1{font-size:22px}
+  .hero-stats{display:none}
+  .options-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOPBAR ══ -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tb-left">
+      <a class="tb-back" href="index.html">← 홈</a>
+      <div class="tb-divider"></div>
+      <div class="tb-title">🗂️ SVG 구조도 생성기 <span class="tb-badge">TOOL</span></div>
+    </div>
+    <div class="tb-date" id="tbDate">-</div>
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">SVG Structure Generator</div>
+      <h1 class="hero-h1">폴더 구조를<br><em>시각적 다이어그램</em>으로</h1>
+      <p class="hero-sub">폴더를 선택하면 파일 구조를 자동 분석해<br>SVG 구조도 HTML 파일로 저장합니다.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat hs-blue">
+        <div class="hs-val c-blue" id="heroFolders">—</div>
+        <div class="hs-lbl">분석된 폴더</div>
+      </div>
+      <div class="h-stat hs-teal">
+        <div class="hs-val c-teal" id="heroFiles">—</div>
+        <div class="hs-lbl">분석된 파일</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONTENT ══ -->
+<div class="content">
+
+  <!-- STEPS -->
+  <div class="steps-row">
+    <div class="step-card s1">
+      <div class="step-num">1</div>
+      <div class="step-text">폴더 선택<span>분석할 폴더를 클릭 또는 드래그</span></div>
+    </div>
+    <div class="step-card s2">
+      <div class="step-num">2</div>
+      <div class="step-text">옵션 설정<span>레이아웃·깊이·테마 선택</span></div>
+    </div>
+    <div class="step-card s3">
+      <div class="step-num">3</div>
+      <div class="step-text">HTML 저장<span>구조도_폴더명.html 로 저장</span></div>
+    </div>
+  </div>
+
+  <!-- FOLDER INPUT -->
+  <div class="sec-head">
+    <span class="sec-pill sp-blue">폴더 선택</span>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="card">
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('folderInput').click()">
+      <div class="drop-icon" id="dropIcon">📁</div>
+      <div class="drop-text" id="dropText">폴더를 드래그하거나 클릭해서 선택</div>
+      <div class="drop-sub">선택한 폴더의 파일 구조를 자동으로 분석합니다</div>
+    </div>
+    <input type="file" id="folderInput" webkitdirectory multiple style="display:none" onchange="onFolderSelected(this)">
+
+    <div class="selected-name" id="selectedFolderName">
+      <span class="live-dot"></span>
+      <span id="selectedFolderText">선택된 폴더 없음</span>
+    </div>
+
+    <!-- Options -->
+    <div class="options-grid">
+      <div class="opt-group">
+        <div class="opt-label">레이아웃</div>
+        <select class="opt-select" id="optLayout">
+          <option value="tree">🌲 트리 (수직)</option>
+          <option value="tree-h">➡️ 트리 (수평)</option>
+          <option value="radial">🌀 방사형</option>
+        </select>
+      </div>
+      <div class="opt-group">
+        <div class="opt-label">최대 깊이</div>
+        <select class="opt-select" id="optDepth">
+          <option value="3">3단계</option>
+          <option value="4" selected>4단계</option>
+          <option value="5">5단계</option>
+          <option value="99">전체</option>
+        </select>
+      </div>
+      <div class="opt-group">
+        <div class="opt-label">SVG 테마</div>
+        <select class="opt-select" id="optTheme">
+          <option value="light" selected>☀️ 라이트</option>
+          <option value="dark">🌙 다크</option>
+          <option value="blue">💙 블루</option>
+        </select>
+      </div>
+      <div class="opt-check-wrap">
+        <label class="opt-check">
+          <input type="checkbox" id="optHideHidden" checked>
+          <span>숨김 파일 제외</span>
+        </label>
+        <label class="opt-check">
+          <input type="checkbox" id="optShowExt" checked>
+          <span>확장자 표시</span>
+        </label>
+        <label class="opt-check">
+          <input type="checkbox" id="optHtmlOnly">
+          <span>HTML 파일만</span>
+        </label>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;justify-content:flex-end">
+        <button class="btn btn-primary btn-lg" id="btnGenerate" onclick="generateSVG()">✨ SVG 생성</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar" id="statusBar" style="display:none">
+    <div class="stat-chips">
+      <div class="stat-chip">📁 폴더 <strong id="statFolders">0</strong></div>
+      <div class="stat-chip">📄 파일 <strong id="statFiles">0</strong></div>
+      <div class="stat-chip"><span class="live-dot"></span> 분석 완료</div>
+    </div>
+    <div class="status-actions">
+      <button class="btn btn-secondary btn-sm" onclick="showLog()">🗒️ 로그</button>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="sec-head">
+    <span class="sec-pill sp-teal">SVG 미리보기</span>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="preview-card">
+    <div class="preview-header">
+      <div class="preview-title">
+        🖼️ 구조도
+        <span class="preview-title-label" id="previewLabel">— 폴더를 선택하면 자동 생성됩니다</span>
+      </div>
+      <div class="preview-actions">
+        <button class="btn btn-secondary btn-sm btn-disabled" id="btnCopy" onclick="copySVG()">📋 SVG 복사</button>
+        <button class="btn btn-success btn-sm btn-disabled" id="btnSave" onclick="saveSVGFile()">💾 HTML 저장</button>
+      </div>
+    </div>
+    <div class="preview-body" id="previewBody">
+      <div class="preview-empty">
+        <div class="preview-empty-icon">🗺️</div>
+        <div class="preview-empty-title">아직 생성된 구조도가 없습니다</div>
+        <div class="preview-empty-sub">폴더를 선택하면 자동으로 SVG 구조도가 생성됩니다</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOG -->
+  <div class="log-wrap" id="logWrap">
+    <div class="log-header">
+      <span>실행 로그</span>
+      <button class="btn btn-secondary btn-sm" style="padding:3px 10px;font-size:11px" onclick="showLog()">닫기</button>
+    </div>
+    <div class="log-body" id="logBox"></div>
+  </div>
+
+</div><!-- /content -->
+
+<!-- ══ FOOTER ══ -->
+<div class="page-footer">
+  <div class="pf-inner">
+    <div class="pf-brand"><strong>AX BIZ GROUP</strong> · CEO 마스터 플랫폼 v2.0 · SVG 구조도 생성기</div>
+    <div class="pf-right"><span class="live-dot"></span> <span id="footerDate">-</span></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// State
+// ═══════════════════════════════════════════════════════
+let fileTree = null;
+let currentFolderName = '';
+let generatedSVG = '';
+let generatedHTML = '';
+
+// Dates
+const today = new Date().toISOString().slice(0,10);
+document.getElementById('tbDate').textContent = today;
+document.getElementById('footerDate').textContent = today;
+
+// ═══════════════════════════════════════════════════════
+// Folder selection
+// ═══════════════════════════════════════════════════════
+function onFolderSelected(input) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+
+  const hideHidden = document.getElementById('optHideHidden').checked;
+  const maxDepth = parseInt(document.getElementById('optDepth').value);
+  const htmlOnly = document.getElementById('optHtmlOnly').checked;
+
+  const firstPath = files[0].webkitRelativePath;
+  currentFolderName = firstPath.split('/')[0];
+
+  // Update drop zone
+  const dz = document.getElementById('dropZone');
+  dz.classList.add('selected');
+  document.getElementById('dropIcon').textContent = '✅';
+  document.getElementById('dropText').textContent = currentFolderName;
+
+  // Show selected name badge
+  const sn = document.getElementById('selectedFolderName');
+  sn.classList.add('show');
+  const filteredCount = htmlOnly ? files.filter(f => f.name.toLowerCase().endsWith('.html')).length : files.length;
+  document.getElementById('selectedFolderText').textContent =
+    `${currentFolderName} — ${filteredCount.toLocaleString()}개 파일 ${htmlOnly ? '(HTML 전용)' : '로드됨'}`;
+
+  // Build tree
+  fileTree = buildTree(files, hideHidden, maxDepth, htmlOnly);
+
+  // Stats
+  const {folders, fileCount} = countTree(fileTree);
+  document.getElementById('statFolders').textContent = folders;
+  document.getElementById('statFiles').textContent = fileCount;
+  document.getElementById('heroFolders').textContent = folders;
+  document.getElementById('heroFiles').textContent = fileCount;
+  document.getElementById('statusBar').style.display = 'flex';
+
+  logMsg(`폴더 로드: ${currentFolderName} — ${folders}개 폴더, ${fileCount}개 파일`, 'ok');
+  generateSVG();
+}
+
+// ═══════════════════════════════════════════════════════
+// Tree builder
+// ═══════════════════════════════════════════════════════
+function buildTree(files, hideHidden, maxDepth, htmlOnly) {
+  const root = {name: '', children: {}, files: [], depth: 0};
+  files.forEach(file => {
+    const parts = file.webkitRelativePath.split('/');
+    if (parts.length > maxDepth + 1) return;
+    // HTML only filter — apply to files (last segment), not folders
+    if (htmlOnly && parts.length > 0) {
+      const fname = parts[parts.length - 1];
+      if (!fname.toLowerCase().endsWith('.html')) return;
+    }
+    let node = root;
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      if (hideHidden && part.startsWith('.')) break;
+      if (i === parts.length - 1) {
+        node.files.push({name: part, size: file.size, type: getFileType(part)});
+      } else {
+        if (!node.children[part]) {
+          node.children[part] = {name: part, children: {}, files: [], depth: i};
+        }
+        node = node.children[part];
+      }
+    }
+  });
+  return root;
+}
+
+function countTree(node) {
+  let folders = 0, fileCount = 0;
+  if (!node) return {folders, fileCount};
+  fileCount += node.files.length;
+  for (const key in node.children) {
+    folders++;
+    const sub = countTree(node.children[key]);
+    folders += sub.folders;
+    fileCount += sub.fileCount;
+  }
+  return {folders, fileCount};
+}
+
+// ═══════════════════════════════════════════════════════
+// File type classifier
+// ═══════════════════════════════════════════════════════
+function getFileType(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  const types = {
+    html:'web', htm:'web', css:'web', js:'web', ts:'web', jsx:'web', tsx:'web', vue:'web', svelte:'web',
+    py:'code', java:'code', cpp:'code', c:'code', cs:'code', go:'code', rs:'code', rb:'code', php:'code', swift:'code', kt:'code',
+    json:'data', xml:'data', yaml:'data', yml:'data', toml:'data', csv:'data', sql:'data',
+    md:'doc', txt:'doc', pdf:'doc', docx:'doc', doc:'doc', pptx:'doc', ppt:'doc', xlsx:'doc', xls:'doc',
+    png:'image', jpg:'image', jpeg:'image', gif:'image', svg:'image', webp:'image', ico:'image', bmp:'image',
+    mp4:'media', mp3:'media', wav:'media', avi:'media', mov:'media', mkv:'media', wmv:'media',
+    zip:'archive', rar:'archive', tar:'archive', gz:'archive', '7z':'archive',
+    ttf:'font', woff:'font', woff2:'font', eot:'font', otf:'font',
+    sh:'script', bat:'script', ps1:'script',
+    env:'config', gitignore:'config', dockerfile:'config', lock:'config',
+  };
+  return types[ext] || 'other';
+}
+
+// Light-friendly type colors
+const TYPE_COLORS_LIGHT = {
+  web:     {fill:'#dbeafe', stroke:'#1d4ed8', text:'#1e40af', icon:'🌐'},
+  code:    {fill:'#ffedd5', stroke:'#c2410c', text:'#9a3412', icon:'⚙️'},
+  data:    {fill:'#ede9fe', stroke:'#6d28d9', text:'#5b21b6', icon:'📊'},
+  doc:     {fill:'#dcfce7', stroke:'#15803d', text:'#166534', icon:'📄'},
+  image:   {fill:'#cffafe', stroke:'#0e7490', text:'#155e75', icon:'🖼️'},
+  media:   {fill:'#fee2e2', stroke:'#dc2626', text:'#991b1b', icon:'🎬'},
+  archive: {fill:'#fef3c7', stroke:'#92400e', text:'#78350f', icon:'📦'},
+  font:    {fill:'#f3e8ff', stroke:'#6d28d9', text:'#5b21b6', icon:'🔤'},
+  script:  {fill:'#ccfbf1', stroke:'#0f766e', text:'#134e4a', icon:'📜'},
+  config:  {fill:'#f1f5f9', stroke:'#475569', text:'#334155', icon:'⚙️'},
+  other:   {fill:'#f8fafc', stroke:'#64748b', text:'#475569', icon:'📎'},
+};
+
+const TYPE_COLORS_DARK = {
+  web:     {fill:'#1a3547', stroke:'#60a5fa', text:'#93c5fd', icon:'🌐'},
+  code:    {fill:'#2d1f0a', stroke:'#fb923c', text:'#fdba74', icon:'⚙️'},
+  data:    {fill:'#231d3a', stroke:'#c084fc', text:'#ddd6fe', icon:'📊'},
+  doc:     {fill:'#132c1a', stroke:'#4ade80', text:'#86efac', icon:'📄'},
+  image:   {fill:'#0e2d3a', stroke:'#22d3ee', text:'#a5f3fc', icon:'🖼️'},
+  media:   {fill:'#2d1117', stroke:'#f87171', text:'#fca5a5', icon:'🎬'},
+  archive: {fill:'#2d220a', stroke:'#fbbf24', text:'#fde68a', icon:'📦'},
+  font:    {fill:'#1f1b3a', stroke:'#a78bfa', text:'#ddd6fe', icon:'🔤'},
+  script:  {fill:'#0d2d2d', stroke:'#2dd4bf', text:'#99f6e4', icon:'📜'},
+  config:  {fill:'#1e1e2a', stroke:'#94a3b8', text:'#cbd5e1', icon:'⚙️'},
+  other:   {fill:'#1c2128', stroke:'#64748b', text:'#94a3b8', icon:'📎'},
+};
+
+const FOLDER_COLORS_LIGHT = ['#1d4ed8','#15803d','#6d28d9','#c2410c','#0e7490','#dc2626','#92400e','#7c3aed','#0f766e','#be123c'];
+const FOLDER_COLORS_DARK  = ['#60a5fa','#4ade80','#c084fc','#fb923c','#22d3ee','#f87171','#fbbf24','#a78bfa','#2dd4bf','#fb7185'];
+
+function getTypeColors(theme) {
+  return theme === 'dark' || theme === 'blue' ? TYPE_COLORS_DARK : TYPE_COLORS_LIGHT;
+}
+function getFolderColors(theme) {
+  return theme === 'dark' || theme === 'blue' ? FOLDER_COLORS_DARK : FOLDER_COLORS_LIGHT;
+}
+
+// ═══════════════════════════════════════════════════════
+// SVG Generator
+// ═══════════════════════════════════════════════════════
+function generateSVG() {
+  if (!fileTree) { alert('먼저 폴더를 선택해주세요.'); return; }
+
+  const layout   = document.getElementById('optLayout').value;
+  const theme    = document.getElementById('optTheme').value;
+  const showExt  = document.getElementById('optShowExt').checked;
+  const htmlOnly = document.getElementById('optHtmlOnly').checked;
+
+  logMsg(`SVG 생성 시작${htmlOnly?' (HTML 파일만)':''}...`, 'info');
+
+  let svg = '';
+  if (layout === 'tree') {
+    svg = generateVerticalTree(fileTree, theme, showExt);
+  } else if (layout === 'tree-h') {
+    svg = generateHorizontalTree(fileTree, theme, showExt);
+  } else {
+    svg = generateRadialTree(fileTree, theme, showExt);
+  }
+
+  generatedSVG = svg;
+  generatedHTML = buildHTMLPage(svg, currentFolderName, theme);
+
+  document.getElementById('previewBody').innerHTML = `<div class="svg-container">${svg}</div>`;
+  document.getElementById('previewLabel').textContent = `— ${currentFolderName}`;
+
+  document.getElementById('btnCopy').classList.remove('btn-disabled');
+  document.getElementById('btnSave').classList.remove('btn-disabled');
+
+  logMsg(`SVG 생성 완료!`, 'ok');
+}
+
+// ─────────────────────────────────────────
+// Vertical Tree
+// ─────────────────────────────────────────
+function generateVerticalTree(tree, theme, showExt) {
+  const T = {
+    dark:  {bg:'#0d1117', bg2:'#161b22', border:'#30363d', text:'#e6edf3', text2:'#7d8590', sep:'rgba(255,255,255,.06)'},
+    light: {bg:'#ffffff', bg2:'#f6f8fa', border:'#dde3ef', text:'#08111f', text2:'#6e83a0', sep:'rgba(8,17,31,.06)'},
+    blue:  {bg:'#0a1628', bg2:'#0f2040', border:'#1e3a6e', text:'#e0eeff', text2:'#7db8e8', sep:'rgba(255,255,255,.06)'},
+  };
+  const t = T[theme] || T.light;
+  const TC = getTypeColors(theme);
+  const FC = getFolderColors(theme);
+
+  const rows = [];
+  let ci = 0;
+
+  function walk(node, depth, isLast) {
+    const color = depth === 0
+      ? (theme==='light' ? '#1d4ed8' : '#60a5fa')
+      : FC[ci++ % FC.length];
+    rows.push({type:'folder', name: node.name || currentFolderName, depth, color});
+
+    const childKeys = Object.keys(node.children).sort();
+    const allItems = [
+      ...childKeys.map(k => ({isDir: true, key: k})),
+      ...node.files.map(f => ({isDir: false, file: f}))
+    ];
+    allItems.forEach((item, idx) => {
+      const last = idx === allItems.length - 1;
+      if (item.isDir) {
+        walk(node.children[item.key], depth + 1, last);
+      } else {
+        const ft = item.file.type;
+        const c = TC[ft] || TC.other;
+        const fname = showExt ? item.file.name : item.file.name.replace(/\.[^.]+$/, '');
+        rows.push({type:'file', name: fname, depth: depth+1, color: c.stroke, fill: c.fill, text: c.text, icon: c.icon, ft});
+      }
+    });
+  }
+  walk(fileTree, 0, true);
+
+  const ROW_H = 32, INDENT = 24, PAD_L = 28, PAD_T = 62;
+  const W = Math.max(960, 560);
+  const H = PAD_T + rows.length * ROW_H + 72;
+  const lines = [];
+
+  rows.forEach((row, i) => {
+    const y = PAD_T + i * ROW_H + ROW_H / 2;
+    const x = PAD_L + row.depth * INDENT;
+
+    if (row.type === 'folder') {
+      // Folder icon bg
+      lines.push(`<rect x="${x}" y="${y-10}" width="20" height="18" rx="5" fill="${row.color}20" stroke="${row.color}" stroke-width="1.5"/>`);
+      lines.push(`<text x="${x+10}" y="${y+2}" text-anchor="middle" font-size="9">📁</text>`);
+      lines.push(`<text x="${x+26}" y="${y+5}" font-size="13" font-weight="700" fill="${row.color}" font-family="'Segoe UI',sans-serif" letter-spacing="-.2">${escXML(row.name)}</text>`);
+    } else {
+      lines.push(`<rect x="${x}" y="${y-10}" width="18" height="16" rx="4" fill="${row.fill}" stroke="${row.color}" stroke-width="1.2"/>`);
+      lines.push(`<text x="${x+9}" y="${y+2}" text-anchor="middle" font-size="8">${row.icon}</text>`);
+      lines.push(`<text x="${x+24}" y="${y+5}" font-size="12" fill="${t.text}" font-family="'Segoe UI',sans-serif" opacity=".88">${escXML(row.name)}</text>`);
+      if (showExt && row.name.includes('.')) {
+        const ext = row.name.split('.').pop().toUpperCase();
+        const tw = ext.length * 5.5 + 10;
+        const bx = x + 24 + row.name.length * 6.7 + 8;
+        lines.push(`<rect x="${bx}" y="${y-7}" width="${tw}" height="13" rx="4" fill="${row.fill}" stroke="${row.color}" stroke-width="1" opacity=".8"/>`);
+        lines.push(`<text x="${bx+tw/2}" y="${y+3}" text-anchor="middle" font-size="8" fill="${row.color}" font-family="monospace" font-weight="700">${escXML(ext)}</text>`);
+      }
+    }
+
+    // Indent guide line
+    if (row.depth > 0) {
+      const px = PAD_L + (row.depth - 1) * INDENT + 9;
+      lines.push(`<line x1="${px}" y1="${y}" x2="${x}" y2="${y}" stroke="${t.border}" stroke-width="1" stroke-dasharray="3,2" opacity=".5"/>`);
+    }
+
+    // Row separator (subtle)
+    if (i < rows.length - 1) {
+      lines.push(`<line x1="${PAD_L}" y1="${y + ROW_H/2 - 0.5}" x2="${W-PAD_L}" y2="${y + ROW_H/2 - 0.5}" stroke="${t.sep}" stroke-width="1"/>`);
+    }
+  });
+
+  // Legend
+  const legendTypes = ['web','code','data','doc','image','media','archive','other'];
+  let lx = PAD_L;
+  const ly = H - 44;
+  const legend = legendTypes.map(lt => {
+    const lc = TC[lt];
+    const item = `<g>
+      <rect x="${lx}" y="${ly+1}" width="9" height="9" rx="2.5" fill="${lc.fill}" stroke="${lc.stroke}" stroke-width="1"/>
+      <text x="${lx+13}" y="${ly+9}" font-size="10" fill="${t.text2}" font-family="'Segoe UI',sans-serif">${lt}</text>
+    </g>`;
+    lx += lt.length * 6 + 34;
+    return item;
+  }).join('');
+
+  const titleColor = theme === 'light' ? '#08111f' : '#e6edf3';
+  const subtitleColor = theme === 'light' ? '#6e83a0' : '#7d8590';
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="max-width:100%;font-family:'Segoe UI',sans-serif;border-radius:12px">
+  <defs>
+    <linearGradient id="hdrGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="${theme==='light'?'#eff4ff':theme==='blue'?'#0f2040':'#161b22'}"/>
+      <stop offset="100%" stop-color="${theme==='light'?'#f4f6fb':theme==='blue'?'#0a1628':'#0d1117'}"/>
+    </linearGradient>
+  </defs>
+  <rect width="${W}" height="${H}" fill="${t.bg}" rx="12"/>
+  <!-- Header -->
+  <rect x="0" y="0" width="${W}" height="50" fill="url(#hdrGrad)" rx="12"/>
+  <rect x="0" y="38" width="${W}" height="12" fill="url(#hdrGrad)"/>
+  <rect x="0" y="48" width="${W}" height="3" fill="${t.border}" opacity=".6"/>
+  <!-- Title -->
+  <text x="${PAD_L}" y="32" font-size="15" font-weight="800" fill="${titleColor}" font-family="'Segoe UI',sans-serif" letter-spacing="-.3">📂 ${escXML(currentFolderName)}</text>
+  <text x="${PAD_L + escXML(currentFolderName).length * 9 + 32}" y="32" font-size="12" fill="${subtitleColor}" font-family="'Segoe UI',sans-serif"> 파일 구조도</text>
+  <text x="${W-PAD_L}" y="32" text-anchor="end" font-size="11" fill="${subtitleColor}" font-family="'Segoe UI',sans-serif">${today}</text>
+  <!-- Tree rows -->
+  ${lines.join('\n  ')}
+  <!-- Legend label -->
+  <text x="${PAD_L}" y="${ly-10}" font-size="9" fill="${t.text2}" font-family="'Segoe UI',sans-serif" letter-spacing="1" text-transform="uppercase" opacity=".7">FILE TYPES ·</text>
+  ${legend}
+</svg>`;
+}
+
+// ─────────────────────────────────────────
+// Horizontal Tree
+// ─────────────────────────────────────────
+function generateHorizontalTree(tree, theme, showExt) {
+  const T = {
+    dark:  {bg:'#0d1117', bg2:'#161b22', border:'#30363d', text:'#e6edf3', text2:'#7d8590'},
+    light: {bg:'#ffffff', bg2:'#f6f8fa', border:'#dde3ef', text:'#08111f', text2:'#6e83a0'},
+    blue:  {bg:'#0a1628', bg2:'#0f2040', border:'#1e3a6e', text:'#e0eeff', text2:'#7db8e8'},
+  };
+  const t = T[theme] || T.light;
+  const TC = getTypeColors(theme);
+  const FC = getFolderColors(theme);
+
+  const nodes = [], edges = [];
+  let maxDepth = 0, leafCount = 0;
+
+  function measure(node, depth, parentIdx) {
+    maxDepth = Math.max(maxDepth, depth);
+    const idx = nodes.length;
+    nodes.push({
+      name: node.name || currentFolderName, depth, parentIdx,
+      isFolder: true, children: [], leafStart:0, leafEnd:0,
+      color: FC[depth % FC.length]
+    });
+    if (parentIdx !== null) { edges.push({from:parentIdx,to:idx}); nodes[parentIdx].children.push(idx); }
+
+    Object.keys(node.children).sort().forEach(k => measure(node.children[k], depth+1, idx));
+
+    node.files.forEach(f => {
+      const fi = nodes.length;
+      const fname = showExt ? f.name : f.name.replace(/\.[^.]+$/, '');
+      const lc = TC[f.type] || TC.other;
+      nodes.push({name:fname, depth:depth+1, parentIdx:idx, isFolder:false, isLeaf:true,
+        color:lc.stroke, fill:lc.fill, text:lc.text, icon:lc.icon, leafStart:0, leafEnd:0});
+      edges.push({from:idx, to:fi});
+      nodes[idx].children.push(fi);
+    });
+
+    if (!Object.keys(node.children).length && !node.files.length) {
+      nodes[idx].isLeaf = true;
+    }
+  }
+
+  measure(tree, 0, null);
+
+  function assignLeaf(ni) {
+    const nd = nodes[ni];
+    if (!nd.children.length) { nd.leafStart = nd.leafEnd = leafCount++; return; }
+    let s=Infinity, e=-Infinity;
+    nd.children.forEach(c => { assignLeaf(c); s=Math.min(s,nodes[c].leafStart); e=Math.max(e,nodes[c].leafEnd); });
+    nd.leafStart=s; nd.leafEnd=e;
+  }
+  assignLeaf(0);
+
+  const COL_W=190, ROW_H=30, PAD_L=20, PAD_T=58;
+  const total = leafCount || 1;
+  const W = PAD_L*2 + (maxDepth+1)*COL_W;
+  const H = PAD_T + total*ROW_H + 48;
+
+  const ny = nd => PAD_T + ((nd.leafStart+nd.leafEnd)/2+.5)*ROW_H;
+  const svgLines = [];
+
+  edges.forEach(e => {
+    const fr = nodes[e.from], to = nodes[e.to];
+    const x1=PAD_L+fr.depth*COL_W+82, y1=ny(fr);
+    const x2=PAD_L+to.depth*COL_W,    y2=ny(to);
+    const mx=(x1+x2)/2;
+    svgLines.push(`<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="${to.color}" stroke-width="1.2" opacity=".35"/>`);
+  });
+
+  nodes.forEach(nd => {
+    const x=PAD_L+nd.depth*COL_W, y=ny(nd), w=84, h=26;
+    if (nd.isFolder) {
+      svgLines.push(`<rect x="${x}" y="${y-h/2}" width="${w}" height="${h}" rx="7" fill="${nd.color}1a" stroke="${nd.color}" stroke-width="1.5"/>`);
+      const lbl = nd.name.length>10 ? nd.name.slice(0,9)+'…' : nd.name;
+      svgLines.push(`<text x="${x+w/2}" y="${y+5}" text-anchor="middle" font-size="11" font-weight="700" fill="${nd.color}" font-family="'Segoe UI',sans-serif">${escXML(lbl)}</text>`);
+    } else {
+      svgLines.push(`<rect x="${x}" y="${y-h/2}" width="${w}" height="${h}" rx="6" fill="${nd.fill}" stroke="${nd.color}" stroke-width="1"/>`);
+      const lbl = nd.name.length>11 ? nd.name.slice(0,10)+'…' : nd.name;
+      svgLines.push(`<text x="${x+w/2}" y="${y+5}" text-anchor="middle" font-size="10" fill="${nd.color}" font-family="'Segoe UI',sans-serif">${escXML(lbl)}</text>`);
+    }
+  });
+
+  const titleColor = theme==='light'?'#08111f':'#e6edf3';
+  const subtitleColor = theme==='light'?'#6e83a0':'#7d8590';
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="max-width:100%;font-family:'Segoe UI',sans-serif;border-radius:12px">
+  <rect width="${W}" height="${H}" fill="${t.bg}" rx="12"/>
+  <rect x="0" y="0" width="${W}" height="48" fill="${t.bg2}" rx="12"/>
+  <rect x="0" y="36" width="${W}" height="12" fill="${t.bg2}"/>
+  <rect x="0" y="47" width="${W}" height="2" fill="${t.border}" opacity=".5"/>
+  <text x="20" y="30" font-size="15" font-weight="800" fill="${titleColor}" font-family="'Segoe UI',sans-serif">📂 ${escXML(currentFolderName)} — 수평 구조도</text>
+  <text x="${W-20}" y="30" text-anchor="end" font-size="11" fill="${subtitleColor}">${today}</text>
+  ${svgLines.join('\n  ')}
+</svg>`;
+}
+
+// ─────────────────────────────────────────
+// Radial Tree
+// ─────────────────────────────────────────
+function generateRadialTree(tree, theme, showExt) {
+  const T = {
+    dark:  {bg:'#0d1117', text:'#e6edf3', text2:'#7d8590'},
+    light: {bg:'#f8faff', text:'#08111f', text2:'#6e83a0'},
+    blue:  {bg:'#0a1628', text:'#e0eeff', text2:'#7db8e8'},
+  };
+  const t = T[theme] || T.light;
+  const TC = getTypeColors(theme);
+  const FC = getFolderColors(theme);
+
+  const SIZE = 960, CX=SIZE/2, CY=SIZE/2;
+  const RADII=[0,130,240,340,430];
+  const lines=[];
+
+  function countLeaves(node) {
+    const ck=Object.keys(node.children);
+    if (!ck.length && !node.files.length) return 1;
+    let n=node.files.length;
+    ck.forEach(k => n+=countLeaves(node.children[k]));
+    return n||1;
+  }
+  const totalLeaves=countLeaves(tree);
+
+  function drawNode(node, depth, sf, ef, px, py, ci) {
+    const ang=(sf+ef)/2*2*Math.PI-Math.PI/2;
+    const r=RADII[Math.min(depth,RADII.length-1)];
+    const x=CX+r*Math.cos(ang), y=CY+r*Math.sin(ang);
+    const color=depth===0?(theme==='light'?'#1d4ed8':'#60a5fa'):FC[ci%FC.length];
+
+    if (depth>0) {
+      lines.push(`<path d="M${px.toFixed(1)},${py.toFixed(1)} Q${((px+x)/2).toFixed(1)},${((py+y)/2).toFixed(1)} ${x.toFixed(1)},${y.toFixed(1)}" fill="none" stroke="${color}" stroke-width="1.5" opacity=".3"/>`);
+    }
+
+    const nr=depth===0?30:20;
+    lines.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${nr}" fill="${color}18" stroke="${color}" stroke-width="1.5"/>`);
+
+    const label=node.name||currentFolderName;
+    const short=label.length>11?label.slice(0,10)+'…':label;
+    const ta=x<CX?'end':'start';
+    const lx=x+(x<CX?-(nr+7):(nr+7));
+    lines.push(`<text x="${lx.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="${ta}" font-size="${depth===0?12:10}" font-weight="700" fill="${color}" font-family="'Segoe UI',sans-serif">${escXML(short)}</text>`);
+
+    const ck=Object.keys(node.children).sort();
+    let cur=sf;
+
+    node.files.forEach(f => {
+      const frac=1/totalLeaves;
+      const fa=(cur+frac/2)*2*Math.PI-Math.PI/2;
+      const fr=RADII[Math.min(depth+1,RADII.length-1)];
+      const fx=CX+fr*Math.cos(fa), fy=CY+fr*Math.sin(fa);
+      const lc=TC[f.type]||TC.other;
+      lines.push(`<path d="M${x.toFixed(1)},${y.toFixed(1)} Q${((x+fx)/2).toFixed(1)},${((y+fy)/2).toFixed(1)} ${fx.toFixed(1)},${fy.toFixed(1)}" fill="none" stroke="${lc.stroke}" stroke-width="1" opacity=".3"/>`);
+      lines.push(`<rect x="${(fx-9).toFixed(1)}" y="${(fy-9).toFixed(1)}" width="18" height="16" rx="4" fill="${lc.fill}" stroke="${lc.stroke}" stroke-width="1"/>`);
+      const fn=showExt?f.name:f.name.replace(/\.[^.]+$/,'');
+      const sfn=fn.length>10?fn.slice(0,9)+'…':fn;
+      const fta=fx<CX?'end':'start';
+      const flx=fx+(fx<CX?-14:14);
+      lines.push(`<text x="${flx.toFixed(1)}" y="${(fy+4).toFixed(1)}" text-anchor="${fta}" font-size="9" fill="${lc.text}" font-family="'Segoe UI',sans-serif">${escXML(sfn)}</text>`);
+      cur+=frac;
+    });
+
+    ck.forEach((k,ki) => {
+      const cl=countLeaves(node.children[k]);
+      const cf=cl/totalLeaves;
+      drawNode(node.children[k], depth+1, cur, cur+cf, x, y, ci+ki+1);
+      cur+=cf;
+    });
+  }
+
+  drawNode(tree, 0, 0, 1, CX, CY, 0);
+
+  const titleColor=theme==='light'?'#08111f':'#e6edf3';
+  const subtitleColor=theme==='light'?'#6e83a0':'#7d8590';
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}" viewBox="0 0 ${SIZE} ${SIZE}" style="max-width:100%;font-family:'Segoe UI',sans-serif;border-radius:12px">
+  <rect width="${SIZE}" height="${SIZE}" fill="${t.bg}" rx="12"/>
+  <text x="${CX}" y="34" text-anchor="middle" font-size="15" font-weight="800" fill="${titleColor}" font-family="'Segoe UI',sans-serif">📂 ${escXML(currentFolderName)} — 방사형 구조도</text>
+  <text x="${CX}" y="52" text-anchor="middle" font-size="11" fill="${subtitleColor}">${today}</text>
+  ${lines.join('\n  ')}
+</svg>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// HTML page builder
+// ═══════════════════════════════════════════════════════
+function buildHTMLPage(svg, folderName, theme) {
+  const isLight = theme === 'light';
+  const bg   = isLight ? '#f4f6fb' : theme==='blue' ? '#0a1628' : '#0d1117';
+  const text1= isLight ? '#08111f' : '#e6edf3';
+  const text3= isLight ? '#6e83a0' : '#7d8590';
+  const card = isLight ? '#ffffff' : theme==='blue'?'#0f2040':'#161b22';
+  const border= isLight ? '#dde3ef' : '#30363d';
+  return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>구조도_${escXML(folderName)}</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:${bg};font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;padding:40px 24px}
+.wrap{max-width:1280px;margin:0 auto}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1.5px solid ${border}}
+.title{font-size:20px;font-weight:800;color:${text1};letter-spacing:-.4px}
+.meta{font-size:11px;color:${text3}}
+.svg-box{background:${card};border:1.5px solid ${border};border-radius:14px;overflow:auto;box-shadow:0 4px 20px rgba(0,0,0,${isLight?'.07':'.4'});padding:16px}
+.footer{margin-top:28px;text-align:center;font-size:11px;color:${text3}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="title">📂 ${escXML(folderName)} — 파일 구조도</div>
+    <div class="meta">생성: ${today} &nbsp;·&nbsp; AX BIZ SVG 구조도 생성기</div>
+  </div>
+  <div class="svg-box">${svg}</div>
+  <div class="footer">AX BIZ GROUP CEO 마스터 플랫폼 v2.0 &nbsp;·&nbsp; SVG 구조도 생성기</div>
+</div>
+</body>
+</html>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// Save / Copy
+// ═══════════════════════════════════════════════════════
+async function saveSVGFile() {
+  if (!generatedHTML) return;
+  const fileName = `구조도_${currentFolderName}.html`;
+
+  if (window.showSaveFilePicker) {
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: fileName,
+        types: [{description:'HTML 파일', accept:{'text/html':['.html']}}],
+        startIn: 'downloads',
+      });
+      const writable = await handle.createWritable();
+      await writable.write(generatedHTML);
+      await writable.close();
+      logMsg(`저장 완료: ${handle.name}`, 'ok');
+
+      const btn = document.getElementById('btnSave');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✅ 저장됨!';
+      setTimeout(() => btn.innerHTML = orig, 2200);
+      return;
+    } catch(e) {
+      if (e.name === 'AbortError') return;
+    }
+  }
+
+  const blob = new Blob([generatedHTML], {type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = fileName; a.click();
+  URL.revokeObjectURL(url);
+  logMsg(`다운로드: ${fileName}`, 'ok');
+}
+
+async function copySVG() {
+  if (!generatedSVG) return;
+  try {
+    await navigator.clipboard.writeText(generatedSVG);
+    logMsg('SVG 코드가 클립보드에 복사됐습니다.', 'ok');
+    const btn = document.getElementById('btnCopy');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ 복사됨!';
+    setTimeout(() => btn.innerHTML = orig, 2000);
+  } catch(e) {
+    logMsg('복사 실패: ' + e.message, 'err');
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// Drag & Drop
+// ═══════════════════════════════════════════════════════
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('drag-over');
+  document.getElementById('folderInput').click();
+});
+
+// ═══════════════════════════════════════════════════════
+// Helpers
+// ═══════════════════════════════════════════════════════
+function escXML(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function logMsg(msg, type) {
+  const log = document.getElementById('logBox');
+  const line = document.createElement('div');
+  line.className = `log-line ${type||''}`;
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+}
+
+function showLog() {
+  document.getElementById('logWrap').classList.toggle('show');
+}
+
+logMsg('SVG 구조도 생성기 준비 완료. 폴더를 선택하세요.', 'info');
+</script>
+</body>
+</html>

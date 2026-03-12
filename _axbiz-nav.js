@@ -34,6 +34,9 @@ const AX_NAV = [
   {group:'고객사', color:'rose', dot:'#be123c', items:[
     {key:'clients',      icon:'🏢',  label:'고객사 대시보드',      href:'axbiz-clients.html'},
   ]},
+  {group:'도구', color:'teal', dot:'#0891b2', items:[
+    {key:'svg-gen',      icon:'🗂️', label:'SVG 구조도 생성기',     href:'axbiz-svg-gen.html'},
+  ]},
 ];
 
 const PROJ_SUBKEYS = ['proj-internal','proj-client','projects'];
