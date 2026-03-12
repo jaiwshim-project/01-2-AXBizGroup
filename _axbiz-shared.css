@@ -62,8 +62,8 @@ body{background:var(--bg-base);color:var(--text-1);font-family:var(--font);font-
 /* ── Page Footer ── */
 .page-footer{
   flex-shrink:0;
-  background:var(--bg-card);
-  border-top:1px solid var(--border);
+  background:linear-gradient(135deg,#0f1e4a 0%,#1a2d6b 50%,#0f1e4a 100%);
+  border-top:1px solid rgba(255,255,255,.08);
   padding:0 28px;
 }
 .page-footer-inner{
@@ -72,17 +72,17 @@ body{background:var(--bg-base);color:var(--text-1);font-family:var(--font);font-
 }
 .pf-brand{display:flex;align-items:center;gap:10px}
 .pf-logo-img{height:28px;width:auto;display:block}
-.pf-sep{width:1px;height:14px;background:var(--border)}
-.pf-ver{font-size:11px;color:var(--text-3)}
+.pf-sep{width:1px;height:14px;background:rgba(255,255,255,.2)}
+.pf-ver{font-size:11px;color:rgba(255,255,255,.9)}
 .pf-nav{display:flex;align-items:center;gap:2px}
 .pf-nav a{
-  font-size:11px;color:var(--text-2);text-decoration:none;
+  font-size:11px;color:rgba(255,255,255,.92);text-decoration:none;
   padding:4px 9px;border-radius:6px;
   transition:background .12s,color .12s;
 }
-.pf-nav a:hover{background:var(--bg-hover);color:var(--text-1)}
-.pf-right{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-3)}
-.pf-right .live-dot{margin-right:0}
+.pf-nav a:hover{background:rgba(255,255,255,.12);color:#fff}
+.pf-right{display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,255,255,.9)}
+.pf-right .live-dot{margin-right:0;background:#4ade80}
 .live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:5px;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 

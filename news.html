@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>뉴스 & 인사이트 — AX BIZ GROUP CEO Platform</title>
+<link rel="stylesheet" href="_axbiz-shared.css">
+<style>
+  /* ── 뉴스 페이지 전용 ── */
+  :root{
+    --blue-a:#1d4ed8;--indigo-a:#4338ca;
+    --bg-news:#f4f6fb;--border-n:#dde3ef;
+    --text-n1:#08111f;--text-n2:#364059;--text-n3:#6e83a0;
+    --shadow-n:0 4px 20px rgba(8,17,31,.08),0 1px 4px rgba(8,17,31,.04);
+  }
+
+  /* ── 페이지 히어로 ── */
+  .news-hero{
+    background:linear-gradient(135deg,#0f1e4a 0%,#1a2d6b 50%,#0f1e4a 100%);
+    padding:40px 28px 36px;
+    position:relative;overflow:hidden;
+  }
+  .news-hero::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse 70% 60% at 50% 100%,rgba(99,102,241,.2) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .news-hero-inner{position:relative;z-index:1}
+  .news-hero-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(99,102,241,.18);border:1px solid rgba(99,102,241,.4);
+    border-radius:50px;padding:5px 16px;
+    font-size:11px;font-weight:700;color:#a5b4fc;letter-spacing:.1em;
+    margin-bottom:14px;
+  }
+  .news-hero-title{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.5px;line-height:1.2;margin-bottom:8px}
+  .news-hero-desc{font-size:13px;color:rgba(255,255,255,.85);line-height:1.7}
+
+  /* ── 컨트롤 바 ── */
+  .news-ctrl{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 28px 14px;flex-wrap:wrap;gap:10px;
+    border-bottom:1px solid var(--border-n);
+    background:#fff;
+  }
+  .view-toggle{
+    display:flex;border:1.5px solid var(--border-n);
+    border-radius:9px;overflow:hidden;background:#fff;
+  }
+  .vt-btn{
+    display:flex;align-items:center;gap:6px;
+    padding:7px 14px;font-size:12px;font-weight:600;color:var(--text-n2);
+    background:#fff;border:none;cursor:pointer;font-family:inherit;
+    transition:background .15s,color .15s;
+  }
+  .vt-btn.active{background:linear-gradient(135deg,var(--blue-a),var(--indigo-a));color:#fff;}
+  .news-count{
+    font-size:12px;font-weight:600;color:var(--text-n2);
+    background:var(--bg-news);border:1px solid var(--border-n);
+    border-radius:8px;padding:5px 12px;
+  }
+
+  /* ── 본문 영역 ── */
+  .news-body-wrap{padding:20px 28px 40px;background:var(--bg-news);flex:1}
+
+  /* ── 게시판 테이블 ── */
+  .board-wrap{
+    border:1.5px solid var(--border-n);border-radius:14px;
+    overflow:hidden;box-shadow:var(--shadow-n);
+  }
+  .board-tbl{width:100%;border-collapse:collapse;background:#fff}
+  .board-tbl thead tr{background:linear-gradient(135deg,#f4f6fb,#eef2ff)}
+  .board-tbl th{
+    padding:12px 16px;font-size:11px;font-weight:700;
+    color:var(--text-n2);text-align:left;
+    border-bottom:1.5px solid var(--border-n);letter-spacing:.04em;
+  }
+  .board-tbl tbody tr{border-bottom:1px solid var(--border-n);transition:background .12s}
+  .board-tbl tbody tr:last-child{border-bottom:none}
+  .board-tbl tbody tr:hover{background:#f5f8ff}
+  .board-tbl td{padding:13px 16px;vertical-align:middle}
+  .col-num{width:48px;text-align:center;font-size:12px;font-weight:600;color:var(--text-n3)}
+  .col-cat{width:110px}
+  .col-date{width:100px}
+  .col-del{width:52px;text-align:center}
+  .bt-link{text-decoration:none}
+  .bt-title{font-size:13px;font-weight:600;color:var(--text-n1);line-height:1.5;transition:color .12s}
+  .bt-title:hover{color:var(--blue-a)}
+  .cat-badge{
+    display:inline-block;
+    background:linear-gradient(135deg,#eef2ff,#eff6ff);
+    border:1px solid #c7d7fd;color:var(--blue-a);
+    font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;
+  }
+  .board-date{font-size:11px;color:var(--text-n3);font-weight:500}
+  .del-btn{
+    background:none;border:none;cursor:pointer;color:#ccc;
+    padding:4px;border-radius:6px;transition:color .12s,background .12s;display:none;
+  }
+  .del-btn:hover{color:#ef4444;background:#fef2f2}
+  tr:hover .del-btn{display:inline-flex;align-items:center;justify-content:center}
+
+  /* ── 썸네일 그리드 ── */
+  .thumb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:800px){.thumb-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:500px){.thumb-grid{grid-template-columns:1fr}}
+  .news-card{
+    display:block;text-decoration:none;
+    border-radius:14px;overflow:hidden;
+    border:1.5px solid var(--border-n);background:#fff;
+    box-shadow:var(--shadow-n);
+    transition:transform .2s,box-shadow .2s,border-color .2s;
+  }
+  .news-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(8,17,31,.12);border-color:#c7d7fd}
+  .news-thumb{position:relative;overflow:hidden;height:170px;background:var(--bg-news)}
+  .news-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+  .news-card:hover .news-thumb img{transform:scale(1.04)}
+  .news-tag-pill{
+    position:absolute;top:10px;left:10px;
+    background:linear-gradient(135deg,var(--blue-a),var(--indigo-a));
+    color:#fff;font-size:10px;font-weight:700;
+    padding:3px 10px;border-radius:20px;letter-spacing:.04em;
+  }
+  .news-card-body{padding:16px}
+  .news-source{font-size:11px;font-weight:700;color:var(--blue-a);margin-bottom:5px;letter-spacing:.04em}
+  .news-title{font-size:13px;font-weight:700;color:var(--text-n1);line-height:1.55;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .news-date-txt{font-size:11px;color:var(--text-n3);font-weight:500}
+
+  /* ── 관리자 패널 ── */
+  .admin-wrap{padding:0 28px 8px;text-align:center}
+  .admin-toggle-btn{
+    background:none;border:none;color:#bbb;
+    font-size:11px;cursor:pointer;font-family:inherit;padding:4px 8px;
+  }
+  .admin-login-box{
+    display:none;max-width:340px;margin:0 auto 20px;padding:22px;
+    background:#fff;border:1.5px solid var(--border-n);border-radius:14px;
+    box-shadow:var(--shadow-n);text-align:center;
+  }
+  .admin-form-box{
+    display:none;max-width:640px;margin:0 auto 32px;padding:24px;
+    background:#fff;border:1.5px solid var(--border-n);border-radius:14px;
+    box-shadow:var(--shadow-n);
+  }
+  .af-input{
+    width:100%;padding:9px 12px;
+    border:1.5px solid var(--border-n);border-radius:8px;
+    font-size:13px;outline:none;font-family:inherit;
+    transition:border-color .15s;
+  }
+  .af-input:focus{border-color:var(--blue-a)}
+  .af-label{font-size:11px;font-weight:600;color:var(--text-n2);display:block;margin-bottom:5px}
+  .af-btn{
+    width:100%;padding:12px;
+    background:linear-gradient(135deg,var(--blue-a),var(--indigo-a));
+    color:#fff;border:none;border-radius:10px;
+    font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;
+    transition:opacity .15s,transform .15s;
+  }
+  .af-btn:hover{opacity:.9;transform:translateY(-1px)}
+  .af-toast{display:none;margin-top:10px;padding:10px;background:#eef2ff;color:var(--blue-a);border-radius:8px;font-size:13px;text-align:center}
+
+  /* ── fade-in ── */
+  .fu{opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s}
+  .vis{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+
+  <!-- topbar -->
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>뉴스 & 인사이트</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+
+  <!-- 히어로 -->
+  <div class="news-hero">
+    <div class="news-hero-inner">
+      <div class="news-hero-badge">News &amp; Insights</div>
+      <h2 class="news-hero-title">AX BIZ GROUP 뉴스 & 인사이트</h2>
+      <p class="news-hero-desc">AI 전환(AX) 트렌드, 비즈니스 인사이트, 그룹 주요 소식을 전달합니다.</p>
+    </div>
+  </div>
+
+  <!-- 컨트롤 -->
+  <div class="news-ctrl">
+    <div class="view-toggle">
+      <button class="vt-btn active" id="viewBoard" onclick="setView('board')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        게시판형
+      </button>
+      <button class="vt-btn" id="viewThumb" onclick="setView('thumb')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        썸네일형
+      </button>
+    </div>
+    <span class="news-count" id="newsCount">로딩 중...</span>
+  </div>
+
+  <!-- 본문 -->
+  <div class="news-body-wrap">
+
+    <!-- 게시판 뷰 -->
+    <div id="newsBoardView" class="fu">
+      <div class="board-wrap">
+        <table class="board-tbl">
+          <thead>
+            <tr>
+              <th class="col-num">번호</th>
+              <th>제목</th>
+              <th class="col-cat">카테고리</th>
+              <th class="col-date">날짜</th>
+              <th class="col-del">삭제</th>
+            </tr>
+          </thead>
+          <tbody id="boardBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 썸네일 뷰 -->
+    <div id="newsThumbView" style="display:none">
+      <div class="thumb-grid fu" id="thumbGrid"></div>
+    </div>
+
+  </div><!-- /news-body-wrap -->
+
+  <!-- 관리자 -->
+  <div class="admin-wrap">
+    <button class="admin-toggle-btn" onclick="showLogin()" id="adminToggleBtn">⚙ 관리자</button>
+  </div>
+
+  <div class="admin-login-box" id="adminLoginBox">
+    <p style="font-size:13px;font-weight:700;color:var(--text-n1);margin-bottom:12px">관리자 비밀번호</p>
+    <input type="password" id="adminPw" maxlength="10" placeholder="비밀번호 입력" class="af-input" style="text-align:center;letter-spacing:.3em;margin-bottom:10px"
+      onkeydown="if(event.key==='Enter') doLogin()">
+    <button onclick="doLogin()" class="af-btn" style="font-size:13px">확인</button>
+    <div id="pwError" style="color:#ef4444;font-size:11px;margin-top:8px;display:none">비밀번호가 올바르지 않습니다.</div>
+  </div>
+
+  <div class="admin-form-box" id="adminForm">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+      <h3 style="font-size:14px;font-weight:700;color:var(--text-n1)">+ 기사 추가</h3>
+      <button onclick="closeAdmin()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#999">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div>
+        <label class="af-label">기사 제목 *</label>
+        <input type="text" id="af-title" placeholder="기사 제목을 입력하세요" class="af-input">
+      </div>
+      <div>
+        <label class="af-label">링크 주소 (URL) *</label>
+        <input type="url" id="af-url" placeholder="https://..." class="af-input">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <label class="af-label">카테고리</label>
+          <input type="text" id="af-tag" placeholder="예: AI 전략" class="af-input">
+        </div>
+        <div>
+          <label class="af-label">출처</label>
+          <input type="text" id="af-source" placeholder="예: AX BIZ GROUP" class="af-input">
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <label class="af-label">날짜</label>
+          <input type="text" id="af-date" placeholder="예: 2026.03.12" class="af-input">
+        </div>
+        <div>
+          <label class="af-label">썸네일 URL (선택)</label>
+          <input type="url" id="af-thumb" placeholder="이미지 주소" class="af-input">
+        </div>
+      </div>
+      <button id="afAddBtn" onclick="addArticle()" class="af-btn">기사 추가하기</button>
+    </div>
+    <div class="af-toast" id="afToast"></div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('news');
+
+// ── Supabase ──
+const _sb = supabase.createClient(
+  'https://haxcktfnuudlqciyljtp.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhheGNrdGZudXVkbHFjaXlsanRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkzMDUwNDAsImV4cCI6MjA4NDg4MTA0MH0.suN7BeaHx3MjaNlMDQa0940P-rMl2XPyk4ksoQEU3YM'
+);
+
+// ── 고정 기사 ──
+const staticArticles = [
+  { title: 'AX 시대의 도래 — AI 전환이 비즈니스 경쟁력을 결정한다', url: 'https://blog.naver.com/jaiwooshim', tag: 'AI 전략', source: 'AX BIZ GROUP', date: '2026.03.10', thumb: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=400&h=240&fit=crop' },
+  { title: 'KONEC AI 파일럿 프로젝트 — B2B AI 솔루션 도입 성공 사례', url: 'https://blog.naver.com/jaiwooshim', tag: '도입 사례', source: 'AX BIZ GROUP', date: '2026.03.08', thumb: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=240&fit=crop' },
+  { title: '2026년 한국 AI 스타트업 투자 동향 — AX 전문 그룹의 기회', url: 'https://blog.naver.com/jaiwooshim', tag: '시장 분석', source: 'AX BIZ GROUP', date: '2026.03.05', thumb: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=240&fit=crop' },
+  { title: 'AI 창업가 연합 3기 모집 — 실전 AI 비즈니스 커뮤니티', url: 'https://blog.naver.com/jaiwooshim', tag: '커뮤니티', source: 'AX BIZ GROUP', date: '2026.03.01', thumb: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=240&fit=crop' },
+  { title: 'AX-OS 플랫폼 MVP 로드맵 공개 — 5대 모듈 개발 현황', url: 'https://blog.naver.com/jaiwooshim', tag: '플랫폼', source: 'AX BIZ GROUP', date: '2026.02.25', thumb: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=240&fit=crop' },
+  { title: '바이브코딩으로 2시간 만에 AI 솔루션 만들기 — 실전 가이드', url: 'https://blog.naver.com/jaiwooshim', tag: 'AI 개발', source: 'AX BIZ GROUP', date: '2026.02.20', thumb: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=240&fit=crop' },
+];
+
+const defaultThumbs = [
+  'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=400&h=240&fit=crop',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=240&fit=crop',
+  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=240&fit=crop',
+  'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=240&fit=crop',
+];
+
+let allArticles = [...staticArticles];
+let currentView = 'board';
+const ADMIN_PW = '9633';
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function todayStr(){
+  const t = new Date();
+  return t.getFullYear()+'.'+String(t.getMonth()+1).padStart(2,'0')+'.'+String(t.getDate()).padStart(2,'0');
+}
+function fmtDate(d){ return d ? String(d).replace(/\./g,'-') : ''; }
+
+// ── 게시판 렌더링 ──
+function renderBoard(){
+  const tbody = document.getElementById('boardBody');
+  tbody.innerHTML = '';
+  const total = allArticles.length;
+  allArticles.forEach(function(a, i){
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td class="col-num">'+(total-i)+'</td>'+
+      '<td><a href="'+esc(a.url)+'" target="_blank" class="bt-link">'+
+        '<div class="bt-title">'+esc(a.title)+'</div>'+
+      '</a></td>'+
+      '<td class="col-cat"><span class="cat-badge">'+esc(a.tag||'블로그')+'</span></td>'+
+      '<td class="col-date"><span class="board-date">'+esc(fmtDate(a.date||todayStr()))+'</span></td>'+
+      '<td class="col-del"><button class="del-btn" onclick="deleteArticle('+i+')" title="삭제">'+
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>'+
+      '</button></td>';
+    tbody.appendChild(tr);
+  });
+}
+
+// ── 썸네일 렌더링 ──
+function renderThumb(){
+  const grid = document.getElementById('thumbGrid');
+  grid.innerHTML = '';
+  allArticles.forEach(function(a, i){
+    const thumb = a.thumb || defaultThumbs[i % defaultThumbs.length];
+    const card = document.createElement('a');
+    card.href = a.url; card.target = '_blank'; card.className = 'news-card';
+    card.innerHTML =
+      '<div class="news-thumb"><img src="'+thumb+'" alt="썸네일" loading="lazy"><span class="news-tag-pill">'+esc(a.tag||'블로그')+'</span></div>'+
+      '<div class="news-card-body"><p class="news-source">'+esc(a.source||'')+'</p><h3 class="news-title">'+esc(a.title)+'</h3><p class="news-date-txt">'+esc(a.date||todayStr())+'</p></div>';
+    grid.appendChild(card);
+  });
+}
+
+function updateCount(){ document.getElementById('newsCount').textContent = allArticles.length + '개의 기사'; }
+
+// ── 삭제 ──
+async function deleteArticle(idx){
+  const pw = prompt('삭제하려면 비밀번호를 입력하세요.');
+  if(pw === null) return;
+  if(pw !== ADMIN_PW){ alert('비밀번호가 올바르지 않습니다.'); return; }
+  const a = allArticles[idx];
+  if(a.id){
+    const { error } = await _sb.from('ax_biz_news').delete().eq('id', a.id);
+    if(error){ alert('삭제 실패: '+error.message); return; }
+  }
+  allArticles.splice(idx, 1);
+  updateCount(); renderBoard();
+}
+
+// ── 뷰 전환 ──
+function setView(mode){
+  currentView = mode;
+  const bv = document.getElementById('newsBoardView');
+  const tv = document.getElementById('newsThumbView');
+  const bb = document.getElementById('viewBoard');
+  const bt = document.getElementById('viewThumb');
+  if(mode === 'board'){
+    bv.style.display = ''; tv.style.display = 'none';
+    bb.classList.add('active'); bt.classList.remove('active');
+    renderBoard();
+  } else {
+    bv.style.display = 'none'; tv.style.display = '';
+    bb.classList.remove('active'); bt.classList.add('active');
+    renderThumb();
+  }
+  localStorage.setItem('axBizNewsView', mode);
+}
+
+// ── 초기 로드 ──
+(async function(){
+  const { data, error } = await _sb.from('ax_biz_news').select('*').order('created_at', { ascending: false });
+  if(!error && data && data.length > 0){ allArticles = [...data, ...staticArticles]; }
+  updateCount();
+  const saved = localStorage.getItem('axBizNewsView');
+  setView(saved === 'thumb' ? 'thumb' : 'board');
+})();
+
+// ── 관리자 ──
+function showLogin(){
+  document.getElementById('adminToggleBtn').style.display = 'none';
+  document.getElementById('adminLoginBox').style.display = 'block';
+  document.getElementById('adminPw').focus();
+}
+function doLogin(){
+  if(document.getElementById('adminPw').value === ADMIN_PW){
+    document.getElementById('adminLoginBox').style.display = 'none';
+    document.getElementById('adminForm').style.display = 'block';
+    const ds = todayStr();
+    const de = document.getElementById('af-date');
+    if(!de.value) de.value = ds;
+    document.getElementById('af-title').focus();
+  } else {
+    document.getElementById('pwError').style.display = 'block';
+    document.getElementById('adminPw').value = '';
+  }
+}
+function closeAdmin(){
+  document.getElementById('adminForm').style.display = 'none';
+  document.getElementById('adminToggleBtn').style.display = 'inline-block';
+  document.getElementById('adminPw').value = '';
+}
+async function addArticle(){
+  const title  = document.getElementById('af-title').value.trim();
+  const url    = document.getElementById('af-url').value.trim();
+  const tag    = document.getElementById('af-tag').value.trim()    || '블로그';
+  const source = document.getElementById('af-source').value.trim() || 'AX BIZ GROUP';
+  const date   = document.getElementById('af-date').value.trim()   || todayStr();
+  const thumb  = document.getElementById('af-thumb').value.trim()  || null;
+  if(!title){ alert('기사 제목을 입력하세요.'); return; }
+  if(!url)  { alert('링크 주소를 입력하세요.'); return; }
+  const btn = document.getElementById('afAddBtn');
+  btn.disabled = true; btn.textContent = '저장 중...';
+  const { error } = await _sb.from('ax_biz_news').insert({ title, url, tag, source, date, thumb });
+  btn.disabled = false; btn.textContent = '기사 추가하기';
+  if(error){ alert('저장 실패: '+error.message); return; }
+  ['af-title','af-url','af-tag','af-source','af-date','af-thumb'].forEach(id => document.getElementById(id).value = '');
+  const toast = document.getElementById('afToast');
+  toast.textContent = '✅ 기사가 추가되었습니다!';
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 3000);
+  const { data } = await _sb.from('ax_biz_news').select('*').order('created_at', { ascending: false });
+  if(data) allArticles = [...data, ...staticArticles];
+  updateCount(); setView(currentView);
+}
+
+// ── fade-in ──
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

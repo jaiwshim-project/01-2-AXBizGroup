@@ -36,10 +36,10 @@ body{background:var(--bg);color:var(--text1);font-family:var(--font);font-size:1
 
 /* ═══ TOPBAR ═══ */
 .topbar{
-  background:rgba(255,255,255,.92);
+  background:linear-gradient(135deg,#0f1e4a 0%,#1a2d6b 50%,#0f1e4a 100%);
   backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
-  box-shadow:0 1px 0 rgba(8,17,31,.06),0 2px 8px rgba(8,17,31,.04);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  box-shadow:0 2px 16px rgba(8,17,60,.3);
   position:sticky;top:0;z-index:100;
 }
 .topbar-inner{
@@ -49,29 +49,29 @@ body{background:var(--bg);color:var(--text1);font-family:var(--font);font-size:1
 }
 .tb-brand{display:flex;align-items:center;gap:14px}
 .tb-logo img{height:38px;width:auto;display:block}
-.tb-divider{width:1px;height:24px;background:var(--border)}
-.tb-name{font-size:12px;font-weight:600;color:var(--text3);letter-spacing:.3px}
+.tb-divider{width:1px;height:24px;background:rgba(255,255,255,.2)}
+.tb-name{font-size:12px;font-weight:600;color:rgba(255,255,255,.95);letter-spacing:.3px}
 .tb-nav{display:flex;align-items:center;gap:2px}
 .tb-nav-item{
-  font-size:13px;font-weight:500;color:var(--text2);
+  font-size:13px;font-weight:500;color:rgba(255,255,255,.95);
   padding:6px 14px;border-radius:8px;
   text-decoration:none;
   transition:background .15s,color .15s;
   white-space:nowrap;
 }
-.tb-nav-item:hover{background:var(--bg2);color:var(--text1)}
-.tb-nav-item.active{background:var(--blue-light);color:var(--blue);font-weight:600}
-.tb-nav-divider{width:1px;height:16px;background:var(--border);margin:0 6px}
+.tb-nav-item:hover{background:rgba(255,255,255,.12);color:#fff}
+.tb-nav-item.active{background:rgba(255,255,255,.18);color:#fff;font-weight:600}
+.tb-nav-divider{width:1px;height:16px;background:rgba(255,255,255,.2);margin:0 6px}
 .tb-nav-cta{
   display:flex;align-items:center;gap:6px;
-  font-size:12px;font-weight:700;color:#fff;
-  background:linear-gradient(135deg,var(--blue),var(--indigo));
+  font-size:12px;font-weight:700;color:#0f1e4a;
+  background:linear-gradient(135deg,#e8f0fe,#c7d7fd);
   padding:7px 16px;border-radius:8px;
   text-decoration:none;margin-left:8px;
-  box-shadow:0 2px 8px rgba(29,78,216,.25);
+  box-shadow:0 2px 8px rgba(8,17,60,.25);
   transition:opacity .15s,transform .15s,box-shadow .15s;
 }
-.tb-nav-cta:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 4px 14px rgba(29,78,216,.35)}
+.tb-nav-cta:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 4px 14px rgba(8,17,60,.35)}
 .live-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;flex-shrink:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
@@ -401,8 +401,8 @@ body{background:var(--bg);color:var(--text1);font-family:var(--font);font-size:1
 
 /* ═══ FOOTER ═══ */
 .footer{
-  background:var(--white);
-  border-top:1px solid var(--border);
+  background:linear-gradient(135deg,#0f1e4a 0%,#1a2d6b 50%,#0f1e4a 100%);
+  border-top:1px solid rgba(255,255,255,.08);
   padding:0 40px;
 }
 .footer-inner{
@@ -412,16 +412,16 @@ body{background:var(--bg);color:var(--text1);font-family:var(--font);font-size:1
 }
 .footer-brand{display:flex;align-items:center;gap:10px}
 .footer-logo-img{height:28px;width:auto;display:block}
-.footer-divider{width:1px;height:14px;background:var(--border)}
-.footer-ver{font-size:11px;color:var(--text3)}
+.footer-divider{width:1px;height:14px;background:rgba(255,255,255,.2)}
+.footer-ver{font-size:11px;color:rgba(255,255,255,.9)}
 .footer-nav{display:flex;align-items:center;gap:2px}
 .footer-nav a{
-  font-size:11px;color:var(--text2);text-decoration:none;
+  font-size:11px;color:rgba(255,255,255,.92);text-decoration:none;
   padding:4px 9px;border-radius:6px;
   transition:background .12s,color .12s;
 }
-.footer-nav a:hover{background:var(--bg2);color:var(--text1)}
-.footer-right{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)}
+.footer-nav a:hover{background:rgba(255,255,255,.12);color:#fff}
+.footer-right{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.9)}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:1000px){
