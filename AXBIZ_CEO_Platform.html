@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>그룹 현황 — AX BIZ Group CEO Platform</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="_axbiz-shared.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>그룹 현황 개요</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <div class="section-heading">AX BIZ 그룹 현황</div>
+    <div class="section-sub">전체 KPI · 긴급 알림 · 3대 축 진행 현황</div>
+
+    <div class="alert-banner">
+      <div class="icon">⚡</div>
+      <div class="msg">
+        <strong>긴급 액션 — 이번 주 마감</strong>
+        KONEC AI 파일럿 제안서 최종 제출 (3/10) · AX 플랫폼 MVP 데모 준비 (3/14) · AI 창업가 연합 3기 모집 공고 (3/8)
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <div class="kpi-label">총 프로젝트</div>
+        <div class="kpi-value" id="kpi-projects">18</div>
+        <div class="kpi-sub">진행중 11 · 대기 4 · 완료 3</div>
+        <span class="kpi-badge up">↑ 3 이번달 신규</span>
+        <div class="card-note">내부+고객 프로젝트 전체 집계 | 데이터: 내부 추진 / 고객 프로젝트 CRM 페이지 입력값 합산</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">이번달 예상 매출</div>
+        <div class="kpi-value" id="kpi-revenue">4.2억</div>
+        <div class="kpi-sub">목표 5.0억 대비 84%</div>
+        <span class="kpi-badge up">↑ 12% MoM</span>
+        <div class="card-note">계약 완료 프로젝트의 월별 정산 예상액 | 데이터: 재무/성과 페이지 월별 실적 데이터</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">AI 창업가 연합</div>
+        <div class="kpi-value" id="kpi-members">247</div>
+        <div class="kpi-sub">목표 1,000명 — 24.7%</div>
+        <span class="kpi-badge up">↑ 38 신규 (30일)</span>
+        <div class="card-note">네이버 카페 + 오프라인 등록 합산 멤버 수 | 데이터: AI 창업가 연합 페이지 실시간 카운터</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">AI 플랫폼 완성도</div>
+        <div class="kpi-value" id="kpi-platform">38%</div>
+        <div class="kpi-sub">5대 모듈 평균</div>
+        <span class="kpi-badge neutral">→ Q2 MVP 목표</span>
+        <div class="card-note">AX-OS/Builder/Data/Automation/Decision 5개 모듈 진행률 평균값 | 데이터: AI 플랫폼 페이지</div>
+      </div>
+      <div class="kpi-card cyan">
+        <div class="kpi-label">파이프라인 건수</div>
+        <div class="kpi-value" id="kpi-pipeline">23</div>
+        <div class="kpi-sub">예상 계약액 12.4억</div>
+        <span class="kpi-badge up">↑ 5 신규 리드</span>
+        <div class="card-note">현재 영업 진행 중인 잠재 고객 총 수 | 데이터: 비즈니스 파이프라인 페이지 퍼널 합계</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-label">이번 주 액션</div>
+        <div class="kpi-value" id="kpi-actions">7</div>
+        <div class="kpi-sub">완료 3 · 진행 4</div>
+        <span class="kpi-badge down">↓ 2개 지연 중</span>
+        <div class="card-note">주간 Top 5 체크리스트 + 의사결정 항목 합산 | 데이터: 실행 우선순위 페이지</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">팀 규모</div>
+        <div class="kpi-value">11</div>
+        <div class="kpi-sub">파운더 3 + 팀원 8</div>
+        <span class="kpi-badge neutral">채용 2명 진행</span>
+        <div class="card-note">현재 등록된 팀 구성원 총 수 | 데이터: 팀/파운더 페이지 팀원 목록</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">총 ROI</div>
+        <div class="kpi-value" id="kpi-roi">234%</div>
+        <div class="kpi-sub">투자 대비 수익률</div>
+        <span class="kpi-badge up">↑ 전분기 대비</span>
+        <div class="card-note">전체 프로젝트 투자액 대비 수익 평균 ROI | 데이터: 재무/성과 페이지 ROI 테이블</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--blue)"></div>최근 완료 & 주요 활동</div>
+        <div class="feed-item"><div class="feed-dot" style="background:var(--green)"></div><div class="feed-content"><div class="title">치과 AI 광고 시스템 1단계 완료</div><div class="time">2시간 전</div></div></div>
+        <div class="feed-item"><div class="feed-dot" style="background:var(--blue)"></div><div class="feed-content"><div class="title">AX-Builder 모듈 프로토타입 배포</div><div class="time">1일 전</div></div></div>
+        <div class="feed-item"><div class="feed-dot" style="background:var(--purple)"></div><div class="feed-content"><div class="title">AI 창업가 연합 3기 커리큘럼 확정</div><div class="time">2일 전</div></div></div>
+        <div class="feed-item"><div class="feed-dot" style="background:var(--yellow)"></div><div class="feed-content"><div class="title">KONEC 파일럿 계약 초안 검토 완료</div><div class="time">3일 전</div></div></div>
+        <div class="feed-item"><div class="feed-dot" style="background:var(--green)"></div><div class="feed-content"><div class="title">Vibe Coding Lab 2회차 48명 수료</div><div class="time">5일 전</div></div></div>
+        <div class="card-note">최근 완료된 주요 마일스톤 및 팀 활동 피드 | 데이터: 각 프로젝트 페이지에서 완료 처리된 항목 자동 반영 (현재 수동 업데이트)</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--green)"></div>3대 축 진행 현황</div>
+        <div class="progress-row">
+          <div class="progress-label"><span>AI Business Platform</span><span>42%</span></div>
+          <div class="progress-track"><div class="progress-fill fill-blue" style="width:42%"></div></div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label"><span>AI Builder Ecosystem</span><span>31%</span></div>
+          <div class="progress-track"><div class="progress-fill fill-purple" style="width:31%"></div></div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label"><span>AI Data Intelligence</span><span>18%</span></div>
+          <div class="progress-track"><div class="progress-fill fill-cyan" style="width:18%"></div></div>
+        </div>
+        <div class="card-note">
+          AI Business Platform: AX-OS·Builder·Data·Automation·Decision 5대 모듈 평균 완성도 | 데이터: AI 플랫폼 페이지 각 모듈 진행률 자동 평균<br>
+          AI Builder Ecosystem: 창업가 연합 멤버 목표 달성률 + Vibe Coding Lab 운영률 합산 | 데이터: AI 창업가 연합 페이지<br>
+          AI Data Intelligence: 산업별 데이터 수집·분석 엔진 개발 진행률 | 데이터: AI 플랫폼 페이지 AX-Data 모듈
+        </div>
+        <div style="margin-top:16px">
+          <div class="card-title"><div class="dot" style="background:var(--yellow)"></div>월별 매출 추이</div>
+          <div class="chart-wrap"><canvas id="homeRevenueChart"></canvas></div>
+          <div class="card-note">월별 실제 매출(억원) vs 목표 비교 차트 | 데이터: 재무/성과 페이지 월별 정산 데이터 (2025년 10월 ~ 현재)</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('home');
+
+// Revenue chart
+new Chart(document.getElementById('homeRevenueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['10월','11월','12월','1월','2월','3월'],
+    datasets: [
+      {label:'실적(억)', data:[1.8,2.2,2.9,3.4,3.9,4.2], backgroundColor:'rgba(46,164,255,.6)', borderRadius:4},
+      {label:'목표(억)', data:[2.0,2.5,3.0,3.5,4.0,5.0], type:'line', borderColor:'rgba(34,197,94,.8)', backgroundColor:'transparent', tension:.4, pointRadius:3}
+    ]
+  },
+  options: {...chartDefaults}
+});
+
+// Jitter KPIs
+setInterval(function(){
+  const m = 247 + Math.floor(Math.random()*3);
+  document.getElementById('kpi-members').textContent = m;
+  document.getElementById('kpi-roi').textContent = (230+Math.floor(Math.random()*10))+'%';
+}, 8000);
+</script>
+</body>
+</html>

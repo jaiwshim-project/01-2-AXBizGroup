@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>인사이트 제안 — AX BIZ Group CEO Platform</title>
+<link rel="stylesheet" href="_axbiz-shared.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>AI 인사이트 & 전략 제안</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <div class="section-heading">AI 인사이트 & 전략 제안</div>
+    <div class="section-sub">매일 자동 생성되는 AI 기반 경영 인사이트 · 전략 조언 · 실행 제안</div>
+
+    <!-- 헤더 바 -->
+    <div class="card" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:11px;color:var(--text-2);margin-bottom:4px">오늘의 인사이트 날짜</div>
+        <div id="insightDate" style="font-size:15px;font-weight:700;color:var(--blue)"></div>
+      </div>
+      <div style="flex:1"></div>
+      <button class="form-btn" onclick="generateInsights(true)">🔄 새 인사이트 생성</button>
+      <button class="form-btn" style="background:var(--cyan)" onclick="copyInsights()">📋 클립보드 복사</button>
+      <button class="form-btn green" onclick="sendInsightEmail()">📧 이메일 발송</button>
+    </div>
+
+    <!-- 인사이트 카드 그리드 -->
+    <div id="insightCards" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px"></div>
+
+    <!-- 이메일 설정 -->
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:var(--green)"></div>이메일 / 뉴스레터 발송 설정</div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="flex:1">
+          <label class="form-label">수신 이메일 주소</label>
+          <input id="emailInput" class="form-input" type="email" value="jaiwshim@gmail.com" placeholder="이메일 주소 입력">
+        </div>
+        <div>
+          <label class="form-label">발송 방식</label>
+          <button class="form-btn green" onclick="sendInsightEmail()">지금 발송 (mailto)</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2)">
+          <input type="checkbox" id="autoSend" style="accent-color:var(--blue)">
+          <label for="autoSend">매일 접속 시 자동 발송 (로컬 설정)</label>
+        </div>
+      </div>
+      <div class="card-note">
+        인사이트는 오늘 날짜를 시드로 하여 AI가 생성합니다. 같은 날 접속하면 같은 인사이트가 표시되며, 다음 날 새 인사이트로 자동 갱신됩니다.
+        "새 인사이트 생성" 버튼으로 같은 날 다른 관점의 인사이트를 즉시 생성할 수 있습니다.
+        이메일 발송은 기기의 기본 메일 앱(mailto: 프로토콜)을 통해 작동합니다.
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('insights');
+
+// ── 인사이트 데이터베이스 ──
+var _insDB = {
+  market: [
+    {t:'스마트팩토리 AI 진입 최적기', b:'2026년 국내 스마트팩토리 AI 시장 1.2조원 전망. 제조업 AI 수요가 전년 대비 38% 증가했으며 KONEC 파일럿을 레퍼런스로 제조 버티컬 진출을 가속화할 최적 타이밍입니다.', a:'KONEX 등록 제조기업 20개 선별 → 맞춤 ROI 제안서 발송 → 3월 내 미팅 3건 확보'},
+    {t:'치과 AI 시장 선점 가속화', b:'국내 치과 2만 3천여 개 중 AI 도입률 1.2%. 선점 기회의 창이 12~18개월로 좁아지고 있습니다. 현재 보유한 7개 치과 솔루션이 강력한 레퍼런스 무기가 됩니다.', a:'치과 협회 DB 활용 → 지역별 타깃 20개 → Dental Academy로 무료 체험 → 유료 전환 6개월 목표'},
+    {t:'법률 AI 수요 폭증', b:'법무법인·로펌의 AI 도입 문의가 전분기 대비 220% 증가. 계약서 검토, 판례 분석, 소장 초안 작성 AI 수요가 두드러집니다.', a:'법무법인 A와 독점 파트너십 조기 체결 → 법률 버티컬 레퍼런스 1호 확보 → 법조계 네트워크 확산'},
+    {t:'교육 AI 정부 예산 급증', b:'2026년 교육부 AI 에듀테크 지원 예산 3,200억. AI 창업가 연합의 교육 프로그램을 정부 지원 사업과 연계하면 추가 수익원 창출이 가능합니다.', a:'교육부·중소벤처기업부 공고 스캔 → 창업가 연합 커리큘럼을 지원 요건에 맞게 포장 → 이번 달 신청'},
+    {t:'의료 AI 규제 완화 기회', b:'식약처 의료 AI 소프트웨어 인허가 패스트트랙이 6월 시행 예정. 의료 버티컬 진입 타이밍으로 최적입니다.', a:'병원 C 그룹 미팅 우선 진행 → 규제 샌드박스 활용한 POC 제안 → 의료 AI 파트너사와 공동개발'},
+    {t:'글로벌 AI 에이전트 시장 선점', b:'2026년 AI 에이전트 시장 340억 달러 예상. AX-Automation 모듈을 에이전트 형태로 패키징하면 글로벌 SaaS 진출이 가능합니다.', a:'AX-Automation 영어 버전 MVP → 싱가포르 스타트업 파트너 1곳 발굴 → Q3 파일럿 목표'},
+    {t:'기업 데이터 AI 수요 증가', b:'국내 500인 이상 기업 중 78%가 데이터 분석 AI 도입 의향 보유. AX-Data Intelligence를 B2B SaaS로 출시할 시장이 충분합니다.', a:'AX-Data 베타 버전 → 파이프라인 내 기업 고객 3개사에 무료 파일럿 제안 → 월 구독 모델 전환'},
+    {t:'KONEX IPO 후보 발굴', b:'내년 KONEX 시장 상장 후보 기업 120개 중 HR/제조/의료 분야 42개가 AI 도입 적기입니다. KONEC 사례를 레퍼런스로 공략 가능합니다.', a:'KONEX 후보 기업 리스트 확보 → 분야별 AI ROI 제안서 → 분기 내 신규 계약 2건 목표'},
+  ],
+  strategy: [
+    {t:'파이프라인 2단계 압축 전략', b:'현재 23개 리드가 5단계에 분산. 제안→협상 구간 전환율이 41%로 업계 평균보다 18%p 낮습니다. 병목 구간 집중 개선이 필요합니다.', a:'협상 단계 5개 리드 집중 공략 → 이번 주 CEO 직접 미팅 → 계약서 초안 먼저 제시'},
+    {t:'AI 창업가 연합 300명 스프린트', b:'현재 247명, 목표 300명까지 53명 부족. 네이버 카페 + 오프라인 행사 + 유튜브 숏폼 3가지 채널을 동시 가동하면 2주 내 달성 가능합니다.', a:'Vibe Coding Lab 3회차 참석자 지인 초대 이벤트 → 유튜브 Shorts 5개 제작 → 네이버 카페 체험단 20명'},
+    {t:'선택과 집중: 버티컬 2개로 압축', b:'현재 치과·법률·의료·제조 4개 버티컬 동시 추진 중. 자원이 분산되어 어느 하나도 강력한 레퍼런스가 없습니다. 치과(70% 완성)+HR(KONEC) 2개에 집중 필요.', a:'법률·의료·제조 버티컬을 Q3 이후로 순차 이관 → 치과+HR 자원 2배 집중 → 분기 내 2개 완성'},
+    {t:'SaaS 전환으로 매출 안정화', b:'현재 프로젝트 납품 형태의 매출 구조는 변동성이 큽니다. 치과 AI, 창업가 연합, AX-Platform 3가지를 월 구독 SaaS로 전환하면 예측 가능한 MRR이 생깁니다.', a:'치과 AI 월 50만원 구독 패키지 설계 → 기존 고객 3곳에 전환 제안 → 6월 MRR 500만원 목표'},
+    {t:'레퍼런스 케이스 스터디 발행', b:'화이트서울치과 AI 성과(ROI 300%)와 KONEC 파일럿 결과를 케이스 스터디로 발행하면 신규 고객 설득력이 3배 높아집니다.', a:'화이트서울치과 성과 데이터 취합 → PDF 케이스 스터디 1장 제작 → LinkedIN + 네이버 블로그 발행'},
+    {t:'투자 유치 타이밍 최적화', b:'Series A는 MoM 성장률 20%+, 월매출 5억+ 달성 시 협상력이 극대화됩니다. 지금 IR 자료 준비를 시작하면 Q3에 최적 타이밍을 잡을 수 있습니다.', a:'재무 모델 업데이트 → IR 덱 초안 작성 → 엔젤 투자자 3명에게 비공식 피드백 요청'},
+    {t:'팀 구조 개편: 고객 성공팀 신설', b:'현재 납품 후 고객 관리 전담자가 없어 이탈 위험이 높습니다. COO가 겸직하는 구조에서 고객 성공 전담 인력 1명을 추가하면 계약 갱신률이 20%p 올라갑니다.', a:'고객 성공 매니저 JD 작성 → 창업가 연합 Core Builder 내 후보 1명 발굴 → 4월 합류 목표'},
+    {t:'경쟁사 모니터링 체계화', b:'뤼튼, 솔트룩스, 마인즈랩 등 경쟁사 동향 파악이 산발적으로 이루어지고 있습니다. 주간 경쟁사 리포트 1장이 전략 민첩성을 크게 높입니다.', a:'Alpha 분대에 경쟁사 주간 리포트 생성 자동화 지시 → 매주 월요일 CEO 브리핑 자료로 활용'},
+  ],
+  action: [
+    {t:'오늘 반드시 끝내야 할 1가지', b:'KONEC 파일럿 제안서 최종본 검토 및 발송. 이것이 현재 가장 높은 ROI를 가진 단기 행동입니다. 협상 기한이 3/10으로 임박했습니다.', a:'제안서 열어 10분 내 최종 검토 → 수정 없으면 즉시 발송 → 수정 있으면 30분 내 완료 후 발송'},
+    {t:'이번 주 파이프라인 컨택 목표', b:'협상 단계 5개 리드 중 3개가 이번 주 컨택이 필요합니다. CEO의 직접 연락 한 통이 실무진 미팅 3번보다 효과적입니다.', a:'오늘 병원 C 그룹 원무과장 전화 → 내일 법무법인 A 변호사 이메일 → 모레 제조 D사 IT팀장 미팅 제안'},
+    {t:'창업가 연합 3기 모집 공고 즉시 발행', b:'3기 모집 공고가 이미 1주 지연되었습니다. 매주 지연될수록 경쟁 교육 프로그램에 잠재 멤버를 빼앗깁니다.', a:'네이버 카페 공고 초안 10분 내 작성 → 카카오톡 오픈채팅 → 인스타그램 스토리 동시 발행'},
+    {t:'오늘 의사결정 보류 항목 해제', b:'Series A 타이밍 결정이 3주째 보류 중입니다. 결정 지연 자체가 비용입니다. 오늘 Yes/No를 결정하고 다음 행동으로 넘어가야 합니다.', a:'실행 우선순위 페이지 열기 → 의사결정 3개 중 오늘 1개 Yes/No → 팀에 공유'},
+    {t:'Vibe Coding Lab 3회차 사전 준비', b:'3회차(3/14)까지 10일 남았습니다. 커리큘럼 확정과 사전 실습 환경 준비가 아직 미완입니다. 오늘 완료하지 않으면 준비 부족 리스크가 높아집니다.', a:'Bravo 분대에 MCP 서버 실습 코드 준비 지시 → 참가자 사전 안내 메일 발송 → 장소 최종 확인'},
+    {t:'재무 현황 30분 리뷰', b:'이번 달 실제 매출과 예상치 차이를 오늘 확인해야 다음 달 계획 조정이 가능합니다. 매달 15일 이후 리뷰가 원칙이나 이달은 아직 미완입니다.', a:'재무/성과 페이지 열기 → 목표 vs 실적 갭 분석 → 부족분 보충 방법 1가지 결정'},
+    {t:'팀 스탠드업 오늘 진행', b:'지난 3일간 팀 전체 현황 공유가 없었습니다. 15분 스탠드업으로 우선순위 정렬 및 블로커 해소가 가능합니다.', a:'오늘 오후 2시 팀 스탠드업 소집 → 각자 오늘 완수 1가지 + 블로커 1가지 → 15분 내 완료'},
+    {t:'주요 레퍼런스 고객에게 감사 연락', b:'화이트서울치과 원장님께 마지막 연락이 3주 전입니다. 고객 유지는 신규 계약보다 5배 저렴합니다. 오늘 간단한 감사 메시지로 관계를 강화하세요.', a:'화이트서울치과 원장님께 카카오톡 메시지 → KONEC 담당자 안부 확인 → 다음 정기 미팅 일정 잡기'},
+  ],
+  risk: [
+    {t:'KONEC 협상 지연 리스크 고조', b:'3/10 제안서 제출 기한이 5일 남았습니다. 내부 검토가 지연될 경우 계약이 Q2로 밀릴 수 있으며, 이는 이번 분기 매출 목표에 1.8억 영향을 줍니다.', a:'오늘 제안서 최종본 CEO 검토 → 내일 발송 → 수신 확인 후 48시간 내 피드백 미수신 시 전화 확인'},
+    {t:'핵심 인력 리텐션 위험', b:'CTO 선홍규와 COO 정필환의 에쿼티 설계가 아직 미확정입니다. 6개월 이상 지연되면 이탈 리스크가 현실화됩니다.', a:'이번 주 내 스톡옵션/수익분배 방안 초안 → 법무 검토 → 양자 개별 면담 → 4월 확정'},
+    {t:'단일 고객 매출 집중 리스크', b:'현재 화이트서울치과가 전체 매출의 28.6%를 차지합니다. 이 고객이 계약을 해지하면 월 매출이 1.2억 감소합니다.', a:'신규 계약 2건 조기 체결로 의존도 20% 이하로 낮추기 → 다음 분기까지 고객 다변화 목표'},
+    {t:'기술 부채 누적 경보', b:'CEO 플랫폼, 치과 솔루션 등 빠른 개발로 인해 유지보수 비용이 증가 추세입니다. 지금 정리하지 않으면 6개월 후 재개발 비용이 발생합니다.', a:'Bravo 분대에 주 2시간 기술 부채 해소 시간 배정 → 코드 리팩토링 우선순위 목록 작성'},
+    {t:'경쟁사 치과 AI 시장 진입 감지', b:'솔트룩스가 치과 버티컬 AI 솔루션 출시를 준비 중이라는 정보가 입수되었습니다. 시장 선점 강화가 필요합니다.', a:'기존 치과 고객과 장기 계약 전환 → 신규 치과 고객 3개 빠른 온보딩 → 레퍼런스 케이스 조기 발행'},
+    {t:'현금 흐름 주의 구간', b:'다음 달 개발 인력 채용 시 월 고정비가 800만원 증가합니다. 3월 KONEC 계약 미체결 시 4월 현금 흐름이 타이트해질 수 있습니다.', a:'KONEC 계약을 3월 내 반드시 완료 → 화이트서울치과 2단계 계약 조기 착수 → 법무법인 A POC 선착금 요청'},
+    {t:'창업가 연합 멤버 이탈 방지', b:'3기 모집 공고가 지연되면서 1~2기 Core Builder들의 활동 빈도가 줄고 있습니다. 커뮤니티 온도가 식으면 회복에 2배 비용이 듭니다.', a:'오늘 Core Builder 24명에게 개인 메시지 → 이번 주 소규모 오프라인 모임 1회 → 다음 기수 우선 참여 혜택 제공'},
+    {t:'IP 보호 공백 리스크', b:'AX Platform, 치과 AI 솔루션 등 핵심 기술의 특허·저작권 등록이 아직 미완입니다. 경쟁사의 모방 리스크가 높아지고 있습니다.', a:'특허 출원 대상 기술 목록 작성 → 변리사 미팅 예약 → 저작권 등록 가능한 SW는 이번 달 완료'},
+  ],
+  community: [
+    {t:'Core Builder 24명 활성화 작전', b:'Core Builder 24명 중 활성 참여자가 14명(58%)으로 하락. 비활성 10명에게 적합한 역할을 부여하면 전체 생산성이 크게 올라갑니다.', a:'비활성 Core Builder 10명 리스트업 → 개인별 관심 분야 파악 → 적합한 미니 프로젝트 1개씩 배정'},
+    {t:'Vibe Coding Lab 유튜브 클립 활용', b:'지난 1~2회차 Vibe Coding Lab 내용을 3~5분 유튜브 클립으로 잘라 업로드하면 신규 멤버 유입 효과가 높습니다.', a:'2회차 AI 데이터 파이프라인 핵심 15분 편집 → 유튜브 Shorts 3개로 분할 → 이번 주 업로드'},
+    {t:'창업가 연합 멘토링 프로그램 설계', b:'멤버들의 가장 큰 니즈가 "실제 창업 멘토링"입니다. Core Builder 중 1년 이상 창업 경험자 5명을 멘토로 공식 위촉하면 연합 가치가 크게 올라갑니다.', a:'Core Builder 중 멘토 후보 5명 섭외 → 멘토링 운영 가이드라인 1장 작성 → 4월 공식 런칭'},
+    {t:'커뮤니티 수익화: 유료 멤버십 설계', b:'무료 멤버십 247명 중 5~10%가 월 3~5만원 유료 멤버십으로 전환 가능합니다. 이것만으로 월 300~600만원 안정적 MRR이 생깁니다.', a:'유료 멤버십 혜택 설계 (멘토링+우선 Vibe Lab+AI 리포트) → 3월 내 베타 런칭 → 10명 목표'},
+    {t:'오프라인 행사로 멤버십 강화', b:'온라인 참여만으로는 소속감이 약합니다. 분기 1회 오프라인 네트워킹 행사가 이탈률을 30% 낮추고 신규 가입을 촉진합니다.', a:'4월 첫 주 오프라인 네트워킹 파티 기획 → 장소 섭외 → Core Builder 전원 초대 → 스타트업 생태계 인플루언서 1명 초청'},
+    {t:'창업가 연합 뉴스레터 주간 발행', b:'주간 AI 트렌드 + 멤버 성공 사례 + Vibe Coding 팁으로 구성된 뉴스레터가 커뮤니티 결속력을 높입니다.', a:'뉴스레터 템플릿 1개 제작 → 이번 주부터 매주 화요일 발행 → Stibee 또는 스티비로 자동화'},
+    {t:'협력 창업팀 발굴 및 육성', b:'현재 멤버 중 실제 창업팀을 구성한 그룹이 4팀입니다. 이들을 중점 지원하면 창업 성공 사례가 생기고 연합의 가치가 증명됩니다.', a:'4팀과 개별 미팅 → 가장 가능성 높은 2팀에 AX Platform 무료 사용권 + 멘토링 집중 지원'},
+    {t:'글로벌 창업가 연합 초청', b:'싱가포르, 일본의 AI 창업 커뮤니티와 교류 협약을 맺으면 한국 멤버들에게 차별화된 글로벌 네트워크를 제공할 수 있습니다.', a:'LinkedIn으로 싱가포르 AI 스타트업 허브 운영자 3명 컨택 → 온라인 교류 세션 1회 제안 → Q2 MOU 목표'},
+  ],
+  finance: [
+    {t:'이번 달 매출 목표 84% 달성 경보', b:'현재 4.2억으로 목표 5억의 84% 달성. 잔여 0.8억을 채우려면 이번 달 내 KONEC 선착금(1.4억)을 받거나 기존 고객 추가 계약이 필요합니다.', a:'KONEC 계약 완료 후 30% 선착금 즉시 요청 → 화이트서울치과 2단계 착수금 이번 달 안에 청구'},
+    {t:'SaaS MRR 100만원 달성 목표', b:'프로젝트 기반 매출만으로는 월별 변동이 심합니다. Vibe Coding Lab 유료화, CEO 플랫폼 라이선스, 치과 AI 구독으로 3월 내 MRR 100만원 달성이 가능합니다.', a:'Vibe Lab 유료 3기 모집 (참가비 30만원) → 치과 AI 월 구독 3개 전환 → MRR 추적 대시보드 추가'},
+    {t:'비용 구조 최적화 기회', b:'현재 외주·구독·서버 비용이 월 280만원. AI 자동화로 외주 작업의 40%를 내재화하면 월 80만원 절감이 가능하며 이는 연간 960만원입니다.', a:'외주 지출 목록 검토 → AI 대체 가능 항목 3가지 추출 → 이번 달 1가지 내재화 실행'},
+    {t:'분기 매출 목표 상향 검토', b:'현재 Q1 실적 페이스(월 4.2억)로 분기 목표 12.6억 달성 가능. KONEC 계약 시 분기 매출이 15억을 넘어 Q2 목표를 공격적으로 설정할 수 있습니다.', a:'재무/성과 페이지에서 분기 목표 현실화 → Q2 목표 18억으로 상향 설정 → 팀과 목표 공유'},
+    {t:'ROI 케이스 기반 신규 수주 전략', b:'치과 AI ROI 300%, KONEC 833%의 수치를 제안서 첫 페이지에 넣으면 신규 고객 설득력이 크게 올라갑니다. 제안서 리뉴얼이 필요합니다.', a:'ROI 계산 표준 양식 작성 → 기존 제안서 표지 교체 → 이번 주 발송하는 3개 제안서에 즉시 적용'},
+    {t:'정부 보조금 활용 기회', b:'중소벤처기업부 AI 바우처 사업(최대 4천만원), 정보통신산업진흥원 AI 솔루션 개발 지원이 이번 달 마감입니다.', a:'NIPA AI 바우처 사업 공고 확인 → 신청 요건 체크 → 이번 주 서류 준비 시작'},
+    {t:'세금 절감 전략 검토', b:'Q1이 종료되는 3월, 법인세 절감을 위한 비용 처리 적법한 항목을 이번 달 안에 정리해야 합니다.', a:'세무사에게 Q1 비용 처리 가능 항목 확인 요청 → 연구개발비, 교육훈련비 등 적격 항목 청구'},
+    {t:'투자 유치 이전 재무 정리', b:'Series A 준비를 위해 지난 6개월 재무 데이터를 GAAP 기준으로 정리하면 투자자 신뢰도가 높아집니다.', a:'회계사와 반기 재무제표 작성 미팅 → 매출·비용·이익률 정리 → IR 재무 모델에 실제 데이터 반영'},
+  ],
+};
+
+var _curInsights = [];
+
+function _pickInsight(arr, seed) {
+  return arr[Math.abs(Math.floor(seed)) % arr.length];
+}
+
+function generateInsights(forceNew) {
+  var today = new Date();
+  var start = new Date(today.getFullYear(), 0, 0);
+  var doy   = Math.floor((today - start) / 86400000);
+  var seed  = forceNew ? (Math.floor(Math.random() * 997) + 1) : doy;
+
+  document.getElementById('insightDate').textContent =
+    today.toLocaleDateString('ko-KR', {year:'numeric', month:'long', day:'numeric', weekday:'long'});
+
+  var cats = [
+    {key:'market',    label:'📊 시장 인사이트',  color:'blue'},
+    {key:'strategy',  label:'💡 전략 제안',       color:'purple'},
+    {key:'action',    label:'⚡ 오늘의 실행',     color:'cyan'},
+    {key:'risk',      label:'⚠️ 리스크 경보',    color:'red'},
+    {key:'community', label:'🌱 커뮤니티',        color:'green'},
+    {key:'finance',   label:'💰 재무 전략',       color:'yellow'},
+  ];
+
+  _curInsights = [];
+  var html = '';
+  cats.forEach(function(cat, idx) {
+    var ins = _pickInsight(_insDB[cat.key], seed + idx * 31);
+    _curInsights.push({cat: cat.label, t: ins.t, b: ins.b, a: ins.a});
+    var cv = 'var(--' + cat.color + ')';
+    html += `
+      <div class="card" style="border-top:3px solid ${cv};margin-bottom:0">
+        <div style="font-size:11px;font-weight:700;color:${cv};letter-spacing:.6px;margin-bottom:10px">${cat.label}</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:10px;line-height:1.4">${ins.t}</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.75;margin-bottom:12px">${ins.b}</div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 12px;font-size:12px">
+          <span style="font-weight:600;color:${cv}">⚡ 실행 제안:</span> ${ins.a}
+        </div>
+      </div>`;
+  });
+  document.getElementById('insightCards').innerHTML = html;
+}
+
+function copyInsights() {
+  var dateStr = document.getElementById('insightDate').textContent;
+  var text = 'AX BIZ 그룹 CEO 인사이트\n' + dateStr + '\n\n';
+  _curInsights.forEach(function(ins) {
+    text += '【' + ins.cat + '】\n▶ ' + ins.t + '\n' + ins.b + '\n⚡ ' + ins.a + '\n\n';
+  });
+  navigator.clipboard.writeText(text)
+    .then(function() { alert('클립보드에 복사되었습니다!'); })
+    .catch(function() { prompt('아래 텍스트를 복사하세요:', text); });
+}
+
+function sendInsightEmail() {
+  var email   = document.getElementById('emailInput').value || 'jaiwshim@gmail.com';
+  var dateStr = document.getElementById('insightDate').textContent;
+  var subject = 'AX BIZ AI 인사이트 — ' + dateStr;
+  var body = 'AX BIZ 그룹 CEO 인사이트\n' + dateStr + '\n\n';
+  _curInsights.forEach(function(ins) {
+    body += '【' + ins.cat + '】\n▶ ' + ins.t + '\n' + ins.b + '\n⚡ ' + ins.a + '\n\n';
+  });
+  window.open('mailto:' + encodeURIComponent(email) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body));
+}
+
+// 자동 발송 체크박스 처리
+document.getElementById('autoSend').addEventListener('change', function() {
+  if (this.checked) {
+    var lastSent = localStorage.getItem('axbiz_insight_sent_date');
+    var today = new Date().toISOString().slice(0,10);
+    if (lastSent !== today) {
+      sendInsightEmail();
+      localStorage.setItem('axbiz_insight_sent_date', today);
+    }
+  }
+});
+
+// 초기 실행
+generateInsights(false);
+</script>
+</body>
+</html>

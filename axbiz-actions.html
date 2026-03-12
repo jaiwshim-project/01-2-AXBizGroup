@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>실행 우선순위 — AX BIZ Group CEO Platform</title>
+<link rel="stylesheet" href="_axbiz-shared.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>실행 우선순위</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <div class="section-heading">실행 우선순위</div>
+    <div class="section-sub">이번 주 Top 5 · 30-60-90일 플랜 · 의사결정 대기</div>
+
+    <div class="grid-12">
+      <div>
+        <div class="card">
+          <div class="card-title"><div class="dot" style="background:var(--red)"></div>이번 주 Top 5 액션</div>
+          <div class="checklist">
+            <div class="check-item"><input type="checkbox" id="a1"><label for="a1">KONEC AI 파일럿 제안서 최종 제출 (3/10) <span class="tag">P1</span></label></div>
+            <div class="check-item"><input type="checkbox" id="a2"><label for="a2">AX 플랫폼 MVP 데모 PPT 완성 (3/14) <span class="tag">P1</span></label></div>
+            <div class="check-item"><input type="checkbox" id="a3"><label for="a3">AI 창업가 연합 3기 모집 공고 발행 (3/8) <span class="tag">P1</span></label></div>
+            <div class="check-item"><input type="checkbox" id="a4" checked><label class="done" for="a4">치과 AI 1단계 납품 완료</label></div>
+            <div class="check-item"><input type="checkbox" id="a5" checked><label class="done" for="a5">Vibe Coding Lab 3회차 커리큘럼 확정</label></div>
+          </div>
+          <div class="card-note">이번 주 CEO 최우선 완수 액션 5가지 | 데이터: CEO 주간 브리핑 기준 수동 설정. 체크박스 체크 시 완료 처리(로컬). 매주 월요일 아침 갱신 권장</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><div class="dot" style="background:var(--yellow)"></div>의사결정 대기 항목</div>
+          <div id="decisions">
+            <div class="decision-card">
+              <div class="q">Series A 투자 유치 타이밍: 지금 바로 준비 시작?</div>
+              <div class="actions">
+                <button class="btn yes" onclick="decide(this,'y')">Yes — 시작</button>
+                <button class="btn no" onclick="decide(this,'n')">No — Q3 이후</button>
+                <button class="btn defer" onclick="decide(this,'d')">다음 주 재검토</button>
+              </div>
+            </div>
+            <div class="decision-card">
+              <div class="q">법률 버티컬 파트너사 A사와 독점 계약 체결?</div>
+              <div class="actions">
+                <button class="btn yes" onclick="decide(this,'y')">Yes — 계약</button>
+                <button class="btn no" onclick="decide(this,'n')">No — 비독점</button>
+                <button class="btn defer" onclick="decide(this,'d')">조건 재협상</button>
+              </div>
+            </div>
+            <div class="decision-card">
+              <div class="q">개발 인력 2명 채용: 외주 vs 정직원?</div>
+              <div class="actions">
+                <button class="btn yes" onclick="decide(this,'y')">정직원</button>
+                <button class="btn no" onclick="decide(this,'n')">외주</button>
+                <button class="btn defer" onclick="decide(this,'d')">혼합 전략</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-note">CEO 결재 대기 중인 의사결정 항목들 | 데이터: 팀 내 보류 안건 수동 등록 — Yes/No/연기 버튼으로 즉석 결정 가능. 결정 후 해당 담당자에게 직접 전달 필요</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchPlanTab(this,'plan30')">30일 플랜</button>
+          <button class="tab-btn" onclick="switchPlanTab(this,'plan60')">60일 플랜</button>
+          <button class="tab-btn" onclick="switchPlanTab(this,'plan90')">90일 플랜</button>
+        </div>
+
+        <div id="plan30" class="plan-tab">
+          <div class="card">
+            <div class="card-title"><div class="dot" style="background:var(--blue)"></div>30일 내 완수 목표 (3월)</div>
+            <div class="timeline">
+              <div class="tl-item"><div class="tl-dot active"></div><div class="tl-title">KONEC 파일럿 계약 체결</div><div class="tl-desc">제안서 제출 → 협상 → 계약 완료 / 예상 2.8억</div></div>
+              <div class="tl-item"><div class="tl-dot active"></div><div class="tl-title">AI 창업가 연합 3기 모집 150명 달성</div><div class="tl-desc">공고 발행 + 네이버 카페 + 유튜브 홍보</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">AX-Builder 베타 버전 배포</div><div class="tl-desc">내부 테스트 → Core Builder 그룹 배포</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">법률 버티컬 파일럿 1건 확보</div><div class="tl-desc">A사 미팅 → 조건 확정 → POC 계약</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">월 매출 5억 달성</div><div class="tl-desc">기존 계약 납품 + 신규 계약 조기 착수</div></div>
+            </div>
+            <div class="card-note">30일 내(3월 말) 반드시 완수해야 할 핵심 마일스톤 | 데이터: CEO 월간 OKR 기준 수동 설정. 매월 초 리뷰 및 업데이트 권장</div>
+          </div>
+        </div>
+
+        <div id="plan60" class="plan-tab" style="display:none">
+          <div class="card">
+            <div class="card-title"><div class="dot" style="background:var(--purple)"></div>60일 내 완수 목표 (3~4월)</div>
+            <div class="timeline">
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">AX Platform MVP 공개 데모</div><div class="tl-desc">5대 모듈 통합 데모 → 투자자/고객 대상 피칭</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">창업가 연합 300명 달성</div><div class="tl-desc">3기 운영 완료 + 4기 예약</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">엔터프라이즈 계약 2건 추가</div><div class="tl-desc">의료 + 제조 버티컬 각 1건씩</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">개발팀 2명 합류</div><div class="tl-desc">채용 완료 → 온보딩 → 실전 투입</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">분기 매출 목표 달성 검증</div><div class="tl-desc">Q1 실적 정산 → Q2 수정 계획 수립</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="plan90" class="plan-tab" style="display:none">
+          <div class="card">
+            <div class="card-title"><div class="dot" style="background:var(--green)"></div>90일 내 완수 목표 (3~5월)</div>
+            <div class="timeline">
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">연 매출 6.5억 궤도 진입</div><div class="tl-desc">월 5억+ 정착 → 연간 페이스 확보</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">AX Platform 유료화 개시</div><div class="tl-desc">SaaS 구독 모델 런칭 / 월 구독 고객 50명</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">Series A 준비 완료</div><div class="tl-desc">IR 자료 · 재무 모델 · 투자자 미팅 시작</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">창업가 연합 4기 런칭</div><div class="tl-desc">멘토링 플랫폼 + 투자 연계 프로그램</div></div>
+              <div class="tl-item"><div class="tl-dot future"></div><div class="tl-title">동남아 파트너십 MOU 1건</div><div class="tl-desc">싱가포르 또는 베트남 AI 생태계 진입</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><div class="dot" style="background:var(--red)"></div>우선순위 매트릭스</div>
+          <div class="matrix">
+            <div class="matrix-cell q1"><div class="quadrant-label" style="color:var(--red)">긴급 + 중요</div><div class="items">KONEC 제안서<br>플랫폼 데모 준비<br>3기 모집 공고</div></div>
+            <div class="matrix-cell q2"><div class="quadrant-label" style="color:var(--yellow)">중요 + 여유</div><div class="items">Series A 준비<br>법률 버티컬 계약<br>채용 진행</div></div>
+            <div class="matrix-cell q3"><div class="quadrant-label" style="color:var(--blue)">긴급 + 덜중요</div><div class="items">일정 조율<br>문서 업데이트<br>회의 준비</div></div>
+            <div class="matrix-cell q4"><div class="quadrant-label" style="color:var(--text-2)">위임/보류</div><div class="items">루틴 업무<br>장기 리서치<br>선택적 참여</div></div>
+          </div>
+          <div class="card-note">아이젠하워 매트릭스 기반 4분면 우선순위 분류 | 데이터: CEO 주간 브리핑 시 수동 배치. 긴급+중요(즉시 처리) / 중요+여유(계획 수립) / 긴급+덜중요(위임) / 나머지(제거)</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('actions');
+
+function switchPlanTab(btn, tabId) {
+  document.querySelectorAll('.plan-tab').forEach(t=>t.style.display='none');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).style.display='block';
+}
+
+// Checkbox label toggle
+document.querySelectorAll('.check-item input[type=checkbox]').forEach(cb=>{
+  cb.addEventListener('change', function(){
+    this.nextElementSibling.classList.toggle('done', this.checked);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>프로젝트 종합 현황 — AX BIZ Group CEO Platform</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="_axbiz-shared.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>프로젝트 종합 현황</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <div class="section-heading">프로젝트 종합 현황</div>
+    <div class="section-sub">내부 추진 + 고객 프로젝트 전체 통합 뷰 · 우선순위 · 상태</div>
+
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="tab-btn active" style="background:var(--bg-card)" onclick="filterProjects('all',this)">전체 (18)</button>
+      <button class="tab-btn" onclick="filterProjects('active',this)">진행중 (11)</button>
+      <button class="tab-btn" onclick="filterProjects('pending',this)">대기 (4)</button>
+      <button class="tab-btn" onclick="filterProjects('done',this)">완료 (3)</button>
+      <button class="tab-btn" style="margin-left:auto;background:rgba(46,164,255,.1);color:var(--blue)" onclick="window.location.href='axbiz-proj-internal.html'">+ 내부 프로젝트</button>
+      <button class="tab-btn" style="background:rgba(34,197,94,.1);color:var(--green)" onclick="window.location.href='axbiz-proj-client.html'">+ 고객 프로젝트</button>
+    </div>
+
+    <div class="card" style="padding:0;overflow:hidden">
+      <table class="tbl" id="projectTable">
+        <thead>
+          <tr><th>프로젝트명</th><th>유형</th><th>분대</th><th>상태</th><th>우선순위</th><th>진행률</th><th>마감</th></tr>
+        </thead>
+        <tbody id="projectBody"></tbody>
+      </table>
+    </div>
+    <div class="card-note" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-top:0">
+      내부 추진 프로젝트와 고객 프로젝트(계약 후)를 통합하여 보여주는 종합 현황 뷰입니다.
+      데이터: 내부 추진 프로젝트 페이지 + 고객 프로젝트 CRM 페이지의 등록 데이터를 합산 표시. 각 페이지에서 항목을 추가하면 이 목록에 자동 반영됩니다.
+    </div>
+
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--blue)"></div>분야별 분포</div>
+        <div class="chart-wrap"><canvas id="projectPieChart"></canvas></div>
+        <div class="card-note">전체 18개 프로젝트의 분야별 건수 분포 | 데이터: 내부 추진 프로젝트(분야 태그) + 고객 프로젝트(업종 태그) 합산 도넛 차트</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--green)"></div>우선순위 매트릭스 요약</div>
+        <div class="progress-row"><div class="progress-label"><span>P1 긴급 (이번 주)</span><span>4개</span></div><div class="progress-track"><div class="progress-fill fill-red" style="width:44%"></div></div></div>
+        <div class="progress-row"><div class="progress-label"><span>P2 중요 (이번 달)</span><span>7개</span></div><div class="progress-track"><div class="progress-fill fill-yellow" style="width:78%"></div></div></div>
+        <div class="progress-row"><div class="progress-label"><span>P3 일반 (분기)</span><span>5개</span></div><div class="progress-track"><div class="progress-fill fill-blue" style="width:55%"></div></div></div>
+        <div class="progress-row"><div class="progress-label"><span>보류/검토</span><span>2개</span></div><div class="progress-track"><div class="progress-fill fill-cyan" style="width:22%"></div></div></div>
+        <div class="card-note">전체 프로젝트의 우선순위별 건수 분포 | 데이터: 내부 추진 + 고객 프로젝트 우선순위(P1/P2/P3) 태그 합산. 실행 우선순위 페이지와 연동</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('projects');
+
+const projects = [
+  {name:'치과 AI 광고 시스템', type:'내부', squad:'Alpha',   status:'active',  pri:'p1', pct:70, due:'3/31'},
+  {name:'AX-OS 기반 설계',     type:'내부', squad:'Bravo',   status:'active',  pri:'p1', pct:55, due:'4/15'},
+  {name:'KONEC AI 파일럿',     type:'고객', squad:'Charlie', status:'urgent',  pri:'p1', pct:45, due:'3/10'},
+  {name:'AX-Builder MVP',      type:'내부', squad:'Bravo',   status:'active',  pri:'p1', pct:42, due:'4/30'},
+  {name:'AI 창업가 연합 3기',  type:'내부', squad:'Alpha',   status:'active',  pri:'p2', pct:35, due:'4/30'},
+  {name:'Vibe Coding Lab',     type:'내부', squad:'Charlie', status:'active',  pri:'p2', pct:60, due:'계속'},
+  {name:'법률 버티컬 파일럿',  type:'고객', squad:'Alpha',   status:'active',  pri:'p2', pct:20, due:'5/15'},
+  {name:'AX-Data 파이프라인',  type:'내부', squad:'Bravo',   status:'active',  pri:'p2', pct:28, due:'5/30'},
+  {name:'AX-Automation 설계',  type:'내부', squad:'Bravo',   status:'pending', pri:'p2', pct:10, due:'6/30'},
+  {name:'AX-Decision 모듈',    type:'내부', squad:'Bravo',   status:'pending', pri:'p3', pct:5,  due:'7/30'},
+  {name:'의료 버티컬 분석',    type:'고객', squad:'Alpha',   status:'active',  pri:'p2', pct:20, due:'5/30'},
+  {name:'투자 유치 IR 준비',   type:'내부', squad:'Charlie', status:'active',  pri:'p2', pct:40, due:'6/30'},
+  {name:'글로벌 파트너십',     type:'내부', squad:'Charlie', status:'pending', pri:'p3', pct:5,  due:'Q3'},
+  {name:'채용 프로세스',       type:'내부', squad:'Alpha',   status:'active',  pri:'p2', pct:50, due:'4/15'},
+  {name:'Series A 준비',       type:'내부', squad:'Charlie', status:'pending', pri:'p3', pct:15, due:'Q3'},
+  {name:'치과 AI 1단계',       type:'내부', squad:'Alpha',   status:'done',    pri:'p1', pct:100,due:'완료'},
+  {name:'비즈니스 전략 문서',  type:'내부', squad:'Charlie', status:'done',    pri:'p1', pct:100,due:'완료'},
+  {name:'소대 편제 매뉴얼',    type:'내부', squad:'Bravo',   status:'done',    pri:'p2', pct:100,due:'완료'},
+];
+
+const statusLabel = {active:'진행중',pending:'대기',done:'완료',urgent:'긴급',paused:'보류'};
+const priLabel = {p1:'P1 긴급',p2:'P2 중요',p3:'P3 일반'};
+
+function renderProjects(filter) {
+  const rows = filter==='all' ? projects : projects.filter(p=>filter==='active'?(p.status==='active'||p.status==='urgent'):p.status===filter);
+  document.getElementById('projectBody').innerHTML = rows.map(p=>`
+    <tr>
+      <td><strong>${p.name}</strong></td>
+      <td><span style="font-size:11px;padding:2px 8px;border-radius:6px;background:${p.type==='고객'?'rgba(34,197,94,.15)':'rgba(46,164,255,.15)'};color:${p.type==='고객'?'var(--green)':'var(--blue)'}">${p.type}</span></td>
+      <td><span style="font-size:12px;color:var(--text-2)">${p.squad}</span></td>
+      <td><span class="status ${p.status}">${statusLabel[p.status]}</span></td>
+      <td><span class="priority ${p.pri}">${priLabel[p.pri]}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="progress-track" style="flex:1;height:4px"><div class="progress-fill fill-blue" style="width:${p.pct}%"></div></div>
+          <span style="font-size:11px;color:var(--text-2);width:30px">${p.pct}%</span>
+        </div>
+      </td>
+      <td style="font-size:12px;color:var(--text-2)">${p.due}</td>
+    </tr>`).join('');
+}
+
+function filterProjects(f, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.remove('active');b.style.background='transparent';});
+  if(btn){btn.classList.add('active');btn.style.background='var(--bg-card)';}
+  renderProjects(f);
+}
+renderProjects('all');
+
+new Chart(document.getElementById('projectPieChart'),{
+  type:'doughnut',
+  data:{
+    labels:['AI 플랫폼','치과 버티컬','창업가 연합','비즈니스 개발','고객 프로젝트'],
+    datasets:[{data:[6,4,3,3,2],backgroundColor:['rgba(46,164,255,.7)','rgba(124,58,237,.7)','rgba(34,197,94,.7)','rgba(245,158,11,.7)','rgba(6,182,212,.7)'],borderWidth:0}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'rgba(139,148,158,1)',font:{size:11}}}}}
+});
+</script>
+</body>
+</html>

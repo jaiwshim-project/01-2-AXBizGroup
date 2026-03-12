@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>고객 프로젝트 CRM — AX BIZ Group CEO Platform</title>
+<link rel="stylesheet" href="_axbiz-shared.css">
+<style>
+.stage-badge{display:inline-block;font-size:11px;padding:2px 10px;border-radius:10px;font-weight:600}
+.stage-discovery{background:rgba(139,148,158,.15);color:var(--text-2)}
+.stage-interest{background:rgba(46,164,255,.15);color:var(--blue)}
+.stage-proposal{background:rgba(124,58,237,.15);color:var(--purple)}
+.stage-negotiation{background:rgba(245,158,11,.15);color:var(--yellow)}
+.stage-won{background:rgba(34,197,94,.15);color:var(--green)}
+.stage-lost{background:rgba(239,68,68,.15);color:var(--red)}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>고객 프로젝트 CRM</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <div class="section-heading">고객 프로젝트 CRM</div>
+    <div class="section-sub">수주 전 영업 파이프라인 · 계약 후 프로젝트 관리 — 일종의 B2B CRM</div>
+
+    <!-- 탭 전환 -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchCTab(this,'ctab-crm')">📊 수주 전 — 영업 파이프라인 (CRM)</button>
+      <button class="tab-btn" onclick="switchCTab(this,'ctab-contract')">🚀 계약 후 — 프로젝트 관리</button>
+    </div>
+
+    <!-- ══════════════════════════════
+         탭 1: 수주 전 CRM
+    ══════════════════════════════ -->
+    <div id="ctab-crm">
+
+      <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr)">
+        <div class="kpi-card blue"><div class="kpi-label">총 리드</div><div class="kpi-value" id="crm-total">0</div><div class="kpi-sub">활성 파이프라인</div></div>
+        <div class="kpi-card purple"><div class="kpi-label">제안 단계</div><div class="kpi-value" id="crm-proposal">0</div><div class="kpi-sub">제안서 제출됨</div></div>
+        <div class="kpi-card yellow"><div class="kpi-label">협상 단계</div><div class="kpi-value" id="crm-negotiation">0</div><div class="kpi-sub">계약 직전</div></div>
+        <div class="kpi-card green"><div class="kpi-label">계약 완료</div><div class="kpi-value" id="crm-won">0</div><div class="kpi-sub">수주 성공</div></div>
+        <div class="kpi-card cyan"><div class="kpi-label">예상 계약액</div><div class="kpi-value" id="crm-value">0억</div><div class="kpi-sub">전체 파이프라인</div></div>
+      </div>
+
+      <!-- 새 잠재 고객 등록 -->
+      <div class="card" style="border:1px dashed rgba(34,197,94,.4);background:rgba(34,197,94,.03)">
+        <div class="card-title"><div class="dot" style="background:var(--green)"></div>새 잠재 고객 등록</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+          <div><label class="form-label">고객사명 *</label><input id="crm-company" class="form-input" type="text" placeholder="예: 삼성생명"></div>
+          <div><label class="form-label">업종</label><input id="crm-industry" class="form-input" type="text" placeholder="예: 금융, 제조, 의료"></div>
+          <div><label class="form-label">담당자 / 연락처</label><input id="crm-contact" class="form-input" type="text" placeholder="홍길동 / 010-0000-0000"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label class="form-label">영업 단계</label>
+            <select id="crm-stage" class="form-input">
+              <option value="discovery">발굴/인지</option>
+              <option value="interest">관심/탐색</option>
+              <option value="proposal">제안서 제출</option>
+              <option value="negotiation">협상/검토</option>
+              <option value="won">계약 완료</option>
+            </select>
+          </div>
+          <div><label class="form-label">예상 계약액 (억원)</label><input id="crm-value" class="form-input" type="number" step="0.1" placeholder="2.5"></div>
+          <div><label class="form-label">다음 액션</label><input id="crm-action" class="form-input" type="text" placeholder="예: 제안서 발송"></div>
+          <div><label class="form-label">다음 연락일</label><input id="crm-date" class="form-input" type="date"></div>
+        </div>
+        <div style="margin-bottom:14px">
+          <label class="form-label">메모 / 특이사항</label>
+          <textarea id="crm-notes" class="form-input" rows="2" placeholder="미팅 내용, 고객 요구사항, 경쟁사 현황 등"></textarea>
+        </div>
+        <button class="form-btn green" onclick="addCRMLead()">+ 잠재 고객 등록</button>
+      </div>
+
+      <!-- 칸반 보드 -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px" id="crmKanban"></div>
+
+      <!-- 전체 테이블 -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:16px 20px;font-size:13px;font-weight:600;border-bottom:1px solid var(--border)">전체 리드 목록</div>
+        <table class="tbl">
+          <thead><tr><th>고객사</th><th>업종</th><th>단계</th><th>예상액</th><th>다음 액션</th><th>연락일</th><th>관리</th></tr></thead>
+          <tbody id="crmBody"></tbody>
+        </table>
+      </div>
+
+      <div class="card-note" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px">
+        수주 전 CRM: 잠재 고객 발굴부터 계약 성사까지의 영업 파이프라인을 5단계(발굴→관심→제안→협상→계약)로 관리합니다.
+        계약이 완료된 고객은 "계약 후 — 프로젝트 관리" 탭으로 이관하여 납품 현황을 추적하세요.
+        데이터: 이 페이지에 직접 입력 | 비즈니스 파이프라인 페이지의 영업 퍼널 KPI와 연동됩니다.
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         탭 2: 계약 후 프로젝트 관리
+    ══════════════════════════════ -->
+    <div id="ctab-contract" style="display:none">
+
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+        <div class="kpi-card blue"><div class="kpi-label">계약 프로젝트</div><div class="kpi-value" id="cp-total">0</div><div class="kpi-sub">현재 진행 중</div></div>
+        <div class="kpi-card green"><div class="kpi-label">총 계약액</div><div class="kpi-value" id="cp-value">0억</div><div class="kpi-sub">수주 총액</div></div>
+        <div class="kpi-card yellow"><div class="kpi-label">평균 진행률</div><div class="kpi-value" id="cp-avgpct">0%</div><div class="kpi-sub">납품 진척도</div></div>
+        <div class="kpi-card purple"><div class="kpi-label">D-30 내 보고</div><div class="kpi-value" id="cp-upcoming">0</div><div class="kpi-sub">다음 미팅/보고</div></div>
+      </div>
+
+      <!-- 계약 프로젝트 등록 -->
+      <div class="card" style="border:1px dashed rgba(245,158,11,.4);background:rgba(245,158,11,.03)">
+        <div class="card-title"><div class="dot" style="background:var(--yellow)"></div>계약 프로젝트 등록</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+          <div><label class="form-label">고객사명 *</label><input id="cp-company" class="form-input" type="text" placeholder="예: KONEC"></div>
+          <div><label class="form-label">계약일</label><input id="cp-cdate" class="form-input" type="date"></div>
+          <div><label class="form-label">계약액 (억원)</label><input id="cp-value" class="form-input" type="number" step="0.1" placeholder="2.8"></div>
+          <div><label class="form-label">납기일</label><input id="cp-due" class="form-input" type="date"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label class="form-label">프로젝트 상태</label>
+            <select id="cp-status" class="form-input">
+              <option value="pending">착수 준비</option>
+              <option value="active">진행 중</option>
+              <option value="testing">검수/테스트</option>
+              <option value="done">납품 완료</option>
+            </select>
+          </div>
+          <div><label class="form-label">진행률 (%)</label><input id="cp-pct" class="form-input" type="number" min="0" max="100" value="0"></div>
+          <div><label class="form-label">다음 보고/미팅일</label><input id="cp-meeting" class="form-input" type="date"></div>
+        </div>
+        <div style="margin-bottom:14px">
+          <label class="form-label">납품 범위 / 마일스톤 요약</label>
+          <textarea id="cp-desc" class="form-input" rows="2" placeholder="예: AI 채용 최적화 시스템 3단계 납품 — 1단계: 데이터 수집, 2단계: 모델 학습, 3단계: 대시보드"></textarea>
+        </div>
+        <button class="form-btn yellow" onclick="addContractProject()">+ 계약 프로젝트 등록</button>
+      </div>
+
+      <!-- 계약 프로젝트 카드뷰 -->
+      <div id="cpCards"></div>
+
+      <div class="card-note" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px">
+        계약 후 프로젝트 관리: 고객과 계약이 완료된 프로젝트의 납품 진행상황, 마일스톤, 정기 보고 일정을 추적합니다.
+        이 데이터는 그룹 현황 홈의 "총 프로젝트" 및 재무/성과 페이지 매출 데이터에 반영됩니다.
+        데이터: 이 페이지에 직접 입력 | 납품 완료 시 상태를 '납품 완료'로 변경하세요.
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('proj-client');
+
+// ── 탭 전환 ──
+function switchCTab(btn, tabId) {
+  document.getElementById('ctab-crm').style.display      = 'none';
+  document.getElementById('ctab-contract').style.display = 'none';
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).style.display = 'block';
+}
+
+// ── CRM 데이터 ──
+var crmLeads = [
+  {id:1, company:'KONEC',      industry:'HR/채용', contact:'김대표 / 010-1234-5678', stage:'negotiation', value:2.8, nextAction:'제안서 최종 제출', nextDate:'2026-03-10', notes:'파일럿 계약 직전. 기술 스펙 최종 협의 필요'},
+  {id:2, company:'화이트서울치과', industry:'치과',   contact:'원장님 / 010-2222-3333', stage:'won',         value:1.2, nextAction:'2단계 기획', nextDate:'2026-04-01', notes:'1단계 완료. 연간 계약 전환 예정'},
+  {id:3, company:'법무법인 A',  industry:'법률',   contact:'변호사 / 010-4444-5555', stage:'proposal',    value:1.8, nextAction:'POC 계약 협의', nextDate:'2026-03-20', notes:'법률 AI 문서 자동화 제안 제출 완료'},
+  {id:4, company:'병원 C 그룹', industry:'의료',   contact:'원무과장 / 010-6666-7777',stage:'interest',    value:3.5, nextAction:'데모 미팅 준비', nextDate:'2026-03-25', notes:'의료 AI 도입 초기 탐색 단계'},
+  {id:5, company:'제조 D사',   industry:'제조',   contact:'IT팀장 / 010-8888-9999', stage:'discovery',   value:2.2, nextAction:'니즈 파악 미팅', nextDate:'2026-04-05', notes:'스마트팩토리 AI 도입 검토 시작'},
+];
+var crmNextId = 6;
+
+const stageInfo = {
+  discovery:   {label:'발굴/인지',   color:'var(--text-2)', cls:'stage-discovery'},
+  interest:    {label:'관심/탐색',   color:'var(--blue)',   cls:'stage-interest'},
+  proposal:    {label:'제안서 제출', color:'var(--purple)', cls:'stage-proposal'},
+  negotiation: {label:'협상/검토',   color:'var(--yellow)', cls:'stage-negotiation'},
+  won:         {label:'계약 완료',   color:'var(--green)',  cls:'stage-won'},
+  lost:        {label:'실패',        color:'var(--red)',    cls:'stage-lost'},
+};
+
+function renderCRM() {
+  const total       = crmLeads.length;
+  const proposal    = crmLeads.filter(l=>l.stage==='proposal').length;
+  const negotiation = crmLeads.filter(l=>l.stage==='negotiation').length;
+  const won         = crmLeads.filter(l=>l.stage==='won').length;
+  const totalVal    = crmLeads.reduce((s,l)=>s+parseFloat(l.value||0),0).toFixed(1);
+
+  document.getElementById('crm-total').textContent       = total;
+  document.getElementById('crm-proposal').textContent    = proposal;
+  document.getElementById('crm-negotiation').textContent = negotiation;
+  document.getElementById('crm-won').textContent         = won;
+  document.getElementById('crm-value').textContent       = totalVal + '억';
+
+  // Kanban
+  const stages = ['discovery','interest','proposal','negotiation','won'];
+  const kanbanTitles = {discovery:'1 발굴/인지', interest:'2 관심/탐색', proposal:'3 제안서 제출', negotiation:'4 협상/검토', won:'5 계약 완료'};
+  const kanbanColors = {discovery:'var(--text-2)', interest:'var(--blue)', proposal:'var(--purple)', negotiation:'var(--yellow)', won:'var(--green)'};
+
+  document.getElementById('crmKanban').innerHTML = stages.map(stage => {
+    const cards = crmLeads.filter(l => l.stage === stage);
+    return `<div class="kanban-col">
+      <div class="kanban-col-title" style="color:${kanbanColors[stage]}">${kanbanTitles[stage]} (${cards.length})</div>
+      ${cards.map(l => `
+        <div class="kanban-card">
+          <div style="font-size:13px;font-weight:700;margin-bottom:4px">${l.company}</div>
+          <div style="font-size:11px;color:var(--text-2);margin-bottom:6px">${l.industry} · ${l.value}억</div>
+          <div style="font-size:11px;color:var(--cyan)">→ ${l.nextAction}</div>
+          <div style="font-size:10px;color:var(--text-3);margin-top:4px">${l.nextDate}</div>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+
+  // Table
+  document.getElementById('crmBody').innerHTML = crmLeads.map(l => `
+    <tr>
+      <td><strong>${l.company}</strong><div style="font-size:11px;color:var(--text-2)">${l.contact}</div></td>
+      <td style="font-size:12px">${l.industry}</td>
+      <td><span class="stage-badge ${stageInfo[l.stage]?.cls||''}">${stageInfo[l.stage]?.label||l.stage}</span></td>
+      <td style="font-weight:700;color:var(--yellow)">${l.value}억</td>
+      <td style="font-size:12px">${l.nextAction}</td>
+      <td style="font-size:12px;color:var(--text-2)">${l.nextDate}</td>
+      <td>
+        <select class="form-input" style="width:100px;font-size:11px;padding:4px 6px" onchange="updateCRMStage(${l.id},this.value)">
+          ${Object.entries(stageInfo).map(([k,v])=>`<option value="${k}"${k===l.stage?' selected':''}>${v.label}</option>`).join('')}
+        </select>
+        <button class="form-btn small red" style="margin-left:4px" onclick="deleteCRM(${l.id})">삭제</button>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--text-2);padding:20px">등록된 잠재 고객이 없습니다</td></tr>';
+}
+
+function addCRMLead() {
+  const company = document.getElementById('crm-company').value.trim();
+  if (!company) { alert('고객사명을 입력하세요'); return; }
+  crmLeads.push({
+    id: crmNextId++,
+    company,
+    industry:   document.getElementById('crm-industry').value,
+    contact:    document.getElementById('crm-contact').value,
+    stage:      document.getElementById('crm-stage').value,
+    value:      parseFloat(document.getElementById('crm-value').value)||0,
+    nextAction: document.getElementById('crm-action').value,
+    nextDate:   document.getElementById('crm-date').value||'-',
+    notes:      document.getElementById('crm-notes').value,
+  });
+  ['crm-company','crm-industry','crm-contact','crm-action','crm-notes','crm-value'].forEach(id=>document.getElementById(id).value='');
+  renderCRM();
+}
+function updateCRMStage(id, stage) {
+  const l = crmLeads.find(x=>x.id===id);
+  if (l) { l.stage = stage; renderCRM(); }
+}
+function deleteCRM(id) {
+  if (!confirm('삭제하시겠습니까?')) return;
+  crmLeads = crmLeads.filter(l=>l.id!==id); renderCRM();
+}
+
+// ── 계약 후 데이터 ──
+var contractProjects = [
+  {id:1, company:'화이트서울치과', cdate:'2025-12-01', value:1.2, due:'2026-11-30', status:'active',   pct:70, meeting:'2026-03-15', desc:'연간 치과 AI 마케팅 자동화 솔루션 개발 및 운영'},
+  {id:2, company:'KONEC',         cdate:'2026-02-15', value:2.8, due:'2026-09-30', status:'active',   pct:45, meeting:'2026-03-10', desc:'AI 기반 HR 파일럿 — 채용 최적화 시스템 3단계'},
+];
+var cpNextId = 3;
+
+const cpStatusLabel = {pending:'착수 준비', active:'진행 중', testing:'검수/테스트', done:'납품 완료'};
+
+function renderCP() {
+  const total    = contractProjects.length;
+  const totalVal = contractProjects.reduce((s,p)=>s+parseFloat(p.value||0),0).toFixed(1);
+  const avgPct   = total ? Math.round(contractProjects.reduce((s,p)=>s+p.pct,0)/total) : 0;
+  const today    = new Date();
+  const d30      = new Date(); d30.setDate(d30.getDate()+30);
+  const upcoming = contractProjects.filter(p=>p.meeting && new Date(p.meeting)<=d30).length;
+
+  document.getElementById('cp-total').textContent    = total;
+  document.getElementById('cp-value').textContent    = totalVal + '억';
+  document.getElementById('cp-avgpct').textContent   = avgPct + '%';
+  document.getElementById('cp-upcoming').textContent = upcoming;
+
+  document.getElementById('cpCards').innerHTML = contractProjects.map(p => {
+    const fillPct = p.pct;
+    const daysLeft = p.due ? Math.ceil((new Date(p.due)-today)/86400000) : null;
+    return `
+    <div class="card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <div style="font-size:16px;font-weight:700">${p.company}</div>
+          <div style="font-size:12px;color:var(--text-2);margin-top:2px">계약일: ${p.cdate} · 계약액: <span style="color:var(--yellow);font-weight:700">${p.value}억</span></div>
+        </div>
+        <span class="status ${p.status}">${cpStatusLabel[p.status]||p.status}</span>
+      </div>
+      <div style="font-size:12px;color:var(--text-2);margin-bottom:12px">${p.desc}</div>
+      <div class="progress-row">
+        <div class="progress-label"><span>납품 진행률</span><span>${p.pct}%</span></div>
+        <div class="progress-track"><div class="progress-fill fill-blue" style="width:${p.pct}%"></div></div>
+      </div>
+      <div style="display:flex;gap:16px;font-size:12px;margin-top:10px">
+        <span style="color:var(--text-2)">납기: <strong style="color:var(--text-1)">${p.due}</strong> ${daysLeft!==null?'(D-'+daysLeft+')'':''}</span>
+        <span style="color:var(--text-2)">다음 보고: <strong style="color:var(--cyan)">${p.meeting||'-'}</strong></span>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="form-btn small" onclick="updateCP(${p.id})">진행률 업데이트</button>
+        <button class="form-btn small red" onclick="deleteCP(${p.id})">삭제</button>
+      </div>
+    </div>`;
+  }).join('') || '<div style="text-align:center;color:var(--text-2);padding:40px">등록된 계약 프로젝트가 없습니다</div>';
+}
+
+function addContractProject() {
+  const company = document.getElementById('cp-company').value.trim();
+  if (!company) { alert('고객사명을 입력하세요'); return; }
+  contractProjects.push({
+    id:      cpNextId++,
+    company,
+    cdate:   document.getElementById('cp-cdate').value||'-',
+    value:   parseFloat(document.getElementById('cp-value').value)||0,
+    due:     document.getElementById('cp-due').value||'-',
+    status:  document.getElementById('cp-status').value,
+    pct:     parseInt(document.getElementById('cp-pct').value)||0,
+    meeting: document.getElementById('cp-meeting').value||'-',
+    desc:    document.getElementById('cp-desc').value,
+  });
+  ['cp-company','cp-desc','cp-value'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('cp-pct').value = '0';
+  renderCP();
+}
+function updateCP(id) {
+  const p = contractProjects.find(x=>x.id===id);
+  if (!p) return;
+  const pct = prompt(`"${p.company}" 진행률 입력 (현재: ${p.pct}%)`, p.pct);
+  if (pct===null) return;
+  p.pct = Math.min(100, Math.max(0, parseInt(pct)||p.pct));
+  if (p.pct===100) p.status='done';
+  renderCP();
+}
+function deleteCP(id) {
+  if (!confirm('삭제하시겠습니까?')) return;
+  contractProjects = contractProjects.filter(p=>p.id!==id); renderCP();
+}
+
+// 초기 렌더
+renderCRM();
+renderCP();
+</script>
+</body>
+</html>

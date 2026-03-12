@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>재무/성과 — AX BIZ Group CEO Platform</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="_axbiz-shared.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>재무 / 성과</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <div class="section-heading">재무 / 성과</div>
+    <div class="section-sub">3년 매출 계획 · 월별 추이 · 프로젝트 ROI</div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card green">
+        <div class="kpi-label">2026 목표 매출</div><div class="kpi-value">6.5억</div><div class="kpi-sub">현재 달성률 64%</div>
+        <div class="card-note">2026년 연간 목표 매출액 | 데이터: CEO 연간 사업 계획서 (2026-01 수립) — 프로젝트 납품 + SaaS 구독 + 교육 수입 합산 목표</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">2027 목표 매출</div><div class="kpi-value">28억</div><div class="kpi-sub">YoY 330% 성장</div>
+        <div class="card-note">2027년 연간 목표 매출 — 시장 확장 Phase 2 기준 | 데이터: 5년 전략 로드맵 재무 모델 — 엔터프라이즈 계약 5건 + 연합 500명 + SaaS MRR 성장 합산</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">2028 목표 매출</div><div class="kpi-value">80억</div><div class="kpi-sub">YoY 186% 성장</div>
+        <div class="card-note">2028년 연간 목표 매출 — 스케일업 Phase 3 기준 | 데이터: 5년 전략 로드맵 — 다수 버티컬 확장 + 글로벌 진출 + 플랫폼 라이선싱 수익 합산</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">현재 번 레이트</div><div class="kpi-value">4.2억/월</div><div class="kpi-sub">분기 예상 12.6억</div>
+        <div class="card-note">현재 월 평균 실제 매출 | 데이터: 최근 3개월 월별 정산 평균값 — 프로젝트 착수금·중도금·잔금 합산. 3월 목표 5.0억 대비 현재 84% 달성</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:var(--green)"></div>3년 매출 계획 (억원)</div>
+      <div class="chart-wrap-lg"><canvas id="revenueChart"></canvas></div>
+      <div class="card-note">2025~2028년 목표 vs 실적 매출 막대 차트 | 데이터: 2025년: 연간 실적 3.2억 / 2026년: 목표 6.5억 (현재 실적 예상 4.2억 기준) / 2027~2028년: 전략 재무 모델 목표값. 분기마다 실적값 업데이트</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--blue)"></div>월별 매출 현황 (2026)</div>
+        <div class="chart-wrap"><canvas id="monthlyChart"></canvas></div>
+        <div class="card-note">2026년 1~12월 월별 실적(green) vs 목표(blue 점선) 비교 라인 차트 | 데이터: 1~3월 실제 정산 데이터 / 4~12월 목표는 연간 6.5억을 월별 안분한 계획값. 매월 말 실적 업데이트</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--yellow)"></div>프로젝트별 ROI</div>
+        <table class="tbl">
+          <thead><tr><th>프로젝트</th><th>투자</th><th>수익</th><th>ROI</th></tr></thead>
+          <tbody>
+            <tr><td>치과 AI 광고</td><td>800만</td><td>3,200만</td><td><span style="color:var(--green);font-weight:700">+300%</span></td></tr>
+            <tr><td>창업가 연합</td><td>500만</td><td>1,800만</td><td><span style="color:var(--green);font-weight:700">+260%</span></td></tr>
+            <tr><td>AX Platform</td><td>2,000만</td><td>4,500만</td><td><span style="color:var(--green);font-weight:700">+125%</span></td></tr>
+            <tr><td>KONEC 파일럿</td><td>300만</td><td>2,800만</td><td><span style="color:var(--green);font-weight:700">+833%</span></td></tr>
+            <tr><td>Vibe Coding Lab</td><td>200만</td><td>600만</td><td><span style="color:var(--green);font-weight:700">+200%</span></td></tr>
+          </tbody>
+        </table>
+        <div class="card-note">주요 프로젝트별 투자 대비 수익 ROI 테이블 | 데이터: 투자액(인건비+외주+직접비용) vs 수익(계약액+교육비+광고성과) 실제 정산 기준. KONEC은 예상 계약액 기준 잠정치. 분기마다 재산정</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('finance');
+
+new Chart(document.getElementById('revenueChart'),{
+  type:'bar',
+  data:{
+    labels:['2025(실적)','2026(계획)','2027(계획)','2028(계획)'],
+    datasets:[
+      {label:'목표 매출(억)', data:[3.2,6.5,28,80], backgroundColor:['rgba(139,148,158,.4)','rgba(46,164,255,.6)','rgba(124,58,237,.6)','rgba(34,197,94,.6)'], borderRadius:6},
+      {label:'실적/예상(억)', data:[3.2,4.2,null,null], backgroundColor:'rgba(245,158,11,.6)', borderRadius:6}
+    ]
+  },
+  options:{...chartDefaults}
+});
+
+new Chart(document.getElementById('monthlyChart'),{
+  type:'line',
+  data:{
+    labels:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    datasets:[
+      {label:'실적', data:[3.4,3.9,4.2,null,null,null,null,null,null,null,null,null], borderColor:'rgba(34,197,94,.8)', backgroundColor:'rgba(34,197,94,.1)', fill:true, tension:.4, spanGaps:false},
+      {label:'목표', data:[3.5,4.0,5.0,5.0,5.5,5.5,6.0,6.0,6.5,6.5,7.0,7.5], borderColor:'rgba(46,164,255,.5)', backgroundColor:'transparent', tension:.4, borderDash:[4,4]}
+    ]
+  },
+  options:{...chartDefaults}
+});
+</script>
+</body>
+</html>

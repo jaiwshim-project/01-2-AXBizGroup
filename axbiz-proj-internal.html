@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>내부 추진 프로젝트 — AX BIZ Group CEO Platform</title>
+<link rel="stylesheet" href="_axbiz-shared.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>내부 추진 프로젝트</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <div class="section-heading">내부 추진 프로젝트</div>
+    <div class="section-sub">AX BIZ 그룹 자체 기획 · 자사 제품 개발 · 플랫폼 확장 프로젝트</div>
+
+    <!-- KPI -->
+    <div class="kpi-grid">
+      <div class="kpi-card blue"><div class="kpi-label">전체</div><div class="kpi-value" id="ip-kpi-total">0</div><div class="kpi-sub">내부 프로젝트 총 수</div></div>
+      <div class="kpi-card green"><div class="kpi-label">개발 중</div><div class="kpi-value" id="ip-kpi-active">0</div><div class="kpi-sub">현재 진행 중</div></div>
+      <div class="kpi-card purple"><div class="kpi-label">기획 중</div><div class="kpi-value" id="ip-kpi-planning">0</div><div class="kpi-sub">착수 준비 단계</div></div>
+      <div class="kpi-card cyan"><div class="kpi-label">완료</div><div class="kpi-value" id="ip-kpi-done">0</div><div class="kpi-sub">배포 완성</div></div>
+    </div>
+
+    <!-- 새 프로젝트 등록 폼 -->
+    <div class="card" style="border:1px dashed rgba(46,164,255,.4);background:rgba(46,164,255,.03)">
+      <div class="card-title"><div class="dot" style="background:var(--blue)"></div>새 내부 프로젝트 등록</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+        <div>
+          <label class="form-label">프로젝트명 *</label>
+          <input id="ip-name" class="form-input" type="text" placeholder="예: AX-Analytics 모듈">
+        </div>
+        <div>
+          <label class="form-label">분야</label>
+          <select id="ip-cat" class="form-input">
+            <option value="platform">AI 플랫폼</option>
+            <option value="dental">치과 버티컬</option>
+            <option value="community">창업가 연합</option>
+            <option value="data">데이터 인텔리전스</option>
+            <option value="biz">비즈니스 솔루션</option>
+            <option value="other">기타</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">담당자</label>
+          <select id="ip-owner" class="form-input">
+            <option>심재우</option>
+            <option>선홍규</option>
+            <option>정필환</option>
+            <option>외부/용역</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+        <div>
+          <label class="form-label">우선순위</label>
+          <select id="ip-pri" class="form-input">
+            <option value="p1">P1 긴급</option>
+            <option value="p2" selected>P2 중요</option>
+            <option value="p3">P3 일반</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">상태</label>
+          <select id="ip-status" class="form-input">
+            <option value="planning">기획 중</option>
+            <option value="active">개발 중</option>
+            <option value="testing">테스트</option>
+            <option value="done">완료</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">목표 완료일</label>
+          <input id="ip-due" class="form-input" type="date">
+        </div>
+        <div>
+          <label class="form-label">현재 진행률 (%)</label>
+          <input id="ip-pct" class="form-input" type="number" min="0" max="100" value="0">
+        </div>
+      </div>
+      <div style="margin-bottom:14px">
+        <label class="form-label">프로젝트 목표 / 설명</label>
+        <textarea id="ip-desc" class="form-input" rows="2" placeholder="프로젝트의 목표와 간단한 설명을 입력하세요"></textarea>
+      </div>
+      <button class="form-btn" onclick="addInternalProject()">+ 프로젝트 등록</button>
+    </div>
+
+    <!-- 필터 -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="tab-btn active" style="background:var(--bg-card);font-size:12px;padding:6px 14px" onclick="filterIP('all',this)">전체</button>
+      <button class="tab-btn" style="font-size:12px;padding:6px 14px" onclick="filterIP('active',this)">개발 중</button>
+      <button class="tab-btn" style="font-size:12px;padding:6px 14px" onclick="filterIP('planning',this)">기획 중</button>
+      <button class="tab-btn" style="font-size:12px;padding:6px 14px" onclick="filterIP('testing',this)">테스트</button>
+      <button class="tab-btn" style="font-size:12px;padding:6px 14px" onclick="filterIP('done',this)">완료</button>
+    </div>
+
+    <!-- 프로젝트 테이블 -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <table class="tbl" id="ipTable">
+        <thead>
+          <tr>
+            <th>프로젝트명</th><th>분야</th><th>담당</th><th>우선순위</th><th>상태</th><th>진행률</th><th>목표일</th><th>관리</th>
+          </tr>
+        </thead>
+        <tbody id="ipBody"></tbody>
+      </table>
+    </div>
+
+    <div class="card-note" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-top:0">
+      이 페이지는 AX BIZ 그룹이 자체 기획하여 추진하는 내부 프로젝트(자사 AI 플랫폼 개발, 버티컬 솔루션, 커뮤니티 운영 등)를 관리합니다.
+      데이터는 이 페이지에 직접 등록·수정하며, 종합 현황 페이지에 자동 반영됩니다.
+      외부 고객과의 계약 프로젝트는 <a href="axbiz-proj-client.html" style="color:var(--blue)">고객 프로젝트 CRM</a>에서 관리하세요.
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('proj-internal');
+
+// ── 데이터 ──
+var internalProjects = [
+  {id:1, name:'AX Platform MVP', cat:'platform', owner:'선홍규', pri:'p1', status:'active', pct:42, due:'2026-06-30', desc:'5대 모듈 통합 MVP — AX-OS, Builder, Data, Automation, Decision'},
+  {id:2, name:'AI 창업가 연합 플랫폼', cat:'community', owner:'심재우', pri:'p1', status:'active', pct:35, due:'2026-05-15', desc:'300명 목표 멘토링+학습 통합 플랫폼 개발'},
+  {id:3, name:'치과 AI 3단계 시스템', cat:'dental', owner:'정필환', pri:'p2', status:'active', pct:25, due:'2026-07-31', desc:'치과 AI 광고 자동화 3단계: 콘텐츠 자동 배포'},
+  {id:4, name:'AX-Data Intelligence', cat:'data', owner:'선홍규', pri:'p2', status:'planning', pct:18, due:'2026-08-31', desc:'산업별 데이터 수집·분석 엔진 구축'},
+  {id:5, name:'CEO 대시보드 v2', cat:'biz', owner:'심재우', pri:'p2', status:'active', pct:70, due:'2026-03-31', desc:'멀티페이지 CEO 플랫폼 고도화'},
+  {id:6, name:'글로벌 파트너십 프로그램', cat:'other', owner:'심재우', pri:'p3', status:'planning', pct:5, due:'2026-09-30', desc:'동남아 진출 MOU 파트너십 구조 설계'},
+  {id:7, name:'치과 AI 1단계', cat:'dental', owner:'정필환', pri:'p1', status:'done', pct:100, due:'2026-02-28', desc:'치과 AI 광고 자동화 1단계 완성 배포'},
+];
+var ipNextId = 8;
+
+const catLabel = {platform:'AI 플랫폼', dental:'치과 버티컬', community:'창업가 연합', data:'데이터', biz:'비즈니스', other:'기타'};
+const priLabel = {p1:'P1 긴급', p2:'P2 중요', p3:'P3 일반'};
+const statusLabel = {planning:'기획중', active:'개발중', testing:'테스트', done:'완료'};
+
+var currentFilter = 'all';
+
+function renderIP() {
+  const list = currentFilter === 'all'
+    ? internalProjects
+    : internalProjects.filter(p => p.status === currentFilter);
+
+  const total    = internalProjects.length;
+  const active   = internalProjects.filter(p=>p.status==='active').length;
+  const planning = internalProjects.filter(p=>p.status==='planning').length;
+  const done     = internalProjects.filter(p=>p.status==='done').length;
+
+  document.getElementById('ip-kpi-total').textContent   = total;
+  document.getElementById('ip-kpi-active').textContent  = active;
+  document.getElementById('ip-kpi-planning').textContent= planning;
+  document.getElementById('ip-kpi-done').textContent    = done;
+
+  const fillColors = {p1:'fill-red', p2:'fill-yellow', p3:'fill-blue'};
+  document.getElementById('ipBody').innerHTML = list.map(p => `
+    <tr>
+      <td><strong>${p.name}</strong><div style="font-size:11px;color:var(--text-2);margin-top:3px">${p.desc}</div></td>
+      <td><span style="font-size:11px;color:var(--text-2)">${catLabel[p.cat]||p.cat}</span></td>
+      <td style="font-size:12px">${p.owner}</td>
+      <td><span class="priority ${p.pri}">${priLabel[p.pri]}</span></td>
+      <td><span class="status ${p.status}">${statusLabel[p.status]||p.status}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="progress-track" style="flex:1;height:5px"><div class="progress-fill ${fillColors[p.pri]}" style="width:${p.pct}%"></div></div>
+          <span style="font-size:11px;color:var(--text-2);width:28px">${p.pct}%</span>
+        </div>
+      </td>
+      <td style="font-size:12px;color:var(--text-2)">${p.due||'-'}</td>
+      <td>
+        <button class="form-btn small" onclick="editIPStatus(${p.id})">수정</button>
+        <button class="form-btn small red" style="margin-left:4px" onclick="deleteIP(${p.id})">삭제</button>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--text-2);padding:20px">등록된 프로젝트가 없습니다</td></tr>';
+}
+
+function filterIP(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) { btn.classList.add('active'); btn.style.background='var(--bg-card)'; }
+  renderIP();
+}
+
+function addInternalProject() {
+  const name = document.getElementById('ip-name').value.trim();
+  if (!name) { alert('프로젝트명을 입력하세요'); return; }
+  internalProjects.push({
+    id:     ipNextId++,
+    name:   name,
+    cat:    document.getElementById('ip-cat').value,
+    owner:  document.getElementById('ip-owner').value,
+    pri:    document.getElementById('ip-pri').value,
+    status: document.getElementById('ip-status').value,
+    pct:    parseInt(document.getElementById('ip-pct').value)||0,
+    due:    document.getElementById('ip-due').value||'-',
+    desc:   document.getElementById('ip-desc').value,
+  });
+  ['ip-name','ip-desc'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('ip-pct').value = '0';
+  renderIP();
+}
+
+function editIPStatus(id) {
+  const p = internalProjects.find(x=>x.id===id);
+  if (!p) return;
+  const pct = prompt(`"${p.name}" 진행률 입력 (현재: ${p.pct}%)`, p.pct);
+  if (pct === null) return;
+  const st  = prompt('상태 입력 (planning/active/testing/done)', p.status);
+  if (st === null) return;
+  p.pct = parseInt(pct)||p.pct;
+  if (['planning','active','testing','done'].includes(st)) p.status = st;
+  renderIP();
+}
+
+function deleteIP(id) {
+  if (!confirm('이 프로젝트를 삭제하시겠습니까?')) return;
+  internalProjects = internalProjects.filter(p => p.id !== id);
+  renderIP();
+}
+
+renderIP();
+</script>
+</body>
+</html>

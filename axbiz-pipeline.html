@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>비즈니스 파이프라인 — AX BIZ Group CEO Platform</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="_axbiz-shared.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>비즈니스 파이프라인</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <div class="section-heading">비즈니스 파이프라인</div>
+    <div class="section-sub">잠재 고객 · 영업 퍼널 5단계 · 예상 계약 현황</div>
+
+    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="kpi-card blue">
+        <div class="kpi-label">총 리드</div><div class="kpi-value">23</div><div class="kpi-sub">활성 파이프라인</div>
+        <div class="card-note">현재 영업 진행 중인 잠재 고객 총 수 | 데이터: 고객 프로젝트 CRM 영업 파이프라인 등록 건수 합산</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">협상 단계</div><div class="kpi-value">5</div><div class="kpi-sub">예상 계약 임박</div>
+        <div class="card-note">제안서 수락 후 계약 조건 협의 중인 건수 | 데이터: CRM 영업 단계 "협상/검토" 필터 건수</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">예상 계약액</div><div class="kpi-value">12.4억</div><div class="kpi-sub">이번 분기</div>
+        <div class="card-note">전체 파이프라인 잠재 계약액 합산 | 데이터: 고객 프로젝트 CRM 각 리드의 예상 계약액 필드 합계</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">전환율</div><div class="kpi-value">34%</div><div class="kpi-sub">리드 → 계약</div>
+        <div class="card-note">전체 발굴 리드 중 계약으로 전환된 비율 | 데이터: 계약 완료 수 ÷ 총 리드 수 (최근 6개월 누적)</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--blue)"></div>영업 퍼널 5단계</div>
+        <div class="funnel">
+          <div class="funnel-stage"><div class="funnel-label">발굴/인지</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%;background:rgba(46,164,255,.3);color:var(--blue)">23건</div></div><div class="funnel-count">23</div></div>
+          <div class="funnel-stage"><div class="funnel-label">관심/탐색</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:74%;background:rgba(124,58,237,.3);color:var(--purple)">17건</div></div><div class="funnel-count">17</div></div>
+          <div class="funnel-stage"><div class="funnel-label">제안서 제출</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:52%;background:rgba(245,158,11,.3);color:var(--yellow)">12건</div></div><div class="funnel-count">12</div></div>
+          <div class="funnel-stage"><div class="funnel-label">협상/검토</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:22%;background:rgba(6,182,212,.3);color:var(--cyan)">5건</div></div><div class="funnel-count">5</div></div>
+          <div class="funnel-stage"><div class="funnel-label">계약 완료</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:13%;background:rgba(34,197,94,.3);color:var(--green)">3건</div></div><div class="funnel-count">3</div></div>
+        </div>
+        <div class="card-note">영업 5단계별 잠재 고객 건수 분포 | 데이터: 고객 프로젝트 CRM 페이지의 영업 단계(stage) 필드별 건수 집계. CRM에 신규 등록 시 자동 반영</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--yellow)"></div>주요 잠재 고객 (TOP 협상 단계)</div>
+        <table class="tbl">
+          <thead><tr><th>고객사</th><th>분야</th><th>단계</th><th>예상액</th></tr></thead>
+          <tbody>
+            <tr><td><strong>KONEC</strong></td><td>HR/채용</td><td><span class="status urgent">협상</span></td><td>2.8억</td></tr>
+            <tr><td><strong>화이트서울치과</strong></td><td>치과</td><td><span class="status active">계약</span></td><td>1.2억/년</td></tr>
+            <tr><td><strong>법무법인 A</strong></td><td>법률</td><td><span class="status pending">제안</span></td><td>1.8억</td></tr>
+            <tr><td><strong>스타트업 B</strong></td><td>SaaS</td><td><span class="status pending">제안</span></td><td>0.9억</td></tr>
+            <tr><td><strong>병원 C 그룹</strong></td><td>의료</td><td><span class="status pending">탐색</span></td><td>3.5억</td></tr>
+            <tr><td><strong>제조 D사</strong></td><td>제조</td><td><span class="status pending">탐색</span></td><td>2.2억</td></tr>
+          </tbody>
+        </table>
+        <div class="card-note">협상 단계 이상의 주요 잠재 고객 목록 | 데이터: 고객 프로젝트 CRM 영업 단계 "협상/계약" 필터 — 예상 계약액 기준 내림차순 정렬</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:var(--green)"></div>월별 파이프라인 성장</div>
+      <div class="chart-wrap-lg"><canvas id="pipelineChart"></canvas></div>
+      <div class="card-note">월별 총 리드 수 / 협상 단계 / 계약 완료 건수 추이 | 데이터: 고객 프로젝트 CRM 등록 기록 기반 월별 집계. 영업 깔때기의 전반적 성장 추이를 3개 선으로 비교</div>
+    </div>
+
+  </div>
+</div>
+</div>
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('pipeline');
+new Chart(document.getElementById('pipelineChart'),{
+  type:'line',
+  data:{
+    labels:['10월','11월','12월','1월','2월','3월'],
+    datasets:[
+      {label:'총 리드',    data:[8,11,14,17,20,23], borderColor:'rgba(46,164,255,.8)', backgroundColor:'rgba(46,164,255,.1)', fill:true,  tension:.4},
+      {label:'협상 단계',  data:[1,2,2,3,4,5],      borderColor:'rgba(245,158,11,.8)', backgroundColor:'transparent',         tension:.4},
+      {label:'계약 완료',  data:[0,0,1,1,2,3],      borderColor:'rgba(34,197,94,.8)',  backgroundColor:'transparent',         tension:.4},
+    ]
+  },
+  options:{...chartDefaults}
+});
+</script>
+</body>
+</html>

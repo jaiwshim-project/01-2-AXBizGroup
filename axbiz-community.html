@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI 창업가 연합 — AX BIZ Group CEO Platform</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="_axbiz-shared.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>AI 창업가 연합</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <div class="section-heading">AI 창업가 연합</div>
+    <div class="section-sub">멤버 현황 · 4단계 조직 · Vibe Coding Lab</div>
+
+    <div class="grid-2" style="margin-bottom:16px">
+      <div class="card" style="text-align:center;padding:30px">
+        <div class="counter-display" id="memberCounter">247</div>
+        <div class="counter-target">목표: 1,000명 (24.7% 달성)</div>
+        <div class="progress-track" style="margin-top:16px"><div class="progress-fill fill-purple" style="width:24.7%"></div></div>
+        <div style="margin-top:16px;display:flex;justify-content:center;gap:20px;font-size:12px">
+          <div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--green)">+38</div><div style="color:var(--text-2)">지난 30일</div></div>
+          <div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--blue)">3기</div><div style="color:var(--text-2)">현재 기수</div></div>
+          <div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--yellow)">89%</div><div style="color:var(--text-2)">수료율</div></div>
+        </div>
+        <div class="card-note">AI 창업가 연합 전체 등록 멤버 수 (목표 1,000명 대비 달성률) | 데이터: 네이버 카페 등록 + 오프라인 참가자 명단 합산. 8초마다 실시간 시뮬레이션 업데이트</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--purple)"></div>4단계 조직 현황</div>
+        <div class="org-tier"><div class="tier-icon">👑</div><div class="tier-name">Founder Council<br><span style="font-size:11px;color:var(--text-2)">핵심 의사결정 그룹</span></div><div class="tier-count">3</div></div>
+        <div class="org-tier"><div class="tier-icon">⭐</div><div class="tier-name">Core Builder<br><span style="font-size:11px;color:var(--text-2)">프로젝트 리딩 멤버</span></div><div class="tier-count">24</div></div>
+        <div class="org-tier"><div class="tier-icon">🚀</div><div class="tier-name">Startup Builder<br><span style="font-size:11px;color:var(--text-2)">활성 창업 준비 멤버</span></div><div class="tier-count">87</div></div>
+        <div class="org-tier"><div class="tier-icon">🌱</div><div class="tier-name">Community<br><span style="font-size:11px;color:var(--text-2)">일반 학습 멤버</span></div><div class="tier-count">133</div></div>
+        <div class="card-note">4단계 멤버십 구조별 인원 현황 | 데이터: Founder Council: CEO+CTO+COO 3인 / Core Builder: 연합 운영진 및 프로젝트 리더 24명 / Startup Builder: 실제 창업 준비 활성 멤버 / Community: 학습 목적 일반 멤버 — 분기별 등급 재심사</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--cyan)"></div>Vibe Coding Lab 일정</div>
+        <table class="tbl">
+          <thead><tr><th>회차</th><th>주제</th><th>일정</th><th>상태</th></tr></thead>
+          <tbody>
+            <tr><td>1회</td><td>Claude Code 기초 & SPA 빌드</td><td>2월 15일</td><td><span class="status done">완료</span></td></tr>
+            <tr><td>2회</td><td>AI 데이터 파이프라인</td><td>2월 29일</td><td><span class="status done">완료</span></td></tr>
+            <tr><td>3회</td><td>MCP 서버 구축</td><td>3월 14일</td><td><span class="status active">진행예정</span></td></tr>
+            <tr><td>4회</td><td>AI 창업 비즈니스 모델</td><td>3월 28일</td><td><span class="status pending">예정</span></td></tr>
+            <tr><td>5회</td><td>투자 유치 & 피칭</td><td>4월 11일</td><td><span class="status pending">예정</span></td></tr>
+          </tbody>
+        </table>
+        <div class="card-note">Vibe Coding Lab 3기 커리큘럼 일정표 | 데이터: CEO·CTO 공동 기획 커리큘럼 — 각 회차 완료 후 수료자 수, 만족도, 주요 산출물 기록. 장소: 서울 강남 코워킹스페이스 (48명 정원)</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot" style="background:var(--green)"></div>멤버 성장 추이</div>
+        <div class="chart-wrap-lg"><canvas id="memberChart"></canvas></div>
+        <div class="card-note">월별 AI 창업가 연합 등록 멤버 수 증가 추이 | 데이터: 2025년 10월 ~ 2026년 3월 월별 누적 멤버 수. 네이버 카페 가입자 + 오프라인 등록자 합산 집계. 목표 성장률: 월 +40명 이상</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('community');
+
+// Member jitter
+setInterval(function(){
+  var m = 247 + Math.floor(Math.random()*3);
+  document.getElementById('memberCounter').textContent = m;
+}, 8000);
+
+new Chart(document.getElementById('memberChart'),{
+  type:'line',
+  data:{
+    labels:['10월','11월','12월','1월','2월','3월'],
+    datasets:[{
+      label:'멤버 수',
+      data:[82,105,134,178,209,247],
+      borderColor:'rgba(124,58,237,.8)',
+      backgroundColor:'rgba(124,58,237,.15)',
+      fill:true, tension:.4, pointRadius:4,
+      pointBackgroundColor:'rgba(124,58,237,1)'
+    }]
+  },
+  options:{...chartDefaults}
+});
+</script>
+</body>
+</html>

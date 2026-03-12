@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>플랫폼 포트폴리오 — AX BIZ Group CEO Platform</title>
+<link rel="stylesheet" href="_axbiz-shared.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">🏠 <span class="home-btn-label">홈</span></a>
+    <h1>플랫폼 포트폴리오</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <div class="section-heading">플랫폼 포트폴리오</div>
+    <div class="section-sub">AI 솔루션 50종 · 버티컬별 분류 · 도입 현황</div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <div class="kpi-label">전체 솔루션</div><div class="kpi-value">50종</div><div class="kpi-sub">5개 버티컬 분야</div>
+        <div class="card-note">AX BIZ 그룹이 개발·운영 중인 전체 AI 솔루션 수 | 데이터: 제품 카탈로그 v3.0 (2026-03-01 기준)</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">배포 완료</div><div class="kpi-value">18종</div><div class="kpi-sub">전체의 36%</div>
+        <div class="card-note">실제 고객사에 배포·운영 중인 솔루션 수 | 데이터: CTO 배포 현황 보고서 기준</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">개발 중</div><div class="kpi-value">22종</div><div class="kpi-sub">Q2~Q3 출시 예정</div>
+        <div class="card-note">현재 개발 진행 중인 솔루션 수 | 데이터: Bravo 분대 스프린트 보드 기준</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">기획 중</div><div class="kpi-value">10종</div><div class="kpi-sub">로드맵 확정 대기</div>
+        <div class="card-note">기획 단계에 있는 솔루션 수 | 데이터: CEO·CTO 공동 기획 문서 기준</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:var(--blue)"></div>버티컬 분류 필터</div>
+      <div class="tabs" style="margin-bottom:0">
+        <button class="tab-btn active" onclick="filterPortfolio('all',this)">전체 (50)</button>
+        <button class="tab-btn" onclick="filterPortfolio('dental',this)">🦷 치과 (12)</button>
+        <button class="tab-btn" onclick="filterPortfolio('education',this)">🎓 교육 (10)</button>
+        <button class="tab-btn" onclick="filterPortfolio('business',this)">💼 비즈니스 (12)</button>
+        <button class="tab-btn" onclick="filterPortfolio('healthcare',this)">🏥 의료 (8)</button>
+        <button class="tab-btn" onclick="filterPortfolio('creative',this)">🎨 크리에이티브 (8)</button>
+      </div>
+      <div class="card-note">버티컬 탭 클릭 시 해당 분야 솔루션만 필터링 | 데이터: 제품 카탈로그 v3.0 — 치과·교육·비즈니스·의료·크리에이티브 5개 분야 50종</div>
+    </div>
+
+    <div id="portfolioGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:4px"></div>
+
+  </div>
+</div>
+</div>
+<script src="_axbiz-nav.js"></script>
+<script>
+initNav('portfolio');
+
+const platforms = [
+  // 치과 (12)
+  {id:1, vertical:'dental', name:'치과 AI 광고 생성기', desc:'환자 타깃 광고 카피 자동 생성. 클릭률 평균 2.4배 향상', status:'배포', progress:100, roi:'+300%'},
+  {id:2, vertical:'dental', name:'치과 진단지 분석 AI', desc:'방사선 사진 기반 자동 소견서 초안 생성, 의사 검토 지원', status:'배포', progress:100, roi:'+180%'},
+  {id:3, vertical:'dental', name:'카드뉴스 생성기', desc:'치과 교육용 카드뉴스 자동 생성 (SNS 최적화)', status:'배포', progress:100, roi:'+220%'},
+  {id:4, vertical:'dental', name:'환자 상담 스크립트 AI', desc:'증상별 맞춤 상담 스크립트 자동 생성', status:'배포', progress:100, roi:'+150%'},
+  {id:5, vertical:'dental', name:'치과 SEO 콘텐츠 엔진', desc:'지역 검색 최적화 블로그 포스트 자동 생성', status:'개발중', progress:65, roi:'-'},
+  {id:6, vertical:'dental', name:'예약 관리 자동화', desc:'카카오·네이버 예약 통합 AI 응답·관리 시스템', status:'개발중', progress:50, roi:'-'},
+  {id:7, vertical:'dental', name:'치료 견적 자동화 AI', desc:'보험 청구 코드 기반 환자 맞춤 견적서 생성', status:'개발중', progress:40, roi:'-'},
+  {id:8, vertical:'dental', name:'리뷰 응답 자동화', desc:'구글·네이버 리뷰 감정분석 후 맞춤 답변 생성', status:'배포', progress:100, roi:'+200%'},
+  {id:9, vertical:'dental', name:'치과 CRM AI', desc:'환자 이탈 예측 및 재방문 유도 자동 메시지', status:'개발중', progress:35, roi:'-'},
+  {id:10, vertical:'dental', name:'직원 교육 AI 튜터', desc:'치과 직원 대상 맞춤형 온라인 교육 플랫폼', status:'기획중', progress:15, roi:'-'},
+  {id:11, vertical:'dental', name:'경쟁 분석 리포트', desc:'지역 치과 경쟁사 자동 분석 주간 리포트', status:'기획중', progress:10, roi:'-'},
+  {id:12, vertical:'dental', name:'AI 원장 어시스턴트', desc:'원장 일정·경영 지표·직원 관리 통합 AI 비서', status:'기획중', progress:5, roi:'-'},
+
+  // 교육 (10)
+  {id:13, vertical:'education', name:'AI 창업가 연합 플랫폼', desc:'멘토링·네트워킹·투자 연계 통합 플랫폼', status:'배포', progress:100, roi:'+260%'},
+  {id:14, vertical:'education', name:'Vibe Coding Lab LMS', desc:'Claude Code 기반 AI 코딩 교육 학습관리 시스템', status:'배포', progress:100, roi:'+200%'},
+  {id:15, vertical:'education', name:'AI 강의 자동 생성기', desc:'주제 입력 시 강의 자료·퀴즈·과제 자동 생성', status:'개발중', progress:60, roi:'-'},
+  {id:16, vertical:'education', name:'학습 진도 분석 AI', desc:'수강생 행동 데이터 분석 및 이탈 예측·개입', status:'개발중', progress:45, roi:'-'},
+  {id:17, vertical:'education', name:'AI 튜터봇', desc:'24시간 질의응답·피드백 제공 개인화 튜터 챗봇', status:'개발중', progress:55, roi:'-'},
+  {id:18, vertical:'education', name:'교육 콘텐츠 번역 AI', desc:'강의 자료 다국어 자동 번역·현지화', status:'기획중', progress:20, roi:'-'},
+  {id:19, vertical:'education', name:'수료증 자동 발급 시스템', desc:'블록체인 기반 디지털 수료증 자동 발급', status:'기획중', progress:10, roi:'-'},
+  {id:20, vertical:'education', name:'커리큘럼 최적화 AI', desc:'학습 성과 데이터 기반 커리큘럼 자동 개선 제안', status:'개발중', progress:30, roi:'-'},
+  {id:21, vertical:'education', name:'그룹 프로젝트 관리 AI', desc:'팀 프로젝트 일정·역할·성과 자동 관리', status:'기획중', progress:15, roi:'-'},
+  {id:22, vertical:'education', name:'취업 연계 AI 매칭', desc:'수료생 역량 분석 후 기업·투자자 자동 매칭', status:'기획중', progress:10, roi:'-'},
+
+  // 비즈니스 (12)
+  {id:23, vertical:'business', name:'AX-OS (AI 운영체제)', desc:'기업 전체 AI 워크플로우를 제어하는 핵심 플랫폼', status:'개발중', progress:55, roi:'-'},
+  {id:24, vertical:'business', name:'AX-Builder (앱 빌더)', desc:'노코드 AI 앱 빌드·배포 플랫폼', status:'개발중', progress:42, roi:'-'},
+  {id:25, vertical:'business', name:'AX-Data Intelligence', desc:'산업별 데이터 수집·분석·리포팅 파이프라인', status:'개발중', progress:28, roi:'-'},
+  {id:26, vertical:'business', name:'AX-Automation', desc:'반복 업무 AI 자동화 레이어 (RPA+AI)', status:'개발중', progress:35, roi:'-'},
+  {id:27, vertical:'business', name:'AX-Decision Engine', desc:'AI 기반 경영 의사결정 지원 분석 엔진', status:'개발중', progress:22, roi:'-'},
+  {id:28, vertical:'business', name:'CEO 마스터 플랫폼', desc:'경영자용 All-in-One 대시보드·인사이트 플랫폼', status:'배포', progress:100, roi:'+400%'},
+  {id:29, vertical:'business', name:'영업 파이프라인 CRM', desc:'AI 기반 리드 발굴·관리·계약 자동화 CRM', status:'배포', progress:100, roi:'+350%'},
+  {id:30, vertical:'business', name:'계약서 AI 검토기', desc:'계약서 리스크 자동 분석 및 수정 제안', status:'개발중', progress:40, roi:'-'},
+  {id:31, vertical:'business', name:'IR 자료 생성 AI', desc:'투자자 대상 피칭 덱 자동 생성·최적화', status:'개발중', progress:50, roi:'-'},
+  {id:32, vertical:'business', name:'비즈니스 인사이트 엔진', desc:'일별 AI 경영 인사이트 자동 생성 및 이메일 발송', status:'배포', progress:100, roi:'+180%'},
+  {id:33, vertical:'business', name:'M&A 분석 AI', desc:'인수합병 대상 기업 자동 분석·밸류에이션 지원', status:'기획중', progress:10, roi:'-'},
+  {id:34, vertical:'business', name:'글로벌 파트너 매칭 AI', desc:'동남아·글로벌 파트너사 발굴·매칭 자동화', status:'기획중', progress:5, roi:'-'},
+
+  // 의료 (8)
+  {id:35, vertical:'healthcare', name:'의료 콘텐츠 생성 AI', desc:'병원 SNS·블로그 맞춤 의료 콘텐츠 자동 생성', status:'개발중', progress:35, roi:'-'},
+  {id:36, vertical:'healthcare', name:'환자 예약 AI 어시스턴트', desc:'AI 챗봇 기반 24시간 예약·문의 응대 시스템', status:'개발중', progress:30, roi:'-'},
+  {id:37, vertical:'healthcare', name:'의료 문서 요약 AI', desc:'진료 기록·검사 결과 자동 요약·분류', status:'기획중', progress:15, roi:'-'},
+  {id:38, vertical:'healthcare', name:'요양원 방문케어 AI 내비', desc:'방문 케어 일정·경로 최적화 자동화 시스템', status:'개발중', progress:25, roi:'-'},
+  {id:39, vertical:'healthcare', name:'건강 검진 리포트 AI', desc:'검진 결과 개인화 해설·관리 가이드 자동 생성', status:'기획중', progress:10, roi:'-'},
+  {id:40, vertical:'healthcare', name:'병원 경영 분석 AI', desc:'매출·환자수·처방 패턴 자동 분석 월간 리포트', status:'기획중', progress:10, roi:'-'},
+  {id:41, vertical:'healthcare', name:'의료 규정 준수 AI', desc:'의료법·규정 변경 자동 감지 및 대응 가이드', status:'기획중', progress:5, roi:'-'},
+  {id:42, vertical:'healthcare', name:'원격진료 보조 AI', desc:'원격 상담 전 사전 문진·증상 분류 AI', status:'기획중', progress:5, roi:'-'},
+
+  // 크리에이티브 (8)
+  {id:43, vertical:'creative', name:'AI 자동 출판 엔진', desc:'원고 → 전자책·POD 자동 편집·출판 파이프라인', status:'개발중', progress:60, roi:'-'},
+  {id:44, vertical:'creative', name:'라디오 카페 AI DJ', desc:'AI 맞춤 음악 선곡·DJ 멘트 자동 생성 방송 시스템', status:'개발중', progress:55, roi:'-'},
+  {id:45, vertical:'creative', name:'텍스트 to 영상 파이프라인', desc:'스크립트 → AI 영상 자동 생성·편집·자막', status:'개발중', progress:45, roi:'-'},
+  {id:46, vertical:'creative', name:'PDF 슬라이드 편집 AI', desc:'문서를 프레젠테이션으로 자동 변환·디자인', status:'배포', progress:100, roi:'+150%'},
+  {id:47, vertical:'creative', name:'브랜드 콘텐츠 AI', desc:'브랜드 톤앤매너 학습 후 일관된 콘텐츠 자동 생성', status:'개발중', progress:40, roi:'-'},
+  {id:48, vertical:'creative', name:'GEO/AIO 콘텐츠 최적화', desc:'AI 검색 최적화(GEO) 콘텐츠 자동 생성·배포', status:'개발중', progress:35, roi:'-'},
+  {id:49, vertical:'creative', name:'AI 노벨 번역기', desc:'소설·문학 작품 AI 자연어 번역 및 문체 보정', status:'기획중', progress:20, roi:'-'},
+  {id:50, vertical:'creative', name:'AI 캐릭터 상품화', desc:'IP 캐릭터 AI 생성 → 굿즈·출판 자동화 파이프라인', status:'기획중', progress:10, roi:'-'},
+];
+
+const verticalLabels = {
+  dental: '🦷 치과', education: '🎓 교육',
+  business: '💼 비즈니스', healthcare: '🏥 의료', creative: '🎨 크리에이티브'
+};
+const statusColors = {
+  '배포': 'var(--green)', '개발중': 'var(--blue)', '기획중': 'var(--text-2)'
+};
+const statusBg = {
+  '배포': 'rgba(34,197,94,.12)', '개발중': 'rgba(46,164,255,.12)', '기획중': 'rgba(139,148,158,.1)'
+};
+
+let currentFilter = 'all';
+
+function filterPortfolio(vertical, btn) {
+  currentFilter = vertical;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderPortfolio();
+}
+
+function renderPortfolio() {
+  const data = currentFilter === 'all' ? platforms : platforms.filter(p => p.vertical === currentFilter);
+  const grid = document.getElementById('portfolioGrid');
+  grid.innerHTML = data.map(p => `
+    <div class="card" style="margin:0;padding:18px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div>
+          <div style="font-size:11px;color:var(--text-3);margin-bottom:4px">${verticalLabels[p.vertical]}</div>
+          <div style="font-weight:700;font-size:14px;color:var(--text-1)">${p.name}</div>
+        </div>
+        <span style="font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;
+          color:${statusColors[p.status]};background:${statusBg[p.status]};white-space:nowrap;margin-left:8px">${p.status}</span>
+      </div>
+      <div style="font-size:12px;color:var(--text-2);line-height:1.6;margin-bottom:12px">${p.desc}</div>
+      <div style="margin-bottom:6px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-3);margin-bottom:4px">
+          <span>개발 완성도</span><span>${p.progress}%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill ${p.status === '배포' ? 'fill-green' : p.status === '개발중' ? 'fill-blue' : 'fill-purple'}" style="width:${p.progress}%"></div></div>
+      </div>
+      ${p.roi !== '-' ? `<div style="font-size:11px;color:var(--green);margin-top:8px;font-weight:600">ROI: ${p.roi}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+renderPortfolio();
+</script>
+</body>
+</html>
