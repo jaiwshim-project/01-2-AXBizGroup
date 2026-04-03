@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Documents & Downloads — AX BIZ Group</title>
+<link rel="stylesheet" href="_axbiz-shared.css">
+<style>
+/* ═══ HERO ═══ */
+.dl-hero{
+  background:linear-gradient(135deg,#0f1e4a 0%,#1a2d6b 60%,#1e3a8a 100%);
+  padding:48px 36px 44px;border-radius:16px;margin-bottom:28px;
+  position:relative;overflow:hidden;text-align:center;
+  box-shadow:0 8px 32px rgba(15,30,74,.25);
+}
+.dl-hero::before{
+  content:'';pointer-events:none;position:absolute;left:-80px;bottom:-80px;
+  width:360px;height:360px;border-radius:50%;
+  background:radial-gradient(circle,rgba(29,78,216,.18) 0%,transparent 70%);
+}
+.dl-hero::after{
+  content:'';pointer-events:none;position:absolute;right:-60px;top:-60px;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(99,102,241,.15) 0%,transparent 70%);
+}
+.dl-hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  color:rgba(255,255,255,.85);background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);
+  padding:5px 16px;border-radius:20px;margin-bottom:18px;position:relative;z-index:1;
+}
+.dl-hero h1{font-size:30px;font-weight:800;color:#fff;letter-spacing:-.8px;margin-bottom:12px;position:relative;z-index:1}
+.dl-hero p{font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.8;position:relative;z-index:1}
+
+/* ═══ CATEGORY FILTER ═══ */
+.category-filter{
+  display:flex;justify-content:center;gap:8px;
+  padding:0 20px 24px;flex-wrap:wrap;
+}
+.filter-btn{
+  padding:8px 20px;border:1.5px solid var(--border);
+  background:#fff;border-radius:20px;cursor:pointer;
+  font-size:13px;font-weight:600;color:var(--text-2);
+  transition:all .2s;
+}
+.filter-btn:hover{border-color:#1d4ed8;color:#1d4ed8}
+.filter-btn.active{
+  background:linear-gradient(135deg,#1d4ed8,#4338ca);
+  color:#fff;border-color:#1d4ed8;
+  box-shadow:0 4px 14px rgba(29,78,216,.3);
+}
+
+/* ═══ BULK ACTIONS ═══ */
+.bulk-actions{
+  display:flex;align-items:center;gap:16px;
+  padding:0 20px 16px;flex-wrap:wrap;
+}
+.select-all{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:var(--text-3);cursor:pointer;
+}
+.select-all input{width:16px;height:16px;accent-color:#1d4ed8;cursor:pointer}
+.btn-bulk-download{
+  padding:8px 20px;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:#fff;border:none;border-radius:10px;cursor:pointer;
+  font-size:12px;font-weight:700;
+  transition:opacity .2s,transform .15s;
+  box-shadow:0 4px 14px rgba(15,23,42,.25);
+}
+.btn-bulk-download:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(15,23,42,.35)}
+.btn-bulk-download:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.selected-count{font-size:11px;color:var(--text-3);font-weight:600}
+
+/* ═══ PROGRESS BAR ═══ */
+#bulk-progress{
+  display:none;padding:0 20px 16px;
+}
+.progress-bar{
+  width:100%;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;width:0%;border-radius:3px;
+  background:linear-gradient(90deg,#1d4ed8,#6d28d9);
+  transition:width .3s ease;
+}
+.progress-text{font-size:11px;color:var(--text-3);text-align:center;margin-top:6px}
+
+/* ═══ CARD GRID ═══ */
+.card-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:20px;padding:0 20px 32px;
+}
+
+/* ═══ DOC CARD ═══ */
+.doc-card{
+  background:#fff;border-radius:14px;overflow:hidden;
+  border:1.5px solid var(--border);
+  box-shadow:0 2px 10px rgba(3,12,26,.06);
+  transition:transform .2s,box-shadow .3s,border-color .2s;
+  display:flex;flex-direction:column;
+  position:relative;
+}
+.doc-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 36px rgba(3,12,26,.13);
+  border-color:#93b4fb;
+}
+.doc-card .card-check{
+  position:absolute;top:14px;right:14px;z-index:2;
+  width:18px;height:18px;accent-color:#1d4ed8;cursor:pointer;
+}
+.card-thumbnail{
+  width:100%;height:180px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.card-thumb-gradient{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;
+}
+.card-thumb-gradient .thumb-icon{font-size:48px;opacity:.9}
+.card-thumb-gradient .thumb-label{
+  font-size:11px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;opacity:.7;
+}
+.card-body{padding:18px 20px 14px;flex:1}
+.card-category{
+  display:inline-block;font-size:10px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;padding:3px 10px;border-radius:6px;margin-bottom:10px;
+}
+.cat-manual{background:#dbeafe;color:#1d4ed8}
+.cat-report{background:#dcfce7;color:#15803d}
+.cat-guide{background:#fef3c7;color:#92400e}
+.cat-etc{background:#f1f5f9;color:#475569}
+.card-title{font-size:16px;font-weight:700;color:var(--text-1);margin-bottom:8px;letter-spacing:-.2px}
+.card-desc{font-size:12px;color:var(--text-3);line-height:1.7;margin-bottom:14px}
+.card-meta{
+  display:flex;gap:14px;font-size:11px;color:#94a3b8;
+  padding-top:12px;border-top:1px solid #f1f5f9;
+}
+.card-meta span{display:flex;align-items:center;gap:4px}
+.card-actions{
+  display:flex;gap:8px;padding:0 20px 18px;
+}
+.btn-preview,.btn-download{
+  flex:1;padding:10px 16px;border:none;border-radius:10px;
+  cursor:pointer;font-size:13px;font-weight:600;
+  transition:all .2s;text-align:center;
+}
+.btn-preview{
+  background:#f1f5f9;color:var(--text-2);
+  border:1.5px solid #e2e8f0;
+}
+.btn-preview:hover{background:#e2e8f0;border-color:#cbd5e1}
+.btn-download{
+  background:linear-gradient(135deg,#1d4ed8,#4338ca);
+  color:#fff;border:1.5px solid transparent;
+  box-shadow:0 4px 14px rgba(29,78,216,.25);
+}
+.btn-download:hover{
+  box-shadow:0 6px 20px rgba(29,78,216,.35);
+  transform:translateY(-1px);
+}
+
+/* ═══ MODAL ═══ */
+.modal{
+  position:fixed;top:0;left:0;width:100%;height:100%;z-index:2000;
+  display:none;align-items:center;justify-content:center;
+}
+.modal.show{display:flex}
+.modal-overlay{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  background:rgba(15,23,42,.6);backdrop-filter:blur(4px);
+}
+.modal-content{
+  position:relative;width:90%;max-width:900px;height:85vh;
+  background:#fff;border-radius:16px;overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 24px 64px rgba(0,0,0,.25);
+}
+.modal-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 24px;border-bottom:1.5px solid #f1f5f9;
+}
+.modal-header h3{font-size:15px;font-weight:700;color:var(--text-1)}
+.modal-close{
+  background:none;border:none;font-size:22px;cursor:pointer;
+  color:#94a3b8;width:36px;height:36px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;
+}
+.modal-close:hover{background:#f1f5f9;color:var(--text-1)}
+.modal-body{flex:1;overflow:hidden}
+.modal-body iframe{border:none;width:100%;height:100%}
+.modal-footer{
+  padding:12px 24px;border-top:1.5px solid #f1f5f9;
+  display:flex;justify-content:flex-end;gap:8px;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .dl-hero{padding:36px 16px 32px}
+  .dl-hero h1{font-size:24px}
+  .card-grid{grid-template-columns:1fr;padding:0 12px 24px}
+  .bulk-actions{padding:0 12px 12px}
+  .modal-content{width:96%;height:92vh;border-radius:12px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <a href="index.html" class="home-btn" title="랜딩 페이지로">&#x1F3E0; <span class="home-btn-label">홈</span></a>
+    <h1>Documents & Downloads</h1>
+    <span class="badge" id="pageDate"></span>
+    <span class="date">CEO: 심재우 대표</span>
+  </div>
+  <div class="content">
+
+    <!-- Hero -->
+    <div class="dl-hero">
+      <div class="dl-hero-eyebrow">&#128196; Document Center</div>
+      <h1>Documents & Downloads</h1>
+      <p>AX BIZ GROUP 프로젝트 문서를 다운로드하세요.<br>매뉴얼, 보고서, 가이드를 PDF로 제공합니다.</p>
+    </div>
+
+    <!-- Category Filter -->
+    <nav class="category-filter">
+      <button class="filter-btn active" data-category="all">전체</button>
+      <button class="filter-btn" data-category="manual">매뉴얼</button>
+      <button class="filter-btn" data-category="guide">가이드</button>
+      <button class="filter-btn" data-category="etc">기타</button>
+    </nav>
+
+    <!-- Bulk Actions -->
+    <div class="bulk-actions">
+      <label class="select-all">
+        <input type="checkbox" id="select-all-checkbox"> 전체 선택
+      </label>
+      <button class="btn-bulk-download" id="bulk-download-btn" onclick="bulkDownload()" disabled>
+        선택 항목 다운로드 (ZIP)
+      </button>
+      <span class="selected-count" id="selected-count">0개 선택됨</span>
+    </div>
+
+    <!-- Progress -->
+    <div id="bulk-progress">
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="progress-text" id="progress-text">0%</div>
+    </div>
+
+    <!-- Card Grid -->
+    <div class="card-grid" id="card-grid">
+
+      <!-- Card: 플랫폼 매뉴얼 -->
+      <div class="doc-card" data-category="manual" data-path="downloads/AX-BIZ-GROUP-매뉴얼.pdf" data-name="AX-BIZ-GROUP-매뉴얼.pdf">
+        <input type="checkbox" class="card-check" onchange="updateSelection()">
+        <div class="card-thumbnail">
+          <div class="card-thumb-gradient" style="background:linear-gradient(135deg,#1d4ed8 0%,#4338ca 100%);">
+            <span class="thumb-icon" style="color:#fff;">&#128214;</span>
+            <span class="thumb-label" style="color:rgba(255,255,255,.8);">PDF Manual</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-category cat-manual">매뉴얼</span>
+          <h3 class="card-title">AX BIZ GROUP CEO 마스터 플랫폼 사용 매뉴얼</h3>
+          <p class="card-desc">AX BIZ GROUP의 전략·운영·재무·팀·AI 플랫폼 전반을 관리하는 CEO 전용 통합 경영 시스템 사용 매뉴얼입니다. 플랫폼 개요부터 CEO 활용 팁까지 9개 섹션으로 구성되어 있습니다.</p>
+          <div class="card-meta">
+            <span>&#128196; PDF</span>
+            <span>&#128190; 558 KB</span>
+            <span>&#128197; 2026-04-04</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-preview" onclick="previewPDF('downloads/AX-BIZ-GROUP-매뉴얼.pdf','AX-BIZ-GROUP-매뉴얼.pdf')">미리보기</button>
+          <button class="btn-download" onclick="downloadPDF('downloads/AX-BIZ-GROUP-매뉴얼.pdf','AX-BIZ-GROUP-매뉴얼.pdf')">다운로드</button>
+        </div>
+      </div>
+
+      <!-- Card: 랜딩 페이지(index) -->
+      <div class="doc-card" data-category="guide" data-path="index.html" data-name="AX-BIZ-GROUP-랜딩페이지.html">
+        <input type="checkbox" class="card-check" onchange="updateSelection()">
+        <div class="card-thumbnail">
+          <div class="card-thumb-gradient" style="background:linear-gradient(135deg,#0e7490 0%,#06b6d4 100%);">
+            <span class="thumb-icon" style="color:#fff;">&#127968;</span>
+            <span class="thumb-label" style="color:rgba(255,255,255,.8);">Landing Page</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-category cat-guide">가이드</span>
+          <h3 class="card-title">AX BIZ GROUP 랜딩 페이지</h3>
+          <p class="card-desc">CEO 마스터 플랫폼의 메인 랜딩 페이지입니다. 상단 KPI 6개와 전체 메뉴 카드가 한눈에 표시됩니다.</p>
+          <div class="card-meta">
+            <span>&#127760; HTML</span>
+            <span>&#128190; 38 KB</span>
+            <span>&#128197; 2026-04-04</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-preview" onclick="previewPDF('index.html','index.html')">미리보기</button>
+          <button class="btn-download" onclick="downloadPDF('index.html','AX-BIZ-GROUP-랜딩페이지.html')">다운로드</button>
+        </div>
+      </div>
+
+      <!-- Card: CEO 대시보드 -->
+      <div class="doc-card" data-category="etc" data-path="AXBIZ_CEO_Platform.html" data-name="AX-BIZ-CEO-대시보드.html">
+        <input type="checkbox" class="card-check" onchange="updateSelection()">
+        <div class="card-thumbnail">
+          <div class="card-thumb-gradient" style="background:linear-gradient(135deg,#6d28d9 0%,#8b5cf6 100%);">
+            <span class="thumb-icon" style="color:#fff;">&#128202;</span>
+            <span class="thumb-label" style="color:rgba(255,255,255,.8);">Dashboard</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-category cat-etc">기타</span>
+          <h3 class="card-title">그룹 현황 대시보드</h3>
+          <p class="card-desc">AX BIZ GROUP 전체를 한눈에 파악하는 메인 대시보드입니다. 핵심 KPI, 긴급 알림, 3대 축 진행률이 실시간으로 표시됩니다.</p>
+          <div class="card-meta">
+            <span>&#127760; HTML</span>
+            <span>&#128190; 9 KB</span>
+            <span>&#128197; 2026-04-04</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-preview" onclick="previewPDF('AXBIZ_CEO_Platform.html','AXBIZ_CEO_Platform.html')">미리보기</button>
+          <button class="btn-download" onclick="downloadPDF('AXBIZ_CEO_Platform.html','AX-BIZ-CEO-대시보드.html')">다운로드</button>
+        </div>
+      </div>
+
+    </div><!-- /card-grid -->
+
+    <!-- PDF Viewer Modal -->
+    <div id="pdf-viewer-modal" class="modal">
+      <div class="modal-overlay" onclick="closeViewer()"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="viewer-title">문서 미리보기</h3>
+          <button class="modal-close" onclick="closeViewer()">&#10005;</button>
+        </div>
+        <div class="modal-body">
+          <iframe id="pdf-iframe" src=""></iframe>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-preview" onclick="closeViewer()">닫기</button>
+          <button class="btn-download" id="viewer-download-btn">다운로드</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="_axbiz-nav.js"></script>
+<script>initNav('downloads');</script>
+<script>
+/* ── Category Filter ── */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.category;
+    document.querySelectorAll('.doc-card').forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.category === cat) ? '' : 'none';
+    });
+  });
+});
+
+/* ── Selection ── */
+document.getElementById('select-all-checkbox').addEventListener('change', function() {
+  const visible = [...document.querySelectorAll('.doc-card')].filter(c => c.style.display !== 'none');
+  visible.forEach(card => {
+    card.querySelector('.card-check').checked = this.checked;
+  });
+  updateSelection();
+});
+
+function updateSelection() {
+  const checked = document.querySelectorAll('.card-check:checked').length;
+  document.getElementById('selected-count').textContent = checked + '개 선택됨';
+  document.getElementById('bulk-download-btn').disabled = checked === 0;
+}
+
+function getSelectedFiles() {
+  const files = [];
+  document.querySelectorAll('.doc-card').forEach(card => {
+    if (card.querySelector('.card-check').checked) {
+      files.push({ path: card.dataset.path, name: card.dataset.name });
+    }
+  });
+  return files;
+}
+
+/* ── Download ── */
+function downloadPDF(filePath, fileName) {
+  const a = document.createElement('a');
+  a.href = filePath;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+/* ── Preview ── */
+function previewPDF(filePath, fileName) {
+  const modal = document.getElementById('pdf-viewer-modal');
+  const iframe = document.getElementById('pdf-iframe');
+  const title = document.getElementById('viewer-title');
+  const downloadBtn = document.getElementById('viewer-download-btn');
+
+  title.textContent = fileName;
+  iframe.src = filePath;
+  downloadBtn.onclick = () => downloadPDF(filePath, fileName);
+  modal.classList.add('show');
+}
+
+function closeViewer() {
+  const modal = document.getElementById('pdf-viewer-modal');
+  const iframe = document.getElementById('pdf-iframe');
+  modal.classList.remove('show');
+  iframe.src = '';
+}
+
+/* ── Bulk Download (ZIP) ── */
+async function bulkDownload() {
+  const selected = getSelectedFiles();
+  if (selected.length === 0) return;
+
+  const progressEl = document.getElementById('bulk-progress');
+  const fillEl = document.getElementById('progress-fill');
+  const textEl = document.getElementById('progress-text');
+  progressEl.style.display = 'block';
+
+  const zip = new JSZip();
+  for (let i = 0; i < selected.length; i++) {
+    const file = selected[i];
+    try {
+      const response = await fetch(file.path);
+      const blob = await response.blob();
+      zip.file(file.name, blob);
+    } catch (e) {
+      console.warn('Failed to fetch:', file.path);
+    }
+    const pct = Math.round(((i + 1) / selected.length) * 100);
+    fillEl.style.width = pct + '%';
+    textEl.textContent = pct + '% (' + (i + 1) + '/' + selected.length + ')';
+  }
+
+  const zipBlob = await zip.generateAsync({ type: 'blob' });
+  const url = URL.createObjectURL(zipBlob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'AX-BIZ-GROUP-documents.zip';
+  a.click();
+  URL.revokeObjectURL(url);
+
+  setTimeout(() => { progressEl.style.display = 'none'; fillEl.style.width = '0%'; }, 1500);
+}
+
+/* ── ESC key ── */
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeViewer(); });
+</script>
+</body>
+</html>
